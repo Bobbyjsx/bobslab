@@ -67,7 +67,7 @@ COMPLETED               4. DECOMPOSITION & FAN-OUT
 
 ### Step 1: Intake & Run Initialization
 1. Generate a unique run ID: `sdlc_<timestamp>_<hash>`.
-2. Initialize or update the project brain at `.factory/brain/SDLC-<run-id>.md`.
+2. Initialize or update the project brain at `.factory/brain/SDLC-<run-id>.md` using the template in `.agents/skills/sdlc/resources/brain-template.md`.
 3. Clarify user requirements:
    - Identify ambiguous terms, constraints, and business outcomes.
    - Confirm whether the user wants **Planning-Only** or full **Implementation**.

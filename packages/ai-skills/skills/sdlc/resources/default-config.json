@@ -1,5 +1,4 @@
 {
-  "$schema": "./packages/sdlc/src/config/schema.ts",
   "version": "1.0.0",
   "enabledRuntimes": ["antigravity", "codex"],
   "defaultRuntime": "antigravity",
