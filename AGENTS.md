@@ -94,3 +94,14 @@ Bobslab uses a fully skill-driven, zero-hosting, zero-deployment Software Develo
   - **Gate B**: Explicit human approval of verified QA evidence required before merging to staging.
 - **Artifacts**: Authoritative state is projected to `.factory/brain/SDLC-<run-id>.md` and recorded in `.factory/logs/<run-id>.jsonl`.
 
+---
+
+## Python Backend Engineering Guidelines (`python-backend`)
+Whenever modifying or building Python backend services, agents must strictly apply the guidelines from `.agents/skills/python-backend/SKILL.md`:
+- **Async-First FastAPI**: Handlers, services, and repositories are `async def`. Blocking SDK calls offload with `asyncio.to_thread`.
+- **Layered Architecture**: Strict dependency flow: `routers → services → repositories → datastore`.
+- **Pydantic v2 Everywhere**: Wire models in `schemas/`, `*DB` document models in `models/`, settings in `core/config.py`.
+- **Firestore & Transactions**: Server-side transactions for read-modify-write invariants; server-side `Increment` for counters.
+- **Security Invariants**: Enforce JWT issuer and audience verification (never `verify_aud: False`), constant-time `hmac.compare_digest`, explicit CORS origins, Argon2id passwords, and ownership checks on every resource.
+- **Mock-Free Testing**: Integration tests run against the Firestore emulator with an autouse database wipe fixture between tests.
+
