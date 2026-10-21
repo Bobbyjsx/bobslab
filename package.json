@@ -3,7 +3,7 @@
   "private": true,
   "author": {
     "name": "Godswill Ezeala",
-    "url": "https://bobthebuilder.tech"
+    "url": "https://godswillezeala.online/"
   },
   "scripts": {
     "build": "turbo build",

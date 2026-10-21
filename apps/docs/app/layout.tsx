@@ -22,7 +22,7 @@ const navbar = (
         <span>Bobslab</span>
       </div>
     }
-    projectLink="https://github.com/bobthebuilder7/bobslab"
+    projectLink="https://github.com/Bobbyjsx/bobslab"
   />
 );
 
@@ -43,7 +43,7 @@ export default async function RootLayout({
           navbar={navbar}
           footer={footer}
           pageMap={await getPageMap()}
-          docsRepositoryBase="https://github.com/bobthebuilder7/bobslab"
+          docsRepositoryBase="https://github.com/Bobbyjsx/bobslab"
           sidebar={{
             defaultOpen: true,
             autoCollapse: false,
