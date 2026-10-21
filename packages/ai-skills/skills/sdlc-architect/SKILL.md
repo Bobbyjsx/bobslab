@@ -30,6 +30,10 @@ Before formulating any frontend plan:
 
 ### 3. Pre-Implementation Test Baseline
 - Capture current passing tests, assertion counts, and coverage thresholds.
+- Execute the baseline capture script:
+  ```sh
+  node .agents/skills/sdlc-architect/scripts/capture-baseline.mjs <run-id>
+  ```
 - Ensure the candidate baseline is recorded in `.factory/artifacts/<run-id>/baseline-results.json`.
 
 ### 4. Plan Deliverable Specification

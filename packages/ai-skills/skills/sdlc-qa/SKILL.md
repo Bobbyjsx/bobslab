@@ -28,6 +28,10 @@ Execute all four pillars of verification on the candidate SHA:
 4. **Production Build**: `pnpm run build`
 
 ### 3. Test Integrity Anti-Tamper Check
+Execute the anti-tamper verification script:
+```sh
+node .agents/skills/sdlc-qa/scripts/verify-integrity.mjs <run-id>
+```
 Compare candidate test metrics against `.factory/artifacts/<run-id>/baseline-results.json`:
 - **No Removed Assertions**: Total assertions must not decrease.
 - **No Newly Skipped Tests**: `skippedCount` must not increase; diff must contain no `+ it.skip`, `+ test.skip`, or `+ xit`.
