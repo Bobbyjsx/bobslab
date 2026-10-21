@@ -38,6 +38,7 @@ export const base = [
       "**/patches/**",
       "**/next-env.d.ts",
       "packages/cli/skills/**",
+      ".github/**",
     ],
   },
 ];

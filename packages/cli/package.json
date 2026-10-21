@@ -24,7 +24,10 @@
     "link:test": "bobslab --help",
     "dev": "pnpm exec tsx src/cli.ts"
   },
-  "author": "Bobslab",
+  "author": {
+    "name": "Godswill Ezeala",
+    "url": "https://bobthebuilder.tech"
+  },
   "license": "MIT",
   "dependencies": {
     "@inquirer/prompts": "^8.7.2",
@@ -39,5 +42,13 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bobbyjsx/bobslab.git",
+    "directory": "packages/cli"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -35,5 +35,18 @@
     "tsup": "^8.4.0",
     "typescript": "^5.8.0",
     "vitest": "^3.0.7"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Godswill Ezeala",
+    "url": "https://bobthebuilder.tech"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bobbyjsx/bobslab.git",
+    "directory": "packages/icons"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
