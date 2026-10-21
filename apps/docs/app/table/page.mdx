@@ -1,0 +1,65 @@
+# Table & Pagination
+
+Composable, accessible table components with selection, sorting indicators, soft row highlight, and independent pagination.
+
+import { TableDemo } from '@/components/TableDemo';
+
+## Interactive Demo
+
+<TableDemo />
+
+## Usage
+
+```tsx
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCheckbox,
+  Pagination,
+} from "@bobslab/ui";
+
+export function ExampleTable() {
+  const [selected, setSelected] = React.useState(false);
+
+  return (
+    <div>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Service Name</TableHead>
+            <TableHead>Price</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow selected={selected}>
+            <TableCell>Website Setup & Configuration</TableCell>
+            <TableCell>$200.00</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+
+      <Pagination
+        pageIndex={0}
+        pageCount={5}
+        totalItems={50}
+        onPageChange={(page) => console.log("Page:", page)}
+      />
+    </div>
+  );
+}
+```
+
+## Subcomponents
+
+- `<Table>`: Root container with rounded corners and border.
+- `<TableHeader>`: Table header container.
+- `<TableBody>`: Table body container with dividers.
+- `<TableRow>`: Row component supporting `selected={boolean}` and `data-state="selected"`.
+- `<TableHead>`: Column header with sort indicator (`isSorted="asc" | "desc"`).
+- `<TableCell>`: Body content cell.
+- `<TableCheckbox>`: Accessible checkbox for multi-select rows.
+- `<Pagination>`: Standalone composable pagination with page size and total record counters.

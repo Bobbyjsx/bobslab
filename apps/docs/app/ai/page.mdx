@@ -1,0 +1,32 @@
+# AI Utilities (`@bobslab/ai`)
+
+Utilities for handling streaming LLM responses, prompt tag codecs, and token usage quotas.
+
+## Streaming & SSE
+
+Parse Server-Sent Events from LLM backend streams:
+
+```ts
+import { parseSseBlock, parseEventPayload, sanitizeStreamErrorText } from "@bobslab/ai";
+
+const block = parseSseBlock(rawSseChunk);
+if (block) {
+  const payload = parseEventPayload(block.data);
+}
+```
+
+## Prompt Tag Codec
+
+Encode, decode, and tokenize embedded prompt tags (e.g. `[prompt:id|title|b64]`):
+
+```ts
+import { formatPromptTag, parsePromptTags, tokenizePromptText } from "@bobslab/ai";
+
+const tag = formatPromptTag({
+  id: "code-review",
+  title: "Code Review",
+  prompt: "Review this diff for safety and performance",
+});
+
+const { cleanText, tags } = parsePromptTags(`Please run ${tag} on my PR`);
+```

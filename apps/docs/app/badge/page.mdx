@@ -1,0 +1,25 @@
+# Badge
+
+Versatile badge component with status and visual variant styling.
+
+import { BadgeDemo } from '@/components/BadgeDemo';
+
+## Live Interactive Demo
+
+<BadgeDemo />
+
+## Usage
+
+```tsx
+import { Badge } from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <div className="flex gap-2">
+      <Badge status="completed">Completed</Badge>
+      <Badge status="processing">Processing</Badge>
+      <Badge status="failed">Failed</Badge>
+    </div>
+  );
+}
+```

@@ -1,0 +1,10 @@
+{
+  "extends": "@bobslab/config/typescript/base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "outDir": "dist"
+  },
+  "include": ["src/**/*"]
+}

@@ -1,0 +1,28 @@
+# Auth Primitives (`@bobslab/auth`)
+
+Authentication lifecycle coordinator, JWT decoder, and normalized error handling.
+
+## `AuthManager`
+
+Deduplicates in-flight refresh requests and emits lifecycle events across your app:
+
+```ts
+import { authManager } from "@bobslab/auth";
+
+authManager.setRefreshHandler(async () => {
+  const response = await fetch("/api/auth/refresh", { method: "POST" });
+  return await response.json();
+});
+
+// Any component or Axios interceptor can request a fresh token:
+const tokens = await authManager.refreshToken();
+```
+
+## JWT Claim Decoder
+
+```ts
+import { decodeJwtClaims, isTokenExpired } from "@bobslab/auth";
+
+const claims = decodeJwtClaims(accessToken);
+const expired = isTokenExpired(accessToken, 30); // 30s buffer
+```

@@ -1,0 +1,88 @@
+# Dialog & Modal
+
+Accessible modal dialog powered by `@base-ui/react/dialog`. Supports both Bobslab's zero-boilerplate single entry component and headless primitive composition.
+
+import { DialogDemo } from '@/components/DialogDemo';
+
+## Live Interactive Demo
+
+<DialogDemo />
+
+## Usage
+
+### 1. High-Level Entry Component (Zero Boilerplate)
+
+Use `<Dialog>` directly when you do not need to customize granular subcomponent slots:
+
+```tsx
+import { Dialog, Button } from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <Dialog
+      trigger={<Button>Open Dialog</Button>}
+      title="Edit Profile"
+      description="Make changes to your profile here. Click save when you're done."
+      footer={<Button>Save Changes</Button>}
+    >
+      <div className="py-4">
+        <p className="text-sm">Profile form fields go here.</p>
+      </div>
+    </Dialog>
+  );
+}
+```
+
+### 2. Fine-Grained Primitives (Granular Control)
+
+Use primitives when you need custom slot layout, custom header actions, or non-standard triggers:
+
+```tsx
+import {
+  DialogRoot,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  Button,
+} from "@bobslab/ui";
+
+export function CustomDialog() {
+  return (
+    <DialogRoot>
+      <DialogTrigger render={<Button>Open Dialog</Button>} />
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4">
+          <p className="text-sm">Profile form fields go here.</p>
+        </div>
+        <DialogFooter>
+          <Button variant="outline">Cancel</Button>
+          <Button>Save Changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
+  );
+}
+```
+
+## Props
+
+### High-Level `<Dialog>` Entry Props
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `trigger` | `React.ReactElement` | `-` | Element that toggles dialog open |
+| `title` | `React.ReactNode` | `-` | Title text rendered inside DialogHeader |
+| `description` | `React.ReactNode` | `-` | Description text rendered inside DialogHeader |
+| `footer` | `React.ReactNode` | `-` | Actions rendered inside DialogFooter |
+| `showCloseButton` | `boolean` | `true` | Toggles the top-right close icon button |
+| `open` | `boolean` | `-` | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | `-` | Callback fired when open state changes |

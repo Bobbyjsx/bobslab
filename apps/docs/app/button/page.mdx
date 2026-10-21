@@ -1,0 +1,34 @@
+# Button
+
+The `Button` component is built on top of `@base-ui/react/button` and styled with Tailwind CSS v4 and CVA.
+
+import { ButtonDemo } from '@/components/ButtonDemo';
+
+## Live Interactive Demo
+
+<ButtonDemo />
+
+## Usage
+
+```tsx
+import { Button } from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <div className="flex gap-3">
+      <Button variant="default">Default</Button>
+      <Button variant="outline">Outline</Button>
+      <Button isLoading>Loading State</Button>
+    </div>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `variant` | `"default" \| "secondary" \| "outline" \| "ghost" \| "destructive" \| "link"` | `"default"` | Visual style of the button |
+| `size` | `"default" \| "xs" \| "sm" \| "lg" \| "icon" \| "icon-sm"` | `"default"` | Size and padding preset |
+| `isLoading` | `boolean` | `false` | Shows loading spinner and disables click events |
+| `disabled` | `boolean` | `false` | Disables interaction and dims appearance |
