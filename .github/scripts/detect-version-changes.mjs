@@ -3,16 +3,48 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
-let baseRef = process.env.BASE_REF || process.argv[2] || "HEAD~1";
+let rawBaseRef = process.env.BASE_REF || process.argv[2] || "HEAD~1";
 const headRef = process.env.HEAD_REF || "HEAD";
 const githubOutput = process.env.GITHUB_OUTPUT;
 
-// Handle empty or zero SHA (e.g. on new branch push)
-if (!baseRef || /^0+$/.test(baseRef)) {
-  baseRef = "HEAD~1";
+function resolveCommit(ref) {
+  if (!ref || /^0+$/.test(ref)) return null;
+  try {
+    return execFileSync("git", ["rev-parse", "--verify", `${ref}^{commit}`], {
+      encoding: "utf8",
+      stdio: ["pipe", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+
+function getMergeBase(refA, refB) {
+  try {
+    return execFileSync("git", ["merge-base", refA, refB], {
+      encoding: "utf8",
+      stdio: ["pipe", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+
+// 1. Resolve base ref commit SHA
+let baseSha = resolveCommit(rawBaseRef);
+
+// 2. If valid, compute merge-base with headRef so PR branch differences work accurately
+if (baseSha) {
+  const commonAncestor = getMergeBase(baseSha, headRef);
+  if (commonAncestor) {
+    baseSha = commonAncestor;
+  }
+} else {
+  baseSha = resolveCommit("HEAD~1");
 }
 
 function getPackageVersionAtRef(ref, pkgJsonPath) {
+  if (!ref) return null;
   try {
     const raw = execFileSync("git", ["show", `${ref}:${pkgJsonPath}`], {
       encoding: "utf8",
@@ -24,9 +56,53 @@ function getPackageVersionAtRef(ref, pkgJsonPath) {
   }
 }
 
+function sortTopologically(packages) {
+  const pkgMap = new Map();
+  for (const p of packages) {
+    const pkgJson = JSON.parse(
+      fs.readFileSync(path.join(p.directory, "package.json"), "utf8"),
+    );
+    const deps = new Set(
+      Object.keys({
+        ...pkgJson.dependencies,
+        ...pkgJson.peerDependencies,
+      }).filter((k) => k.startsWith("@bobslab/")),
+    );
+    pkgMap.set(p.name, { ...p, deps });
+  }
+
+  const result = [];
+  const visited = new Set();
+  const visiting = new Set();
+
+  function visit(name) {
+    if (visited.has(name)) return;
+    if (visiting.has(name)) {
+      throw new Error(`Circular dependency detected at ${name}`);
+    }
+    visiting.add(name);
+    const item = pkgMap.get(name);
+    if (item) {
+      for (const dep of item.deps) {
+        if (pkgMap.has(dep)) {
+          visit(dep);
+        }
+      }
+      visited.add(name);
+      result.push(item);
+    }
+    visiting.delete(name);
+  }
+
+  for (const p of packages) {
+    visit(p.name);
+  }
+  return result.map(({ deps, ...rest }) => rest);
+}
+
 const packagesDir = "packages";
 const entries = fs.readdirSync(packagesDir, { withFileTypes: true });
-const changedPackages = [];
+const rawChanged = [];
 
 for (const entry of entries) {
   if (!entry.isDirectory()) continue;
@@ -36,12 +112,12 @@ for (const entry of entries) {
   const currentPkg = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8"));
   if (currentPkg.private) continue;
 
-  const prevVersion = getPackageVersionAtRef(baseRef, pkgJsonPath);
+  const prevVersion = getPackageVersionAtRef(baseSha, pkgJsonPath);
   const currentVersion = currentPkg.version;
 
   // We consider a package changed if previous version is different or if it is a new package
   if (prevVersion === null || prevVersion !== currentVersion) {
-    changedPackages.push({
+    rawChanged.push({
       name: currentPkg.name,
       directory: path.join(packagesDir, entry.name),
       previousVersion: prevVersion,
@@ -50,11 +126,12 @@ for (const entry of entries) {
   }
 }
 
+const changedPackages = sortTopologically(rawChanged);
 const hasChanges = changedPackages.length > 0;
 const packageNames = changedPackages.map((p) => p.name).join(" ");
 const packagesJson = JSON.stringify(changedPackages);
 
-console.log(`Base ref: ${baseRef}`);
+console.log(`Base ref resolved: ${baseSha || "none (initial/unresolved)"}`);
 console.log(`Changed packages (${changedPackages.length}):`, changedPackages);
 
 if (githubOutput) {

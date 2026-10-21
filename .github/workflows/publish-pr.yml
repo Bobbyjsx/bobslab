@@ -59,13 +59,12 @@ jobs:
           node -e '
           const { execSync } = require("node:child_process");
           const pkgs = JSON.parse(process.env.PACKAGES_JSON);
-          for (const p of pkgs) {
-            console.log(`\n========================================`);
-            console.log(`Building & Testing test package: ${p.name}`);
-            console.log(`========================================\n`);
-            execSync(`pnpm exec turbo build --filter="${p.name}..."`, { stdio: "inherit" });
-            execSync(`pnpm exec turbo test --filter="${p.name}..."`, { stdio: "inherit" });
-          }
+          const filters = pkgs.map(p => `--filter="${p.name}..."`).join(" ");
+          console.log(`\n========================================`);
+          console.log(`Building & Testing test packages: ${pkgs.map(p => p.name).join(", ")}`);
+          console.log(`========================================\n`);
+          execSync(`pnpm exec turbo build ${filters}`, { stdio: "inherit" });
+          execSync(`pnpm exec turbo test ${filters}`, { stdio: "inherit" });
           '
 
       - name: Publish Test Packages to npm
