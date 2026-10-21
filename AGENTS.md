@@ -77,3 +77,20 @@ Every agent writing or reviewing code in Bobslab must strictly adhere to comment
 - **No Decorative Emoji**: Ban `✅`, `🚀`, `🔥`, `🔒` in code comments.
 - **Why > What**: Comments must explain the *why* (non-obvious intent, constraints, platform workarounds, security), never what the code line visibly does. Max 1-2 lines.
 
+---
+
+## Agentic SDLC Software Factory (`sdlc`)
+Bobslab uses a fully skill-driven, zero-hosting, zero-deployment Software Development Life Cycle factory:
+- **Master Orchestrator (`sdlc`)**: Acts as Product Manager and workflow coordinator. Never writes code or authors tests.
+- **Fan-Out Sub-Skills**:
+  - `sdlc-architect`: Codebase discovery, dependency mapping, and verifiable plan drafting.
+  - `sdlc-implementer`: Atomic feature implementation in isolated worktrees (`.factory/worktrees/sdlc-<task>`).
+  - `sdlc-test-engineer`: Requirements-driven test authoring without assertion weakening.
+  - `sdlc-qa`: Independent verification of exact candidate commit SHAs and anti-tamper test baseline comparison.
+  - `sdlc-triage`: Defect diagnosis, bounded retries (max 3), and escalation.
+  - `sdlc-release`: Staging PR merge and smoke test execution strictly after Gate B approval.
+- **Governance Gates**:
+  - **Gate A**: Explicit human approval of the plan required before writing any code.
+  - **Gate B**: Explicit human approval of verified QA evidence required before merging to staging.
+- **Artifacts**: Authoritative state is projected to `.factory/brain/SDLC-<run-id>.md` and recorded in `.factory/logs/<run-id>.jsonl`.
+

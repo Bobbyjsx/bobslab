@@ -1,0 +1,28 @@
+{
+  "$schema": "./packages/sdlc/src/config/schema.ts",
+  "version": "1.0.0",
+  "enabledRuntimes": ["antigravity", "codex"],
+  "defaultRuntime": "antigravity",
+  "linear": {
+    "teamPrefix": "BOB",
+    "workspaceSlug": "bobslab"
+  },
+  "github": {
+    "owner": "bobslab",
+    "repo": "bobslab",
+    "baseBranch": "main",
+    "stagingBranch": "staging"
+  },
+  "retries": {
+    "maxRetriesPerTask": 3,
+    "backoffMs": 1000
+  },
+  "testIntegrity": {
+    "strictAssertions": true,
+    "failOnNewSkippedTests": true,
+    "enforceCoverageThresholds": true
+  },
+  "staging": {
+    "smokeTestTimeoutMs": 30000
+  }
+}
