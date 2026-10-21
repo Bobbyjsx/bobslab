@@ -22,7 +22,9 @@ export const createProgram = (dependencies: CliDependencies = {}): Command => {
 
   program
     .name("bobs-lab")
-    .description("The official Bobslab CLI for distributing AI agent skills and workspace toolchain configs")
+    .description(
+      "The official Bobslab CLI for distributing AI agent skills and workspace toolchain configs",
+    )
     .version(version)
     .showHelpAfterError()
     .showSuggestionAfterError();

@@ -35,7 +35,7 @@ export function Pagination({
     const pages: (number | "ellipsis")[] = [];
     const halfMax = Math.floor(maxPageButtons / 2);
     let startPage = Math.max(pageIndex - halfMax, 0);
-    let endPage = Math.min(startPage + maxPageButtons - 1, pageCount - 1);
+    const endPage = Math.min(startPage + maxPageButtons - 1, pageCount - 1);
 
     if (endPage - startPage + 1 < maxPageButtons) {
       startPage = Math.max(endPage - maxPageButtons + 1, 0);
@@ -64,7 +64,10 @@ export function Pagination({
         {pages.map((item, idx) => {
           if (item === "ellipsis") {
             return (
-              <span key={`ellipsis-${idx}`} className="px-1 text-slate-400 select-none">
+              <span
+                key={`ellipsis-${idx}`}
+                className="px-1 text-slate-400 select-none"
+              >
                 …
               </span>
             );
@@ -102,7 +105,10 @@ export function Pagination({
       <div className="flex items-center gap-3">
         {typeof totalItems === "number" && (
           <span>
-            Total record: <strong className="font-semibold text-slate-900 dark:text-white">{totalItems}</strong>
+            Total record:{" "}
+            <strong className="font-semibold text-slate-900 dark:text-white">
+              {totalItems}
+            </strong>
           </span>
         )}
 

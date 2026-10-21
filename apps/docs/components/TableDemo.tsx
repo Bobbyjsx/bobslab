@@ -25,16 +25,76 @@ interface ServiceItem {
 }
 
 const INITIAL_SERVICES: ServiceItem[] = [
-  { id: "1", name: "Website Setup & Configuration", duration: "3 hours", price: 200, location: "New York, NY" },
-  { id: "2", name: "Brand Identity Consultation", duration: "5 hours", price: 320, location: "Los Angeles, CA" },
-  { id: "3", name: "Product Design Workshop", duration: "2 hours", price: 275, location: "New York, NY" },
-  { id: "4", name: "Social Media Content Planning", duration: "5 hours", price: 225, location: "Austin, TX" },
-  { id: "5", name: "SEO Optimization Session", duration: "3 hours", price: 320, location: "Seattle, WA" },
-  { id: "6", name: "Marketing Strategy Session", duration: "8 hours", price: 480, location: "Los Angeles, CA" },
-  { id: "7", name: "UI/UX Design Review", duration: "5 hours", price: 320, location: "San Francisco, CA" },
-  { id: "8", name: "E-commerce Store Setup", duration: "7 hours", price: 320, location: "New York, NY" },
-  { id: "9", name: "Product Photography", duration: "6 hours", price: 500, location: "Los Angeles, CA" },
-  { id: "10", name: "Business Consultation", duration: "6 hours", price: 350, location: "Chicago, IL" },
+  {
+    id: "1",
+    name: "Website Setup & Configuration",
+    duration: "3 hours",
+    price: 200,
+    location: "New York, NY",
+  },
+  {
+    id: "2",
+    name: "Brand Identity Consultation",
+    duration: "5 hours",
+    price: 320,
+    location: "Los Angeles, CA",
+  },
+  {
+    id: "3",
+    name: "Product Design Workshop",
+    duration: "2 hours",
+    price: 275,
+    location: "New York, NY",
+  },
+  {
+    id: "4",
+    name: "Social Media Content Planning",
+    duration: "5 hours",
+    price: 225,
+    location: "Austin, TX",
+  },
+  {
+    id: "5",
+    name: "SEO Optimization Session",
+    duration: "3 hours",
+    price: 320,
+    location: "Seattle, WA",
+  },
+  {
+    id: "6",
+    name: "Marketing Strategy Session",
+    duration: "8 hours",
+    price: 480,
+    location: "Los Angeles, CA",
+  },
+  {
+    id: "7",
+    name: "UI/UX Design Review",
+    duration: "5 hours",
+    price: 320,
+    location: "San Francisco, CA",
+  },
+  {
+    id: "8",
+    name: "E-commerce Store Setup",
+    duration: "7 hours",
+    price: 320,
+    location: "New York, NY",
+  },
+  {
+    id: "9",
+    name: "Product Photography",
+    duration: "6 hours",
+    price: 500,
+    location: "Los Angeles, CA",
+  },
+  {
+    id: "10",
+    name: "Business Consultation",
+    duration: "6 hours",
+    price: 350,
+    location: "Chicago, IL",
+  },
 ];
 
 export function TableDemo() {
@@ -42,7 +102,9 @@ export function TableDemo() {
     new Set(["1", "4", "5", "8"]),
   );
   const [search, setSearch] = React.useState("");
-  const [sortField, setSortField] = React.useState<"name" | "price" | null>(null);
+  const [sortField, setSortField] = React.useState<"name" | "price" | null>(
+    null,
+  );
   const [sortOrder, setSortOrder] = React.useState<"asc" | "desc">("asc");
   const [pageIndex, setPageIndex] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(10);

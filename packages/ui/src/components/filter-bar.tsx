@@ -20,8 +20,10 @@ export function TableFilterBar({
   );
 }
 
-export interface TableSearchInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+export interface TableSearchInputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "onChange"
+> {
   value: string;
   onChange: (val: string) => void;
   onClear?: () => void;
@@ -37,7 +39,9 @@ export function TableSearchInput({
   ...props
 }: TableSearchInputProps) {
   return (
-    <div className={cn("relative flex items-center min-w-64 max-w-sm", className)}>
+    <div
+      className={cn("relative flex items-center min-w-64 max-w-sm", className)}
+    >
       <SearchIcon
         size={15}
         className="absolute left-3 text-slate-400 dark:text-zinc-500 pointer-events-none"
@@ -66,8 +70,7 @@ export function TableSearchInput({
   );
 }
 
-export interface TableFilterChipProps
-  extends React.HTMLAttributes<HTMLSpanElement> {
+export interface TableFilterChipProps extends React.HTMLAttributes<HTMLSpanElement> {
   label: string;
   value?: string;
   onRemove?: () => void;
@@ -89,7 +92,11 @@ export function TableFilterChip({
       {...props}
     >
       <span className="text-slate-400 dark:text-zinc-500">{label}:</span>
-      {value && <strong className="font-medium text-slate-900 dark:text-white">{value}</strong>}
+      {value && (
+        <strong className="font-medium text-slate-900 dark:text-white">
+          {value}
+        </strong>
+      )}
       {onRemove && (
         <button
           type="button"

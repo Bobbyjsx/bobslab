@@ -1,6 +1,10 @@
 import * as React from "react";
 import { cn } from "@bobslab/utils";
-import { ChevronDownIcon, ChevronsUpDownIcon, ChevronUpIcon } from "@bobslab/icons";
+import {
+  ChevronDownIcon,
+  ChevronsUpDownIcon,
+  ChevronUpIcon,
+} from "@bobslab/icons";
 
 const Table = React.forwardRef<
   HTMLTableElement,
@@ -10,7 +14,10 @@ const Table = React.forwardRef<
     <div className="relative w-full overflow-auto">
       <table
         ref={ref}
-        className={cn("w-full caption-bottom text-sm border-collapse", className)}
+        className={cn(
+          "w-full caption-bottom text-sm border-collapse",
+          className,
+        )}
         {...props}
       />
     </div>
@@ -39,7 +46,10 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
-    className={cn("divide-y divide-slate-100 dark:divide-zinc-800/70 [&_tr:last-child]:border-0", className)}
+    className={cn(
+      "divide-y divide-slate-100 dark:divide-zinc-800/70 [&_tr:last-child]:border-0",
+      className,
+    )}
     {...props}
   />
 ));
@@ -71,7 +81,8 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
       data-state={selected ? "selected" : undefined}
       className={cn(
         "transition-colors hover:bg-slate-50/70 dark:hover:bg-zinc-900/40",
-        selected && "bg-blue-50/70 dark:bg-blue-950/25 hover:bg-blue-50/90 dark:hover:bg-blue-950/40",
+        selected &&
+          "bg-blue-50/70 dark:bg-blue-950/25 hover:bg-blue-50/90 dark:hover:bg-blue-950/40",
         className,
       )}
       {...props}
@@ -80,8 +91,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
 );
 TableRow.displayName = "TableRow";
 
-export interface TableHeadProps
-  extends React.ThHTMLAttributes<HTMLTableCellElement> {
+export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
   isSorted?: "asc" | "desc" | boolean | null;
   onSort?: () => void;
 }
@@ -94,7 +104,8 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         onClick={onSort}
         className={cn(
           "h-11 px-4 text-left align-middle font-medium text-slate-600 dark:text-zinc-300 text-xs sm:text-sm tracking-tight",
-          onSort && "cursor-pointer hover:text-slate-900 dark:hover:text-white select-none",
+          onSort &&
+            "cursor-pointer hover:text-slate-900 dark:hover:text-white select-none",
           className,
         )}
         {...props}
@@ -146,8 +157,10 @@ const TableCaption = React.forwardRef<
 ));
 TableCaption.displayName = "TableCaption";
 
-export interface TableCheckboxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+export interface TableCheckboxProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "onChange"
+> {
   checked?: boolean;
   indeterminate?: boolean;
   onCheckedChange?: (checked: boolean) => void;

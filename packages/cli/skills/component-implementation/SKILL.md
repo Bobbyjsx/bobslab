@@ -28,6 +28,7 @@ Before writing any new component code, perform component discovery:
 ## Architecture: Dual-Layer Export Pattern
 
 Every component must follow Bobslab's dual-layer API design:
+
 1. **Primitives**: Export fine-grained sub-components (`DialogRoot`, `DialogTrigger`, `DialogContent`, etc.) for consumers needing granular layout control.
 2. **Single Entry Component**: Export a primary composite component (`Dialog`) that wraps primitives and accepts ergonomic props (`trigger`, `title`, `description`, `footer`, `items`, etc.) for consumers who do not want fine-grained assembly.
 

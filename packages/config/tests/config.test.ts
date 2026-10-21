@@ -1,6 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { BREAKPOINTS, createConfig, getRequiredEnv, RADII, THEME_COLORS } from "../src/index";
-import { base as eslintBase, reactInternal, next as eslintNext } from "../src/eslint/index";
+import {
+  BREAKPOINTS,
+  createConfig,
+  getRequiredEnv,
+  RADII,
+  THEME_COLORS,
+} from "../src/index";
+import {
+  base as eslintBase,
+  reactInternal,
+  next as eslintNext,
+} from "../src/eslint/index";
 import { prettierConfig } from "../src/prettier/index";
 import biomeConfig from "../src/biome/biome.json";
 import zedConfig from "../src/zed/settings.json";
@@ -29,13 +39,19 @@ describe("@bobslab/config", () => {
   });
 
   it("createConfig freezes config object", () => {
-    const cfg = createConfig({ name: "Bobslab Test", url: "https://bobslab.dev" });
+    const cfg = createConfig({
+      name: "Bobslab Test",
+      url: "https://bobslab.dev",
+    });
     expect(cfg.name).toBe("Bobslab Test");
     expect(Object.isFrozen(cfg)).toBe(true);
   });
 
   it("getRequiredEnv returns fallback if key is not found", () => {
-    const val = getRequiredEnv("NON_EXISTENT_BOBSLAB_ENV_KEY", "fallback-value");
+    const val = getRequiredEnv(
+      "NON_EXISTENT_BOBSLAB_ENV_KEY",
+      "fallback-value",
+    );
     expect(val).toBe("fallback-value");
   });
 

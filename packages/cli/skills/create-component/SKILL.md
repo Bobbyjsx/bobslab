@@ -8,6 +8,7 @@ version: 1.0.0
 # Create a Bobslab Component
 
 Scaffolds a component following Bobslab's strict architectural standards:
+
 1. **Dual-Layer Component Design**: Always export headless/fine-grained primitives, BUT also build and export one high-level entry component that can be used out-of-the-box without primitives if fine-grained UI is not needed.
 2. **Mandatory Live Output in Docs**: In documentation writing, you MUST show the rendered output of whatever is being demoed, alongside the code block.
 3. **Canonical Reference**: Check `Dialog`, `Tabs`, and `Table` in `@bobslab/ui` and `apps/docs`.
@@ -17,6 +18,7 @@ Scaffolds a component following Bobslab's strict architectural standards:
 ## 0. Discovery (Mandatory — Do this first)
 
 Before writing any new component, verify whether the component or a primitive close enough to compose/extend already exists:
+
 - `packages/ui/src/components/` — existing components and primitives.
 - `apps/docs/app/` — already-documented components and demos.
 - Check Base UI (`@base-ui/react`) / Radix primitives.
@@ -32,17 +34,22 @@ Prefer composing existing primitives over writing raw HTML or duplicating logic.
 ### Dual-Layer API Rules:
 
 #### Layer 1: Primitives (Fine-Grained Control)
+
 Export every sub-component so consumers with custom layouts, custom slots, or headless styling needs can assemble the pieces manually:
+
 - e.g., for Dialog: `DialogRoot`, `DialogTrigger`, `DialogPortal`, `DialogOverlay`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`, `DialogClose`.
 - e.g., for Tabs: `TabsRoot`, `TabsList`, `TabsTrigger`, `TabsContent`.
 
 #### Layer 2: Single Entry Component (Direct / Ergonomic Usage)
+
 Export a primary component (matching the feature name, e.g. `Dialog`, `Tabs`, `Select`) that works immediately without assembling primitives:
+
 - Takes high-level props: `trigger`, `title`, `description`, `footer`, `items`, `children`.
 - Renders the underlying primitives automatically if high-level props are provided.
 - Passes children directly to the root if primitives are composed manually inside it.
 
 ### Code Conventions:
+
 - `"use client";` as the first line if the component uses hooks, DOM listeners, or browser APIs.
 - Variant & size props → `cva` from `class-variance-authority`.
 - Class merging → `cn` from `@bobslab/utils`, never raw template string concatenation.
@@ -54,7 +61,6 @@ Export a primary component (matching the feature name, e.g. `Dialog`, `Tabs`, `S
   - No restating the obvious (`// Render button` above return statement).
   - No workflow narration (`// Step 1...`, `// Step 2...`).
   - Comments must only explain non-obvious intent, contracts, or platform workarounds (1-2 lines max).
-
 
 ---
 
@@ -113,7 +119,7 @@ Demonstrate both the live interactive output and the code:
 
 Brief description of the component's purpose and Base UI foundation.
 
-import { ComponentNameDemo } from '@/components/ComponentNameDemo';
+import { ComponentNameDemo } from "@/components/ComponentNameDemo";
 
 ## Live Interactive Demo
 
@@ -128,10 +134,7 @@ import { ComponentName } from "@bobslab/ui";
 
 export function Example() {
   return (
-    <ComponentName
-      title="Example Title"
-      description="Short description"
-    />
+    <ComponentName title="Example Title" description="Short description" />
   );
 }
 ```
@@ -157,9 +160,9 @@ export function CustomExample() {
 
 ## Props
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| `prop1` | `string` | `-` | Explanation of prop1 |
+| Prop    | Type     | Default | Description          |
+| :------ | :------- | :------ | :------------------- |
+| `prop1` | `string` | `-`     | Explanation of prop1 |
 ````
 
 ---
@@ -177,6 +180,7 @@ Register the page in `apps/docs/app/_meta.js`:
 ## 6. Verification
 
 Run from workspace root before completing:
+
 1. `pnpm run check-types`
 2. `pnpm run lint`
 3. `pnpm run test`

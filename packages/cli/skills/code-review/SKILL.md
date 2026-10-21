@@ -20,6 +20,6 @@ Define the standards for reviewing changes in the Bobslab monorepo.
   - Rejects decorative separator banners (`// =====`, `/* ---- */`), ALL CAPS labels, and decorative emoji (`✅`, `🚀`, `🔥`).
   - Rejects line-by-line or step-by-step narration comments (`// Step 1: ...`, `// Initialize count`).
   - Rejects restating the obvious (`// User model` above `interface User`).
-  - Ensures surviving comments explain *why* (non-obvious rationale, platform workarounds, security) rather than *what*, capped at 1-2 lines.
+  - Ensures surviving comments explain _why_ (non-obvious rationale, platform workarounds, security) rather than _what_, capped at 1-2 lines.
 - **TypeScript**: Strict types without `any` (unless strictly unavoidable).
 - **Clean Code**: SRP, DRY, KISS, YAGNI, Boy Scout rule.

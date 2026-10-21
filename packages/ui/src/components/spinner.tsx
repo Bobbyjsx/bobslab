@@ -18,7 +18,10 @@ export function Spinner({ size = "md", className, ...props }: SpinnerProps) {
     <span
       role="status"
       aria-label="Loading"
-      className={cn("inline-flex items-center justify-center text-current", className)}
+      className={cn(
+        "inline-flex items-center justify-center text-current",
+        className,
+      )}
       {...props}
     >
       <SpinnerIcon size={pixelSize} />

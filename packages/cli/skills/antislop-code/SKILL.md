@@ -8,6 +8,7 @@ version: 1.0.0
 # Antislop Code Standards
 
 ## Purpose
+
 Code comment hygiene and anti-slop rules for all Bobslab agents and contributors. Eliminates decorative, redundant, loud, or robotic comments while preserving critical explanations of intent, edge cases, workarounds, and contracts.
 
 ---
@@ -48,6 +49,7 @@ Code comment hygiene and anti-slop rules for all Bobslab agents and contributors
 ## Required Patterns (Preserve & Use)
 
 Write concise comments (1–2 lines) only when explaining:
+
 - Non-obvious business logic and intent ("Why", not "What").
 - Architectural decisions and trade-offs.
 - Workarounds for platform, browser, or third-party quirks.
@@ -59,6 +61,7 @@ Write concise comments (1–2 lines) only when explaining:
 ## Code Comment Checklist
 
 Before submitting code, verify:
+
 - [ ] Does every comment add non-obvious context not already evident from the code?
 - [ ] Are decorative banners, repeated dividers, and emoji eliminated?
 - [ ] Is narrative step-by-step commentary omitted?

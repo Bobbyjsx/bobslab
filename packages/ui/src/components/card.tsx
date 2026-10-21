@@ -12,17 +12,19 @@ export function Card({
   ...props
 }: CardProps) {
   const variantStyles = {
-    default:
-      "bg-background text-foreground border border-border shadow-xs",
-    elevated:
-      "bg-background text-foreground border border-border shadow-md",
+    default: "bg-background text-foreground border border-border shadow-xs",
+    elevated: "bg-background text-foreground border border-border shadow-md",
     accent:
       "bg-primary text-primary-foreground border border-primary/20 shadow-sm",
   };
 
   return (
     <div
-      className={cn("rounded-2xl transition-all", variantStyles[variant], className)}
+      className={cn(
+        "rounded-2xl transition-all",
+        variantStyles[variant],
+        className,
+      )}
       {...props}
     >
       {children}
@@ -37,7 +39,10 @@ export function CardHeader({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("flex items-center justify-between p-5 pb-3 border-b border-border/60", className)}
+      className={cn(
+        "flex items-center justify-between p-5 pb-3 border-b border-border/60",
+        className,
+      )}
       {...props}
     >
       {children}
@@ -52,7 +57,10 @@ export function CardTitle({
 }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={cn("text-base font-semibold tracking-tight text-foreground", className)}
+      className={cn(
+        "text-base font-semibold tracking-tight text-foreground",
+        className,
+      )}
       {...props}
     >
       {children}
@@ -94,7 +102,10 @@ export function CardFooter({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("p-5 pt-3 border-t border-border/60 flex items-center justify-between", className)}
+      className={cn(
+        "p-5 pt-3 border-t border-border/60 flex items-center justify-between",
+        className,
+      )}
       {...props}
     >
       {children}

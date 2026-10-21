@@ -15,12 +15,10 @@ const buttonVariants = cva(
           "border-border bg-background text-foreground hover:bg-muted hover:text-foreground shadow-xs",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost:
-          "hover:bg-muted hover:text-foreground",
+        ghost: "hover:bg-muted hover:text-foreground",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
-        link:
-          "text-primary underline-offset-4 hover:underline",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2 text-sm gap-2",
@@ -40,8 +38,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends ButtonPrimitive.Props,
-    VariantProps<typeof buttonVariants> {
+  extends ButtonPrimitive.Props, VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
 }
 
@@ -62,7 +59,10 @@ function Button({
       {...props}
     >
       {isLoading && (
-        <Spinner size={size === "xs" || size === "sm" ? "sm" : "md"} className="mr-2" />
+        <Spinner
+          size={size === "xs" || size === "sm" ? "sm" : "md"}
+          className="mr-2"
+        />
       )}
       {children}
     </ButtonPrimitive>

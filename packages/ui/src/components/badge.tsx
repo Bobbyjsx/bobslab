@@ -7,20 +7,17 @@ export const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-muted text-muted-foreground border-border",
+        default: "bg-muted text-muted-foreground border-border",
         success:
           "bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60",
         warning:
           "bg-amber-50 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
-        info:
-          "bg-blue-50 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200 dark:border-blue-800/60",
+        info: "bg-blue-50 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200 dark:border-blue-800/60",
         danger:
           "bg-rose-50 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-800/60",
         neutral:
           "bg-slate-50 text-slate-700 dark:bg-zinc-900 dark:text-zinc-300 border-slate-200 dark:border-zinc-800",
-        tier:
-          "bg-teal-50 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 border-teal-200 dark:border-teal-800/60 font-semibold",
+        tier: "bg-teal-50 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 border-teal-200 dark:border-teal-800/60 font-semibold",
       },
     },
     defaultVariants: {
@@ -38,7 +35,8 @@ export type BadgeStatus =
   | "cancelled";
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLSpanElement>,
+  extends
+    React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof badgeVariants> {
   status?: BadgeStatus;
 }

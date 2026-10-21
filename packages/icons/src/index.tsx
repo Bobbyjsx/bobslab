@@ -21,7 +21,14 @@ export function Logo({
     >
       <rect width="32" height="32" rx="8" fill="currentColor" />
       <circle cx="11" cy="11" r="3.5" fill="var(--background, #fff)" />
-      <rect x="7.5" y="17.5" width="7" height="7" rx="2" fill="var(--background, #fff)" />
+      <rect
+        x="7.5"
+        y="17.5"
+        width="7"
+        height="7"
+        rx="2"
+        fill="var(--background, #fff)"
+      />
       <path
         d="M18 11H24M18 16H24M18 21H22"
         stroke="var(--background, #fff)"
@@ -51,7 +58,12 @@ export function SpinnerIcon({ size = 16, className, ...props }: IconProps) {
   );
 }
 
-export function CheckIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function CheckIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -70,7 +82,12 @@ export function CheckIcon({ size = 16, className, strokeWidth = 2, ...props }: I
   );
 }
 
-export function CopyIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function CopyIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -90,7 +107,12 @@ export function CopyIcon({ size = 16, className, strokeWidth = 2, ...props }: Ic
   );
 }
 
-export function CloseIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function CloseIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -110,7 +132,12 @@ export function CloseIcon({ size = 16, className, strokeWidth = 2, ...props }: I
   );
 }
 
-export function ChevronLeftIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function ChevronLeftIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -129,7 +156,12 @@ export function ChevronLeftIcon({ size = 16, className, strokeWidth = 2, ...prop
   );
 }
 
-export function ChevronRightIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function ChevronRightIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -148,7 +180,12 @@ export function ChevronRightIcon({ size = 16, className, strokeWidth = 2, ...pro
   );
 }
 
-export function ChevronDownIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function ChevronDownIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -167,7 +204,12 @@ export function ChevronDownIcon({ size = 16, className, strokeWidth = 2, ...prop
   );
 }
 
-export function ChevronUpIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function ChevronUpIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -186,7 +228,12 @@ export function ChevronUpIcon({ size = 16, className, strokeWidth = 2, ...props 
   );
 }
 
-export function ChevronsUpDownIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function ChevronsUpDownIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -206,7 +253,12 @@ export function ChevronsUpDownIcon({ size = 16, className, strokeWidth = 2, ...p
   );
 }
 
-export function SearchIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function SearchIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -258,7 +310,12 @@ export function SlidersHorizontalIcon({
   );
 }
 
-export function AlertCircleIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function AlertCircleIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -279,7 +336,12 @@ export function AlertCircleIcon({ size = 16, className, strokeWidth = 2, ...prop
   );
 }
 
-export function InfoIcon({ size = 16, className, strokeWidth = 2, ...props }: IconProps) {
+export function InfoIcon({
+  size = 16,
+  className,
+  strokeWidth = 2,
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}

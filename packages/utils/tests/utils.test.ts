@@ -21,9 +21,9 @@ describe("@bobslab/utils", () => {
   describe("cn", () => {
     it("merges classes correctly with tailwind-merge override", () => {
       expect(cn("px-2 py-1", "px-4")).toBe("py-1 px-4");
-      expect(cn("text-red-500", false && "text-blue-500", "font-bold")).toBe(
-        "text-red-500 font-bold",
-      );
+      expect(
+        cn("text-red-500", (false as boolean) && "text-blue-500", "font-bold"),
+      ).toBe("text-red-500 font-bold");
     });
 
     it("capitalizes first letter", () => {

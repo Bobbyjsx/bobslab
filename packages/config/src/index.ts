@@ -52,5 +52,7 @@ export function getRequiredEnv(key: string, fallback?: string): string {
   if (fallback !== undefined) {
     return fallback;
   }
-  throw new Error(`[Bobslab Config] Missing required environment variable: ${key}`);
+  throw new Error(
+    `[Bobslab Config] Missing required environment variable: ${key}`,
+  );
 }

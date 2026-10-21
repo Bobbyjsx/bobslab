@@ -1,6 +1,7 @@
 {
   "name": "@bobslab/config",
   "version": "0.0.1",
+  "type": "module",
   "private": false,
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -43,7 +44,6 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@bobslab/typescript-config": "workspace:*",
     "@eslint/js": "^9.21.0",
     "@next/eslint-plugin-next": "^15.2.0",
     "@types/node": "^22.13.0",

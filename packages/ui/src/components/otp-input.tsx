@@ -20,7 +20,10 @@ export function OtpInput({
 }: OtpInputProps) {
   const inputsRef = React.useRef<Array<HTMLInputElement | null>>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    idx: number,
+  ) => {
     const raw = e.target.value.replace(/[^0-9]/g, "");
     if (!raw) return;
     const chars = raw.split("");
@@ -35,7 +38,10 @@ export function OtpInput({
     inputsRef.current[nextIdx]?.focus();
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, idx: number) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    idx: number,
+  ) => {
     if (e.key === "Backspace") {
       if (value[idx]) {
         const arr = value.split("");
@@ -76,7 +82,10 @@ export function OtpInput({
     <div
       role="group"
       aria-label="Verification code"
-      className={cn("flex gap-2 sm:gap-3 justify-center select-none", className)}
+      className={cn(
+        "flex gap-2 sm:gap-3 justify-center select-none",
+        className,
+      )}
     >
       {Array.from({ length }).map((_, i) => (
         <input
@@ -98,8 +107,10 @@ export function OtpInput({
           className={cn(
             "w-11 h-14 sm:w-12 sm:h-14 text-center text-xl font-semibold rounded-xl border transition-all duration-150 outline-none",
             "bg-background text-foreground shadow-2xs",
-            !hasError && "border-border hover:border-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20",
-            hasError && "border-destructive ring-1 ring-destructive text-destructive",
+            !hasError &&
+              "border-border hover:border-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/20",
+            hasError &&
+              "border-destructive ring-1 ring-destructive text-destructive",
             disabled && "opacity-40 cursor-not-allowed",
           )}
         />

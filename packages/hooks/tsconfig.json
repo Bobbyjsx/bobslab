@@ -1,5 +1,5 @@
 {
-  "extends": "@bobslab/typescript-config/react-library.json",
+  "extends": "@bobslab/config/typescript/react-library.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src"

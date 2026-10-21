@@ -18,7 +18,7 @@
 ## 2. Story Scope & Acceptance Criteria
 
 **Title:** {{STORY_TITLE}}  
-**Linear Story ID:** {{LINEAR_STORY_ID}}  
+**Linear Story ID:** {{LINEAR_STORY_ID}}
 
 ### Requirements
 {{REQUIREMENTS_LIST}}
@@ -31,7 +31,7 @@
 ## 3. Task Graph & Work Items
 
 | Task ID | Role | Status | Retries | Candidate SHA | PR Link |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+| :------ | :--- | :----- | :------ | :------------ | :------ |
 {{TASK_ROWS}}
 
 ---

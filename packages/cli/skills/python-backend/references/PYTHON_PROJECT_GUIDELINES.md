@@ -189,11 +189,11 @@ If a task touches the legacy PostgreSQL path (keysentry-api `alembic/`): SQLAlch
 
 Three distinct error classes, handled differently:
 
-| Kind | Example | Handling |
-|---|---|---|
-| Expected business errors | invalid credentials, session expired, quota exceeded | Domain exceptions or `HTTPException` raised in services; mapped to stable codes |
-| Infrastructure/external failures | Firestore down, provider 5xx | Log with stack trace, translate to 5xx, never leak internals |
-| Programming errors | bugs, type errors | Catch-all handler → 500, logged |
+| Kind                             | Example                                              | Handling                                                                        |
+| -------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Expected business errors         | invalid credentials, session expired, quota exceeded | Domain exceptions or `HTTPException` raised in services; mapped to stable codes |
+| Infrastructure/external failures | Firestore down, provider 5xx                         | Log with stack trace, translate to 5xx, never leak internals                    |
+| Programming errors               | bugs, type errors                                    | Catch-all handler → 500, logged                                                 |
 
 - Define a small **domain exception hierarchy** in `app/core/errors.py` with machine-readable codes (identity-service `OAuthError(error, error_description, status_code)` rendered as `{"error": ..., "error_description": ...}`; cognito-chat-api provider error codes).
 - Register handlers in `main.py`: validation errors → 422 `{"detail": exc.errors()}`; HTTP exceptions → passthrough; catch-all → 500 `{"detail": "Internal Server Error"}` with `logger.exception` (keysentry-api `main.py` is the reference; identity-service adds OAuth-shaped 500s for OAuth paths).
@@ -364,39 +364,39 @@ Mandatory defaults:
 
 ## Common Anti-Patterns Observed in the Source Projects
 
-| Anti-pattern | Where | Consequence |
-|---|---|---|
-| CORS `*` + credentials | all four projects | Browsers reject/allow credentialed cross-origin calls unsafely |
-| Insecure default secrets | keysentry, cognito, identity, atlas | Deployable with known credentials if env missing |
-| Unverified JWT audience | cognito-chat-api `dependencies.py` | Tokens minted for other services are accepted |
-| Missing ownership checks (IDOR) | keysentry-api `routers/api_keys.py` | Any user can modify another user's resources |
-| `HTTPException` in repositories | cognito-chat-api `repositories/config.py` | HTTP concerns leak into data access |
-| Non-constant-time secret comparison | atlas `security.py`, keysentry inline | Timing side channel on the auth boundary |
-| Orphaned infrastructure after migration | keysentry alembic (imports removed `Base`), dead celery worker | Broken Makefile targets, confusing repo |
-| Dead code + tests for removed endpoints | cognito-chat-api auth stack | Suite cannot pass; false sense of coverage |
-| Dev deps in prod images | all four (mixed requirements) | Larger images, more attack surface |
-| `print()` logging | cognito, keysentry, identity | Unstructured, unroutable logs |
-| Logging full bodies at error | atlas `proxy.py` | Secrets in log streams |
-| `|| true` on test target | keysentry Makefile | CI passes while tests fail |
-| Module-level side effects at import | keysentry `register_events()`, atlas http_client | Hard-to-test, order-dependent behavior |
-| Manual `firebase_admin` mocks while the emulator is available | cognito-chat-api `tests/conftest.py` | Masks real init behavior; drifts from production and from identity-service's mock-free pattern |
+| Anti-pattern                                                  | Where                                                          | Consequence                                                                                    |
+| ------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| CORS `*` + credentials                                        | all four projects                                              | Browsers reject/allow credentialed cross-origin calls unsafely                                 |
+| Insecure default secrets                                      | keysentry, cognito, identity, atlas                            | Deployable with known credentials if env missing                                               |
+| Unverified JWT audience                                       | cognito-chat-api `dependencies.py`                             | Tokens minted for other services are accepted                                                  |
+| Missing ownership checks (IDOR)                               | keysentry-api `routers/api_keys.py`                            | Any user can modify another user's resources                                                   |
+| `HTTPException` in repositories                               | cognito-chat-api `repositories/config.py`                      | HTTP concerns leak into data access                                                            |
+| Non-constant-time secret comparison                           | atlas `security.py`, keysentry inline                          | Timing side channel on the auth boundary                                                       |
+| Orphaned infrastructure after migration                       | keysentry alembic (imports removed `Base`), dead celery worker | Broken Makefile targets, confusing repo                                                        |
+| Dead code + tests for removed endpoints                       | cognito-chat-api auth stack                                    | Suite cannot pass; false sense of coverage                                                     |
+| Dev deps in prod images                                       | all four (mixed requirements)                                  | Larger images, more attack surface                                                             |
+| `print()` logging                                             | cognito, keysentry, identity                                   | Unstructured, unroutable logs                                                                  |
+| Logging full bodies at error                                  | atlas `proxy.py`                                               | Secrets in log streams                                                                         |
+| `                                                             |                                                                | true` on test target                                                                           | keysentry Makefile | CI passes while tests fail |
+| Module-level side effects at import                           | keysentry `register_events()`, atlas http_client               | Hard-to-test, order-dependent behavior                                                         |
+| Manual `firebase_admin` mocks while the emulator is available | cognito-chat-api `tests/conftest.py`                           | Masks real init behavior; drifts from production and from identity-service's mock-free pattern |
 
 ## Resolved Conflicts
 
-| Concern | cognito-chat-api | keysentry-api | identity-service | project-atlas | Resolution |
-|---|---|---|---|---|---|
-| Deps | unpinned requirements | pinned | pinned | pinned | Pin with `==` |
-| Layout | `app/` | `src/` | `app/` | `gateway/` | `app/` (majority; `src/` acceptable) |
-| Routers dir | `router/` | `routers/` | `routers/` | `api/routes/` | `routers/` |
-| API versioning | none | `/api/v1` | `/api/v1` (mostly) | passthrough | `/api/v1` prefix |
-| Settings casing | lowercase | UPPERCASE | lowercase | UPPERCASE | lowercase |
-| Test client | sync TestClient | ASGITransport | ASGITransport+Lifespan | none | ASGITransport + LifespanManager |
-| Exception handlers | none | 3 handlers | domain + catch-all | none | domain errors + catch-all + 422 |
-| Request logging | none | middleware | none | none | middleware |
-| Python version | 3.12 image | 3.12 | 3.12 | 3.11/3.12 drift | 3.12 everywhere |
-| Error envelope | mixed `detail`/codes | `detail` | RFC 6749 + `detail` | passthrough | stable per-service shape, codes for domain errors |
-| Secret comparison | — | inline `!=` | `==` | `!=` | `hmac.compare_digest` |
-| DB | Firestore | Firestore (migrating) | Firestore | none | Firestore |
+| Concern            | cognito-chat-api      | keysentry-api         | identity-service       | project-atlas   | Resolution                                        |
+| ------------------ | --------------------- | --------------------- | ---------------------- | --------------- | ------------------------------------------------- |
+| Deps               | unpinned requirements | pinned                | pinned                 | pinned          | Pin with `==`                                     |
+| Layout             | `app/`                | `src/`                | `app/`                 | `gateway/`      | `app/` (majority; `src/` acceptable)              |
+| Routers dir        | `router/`             | `routers/`            | `routers/`             | `api/routes/`   | `routers/`                                        |
+| API versioning     | none                  | `/api/v1`             | `/api/v1` (mostly)     | passthrough     | `/api/v1` prefix                                  |
+| Settings casing    | lowercase             | UPPERCASE             | lowercase              | UPPERCASE       | lowercase                                         |
+| Test client        | sync TestClient       | ASGITransport         | ASGITransport+Lifespan | none            | ASGITransport + LifespanManager                   |
+| Exception handlers | none                  | 3 handlers            | domain + catch-all     | none            | domain errors + catch-all + 422                   |
+| Request logging    | none                  | middleware            | none                   | none            | middleware                                        |
+| Python version     | 3.12 image            | 3.12                  | 3.12                   | 3.11/3.12 drift | 3.12 everywhere                                   |
+| Error envelope     | mixed `detail`/codes  | `detail`              | RFC 6749 + `detail`    | passthrough     | stable per-service shape, codes for domain errors |
+| Secret comparison  | —                     | inline `!=`           | `==`                   | `!=`            | `hmac.compare_digest`                             |
+| DB                 | Firestore             | Firestore (migrating) | Firestore              | none            | Firestore                                         |
 
 ## Reference Architecture
 

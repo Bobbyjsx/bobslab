@@ -14,7 +14,10 @@ export function OtpDemo() {
       <div className="flex flex-col gap-4">
         <OtpInput value={code} length={6} onChange={setCode} />
         <div className="text-xs text-muted-foreground">
-          Current value: <span className="font-mono font-semibold text-foreground">{code || "(empty)"}</span>
+          Current value:{" "}
+          <span className="font-mono font-semibold text-foreground">
+            {code || "(empty)"}
+          </span>
         </div>
       </div>
     </div>

@@ -1,4 +1,7 @@
-type AuthEventListener = (event: "login" | "logout" | "refresh", data?: unknown) => void;
+type AuthEventListener = (
+  event: "login" | "logout" | "refresh",
+  data?: unknown,
+) => void;
 
 export interface TokenPair {
   accessToken: string;

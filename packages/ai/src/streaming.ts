@@ -69,7 +69,9 @@ export function parseSseBlock(block: string): SseBlock | null {
 /**
  * Parses the SSE data line into a JSON object, or null if invalid.
  */
-export function parseEventPayload(data: string): Record<string, unknown> | null {
+export function parseEventPayload(
+  data: string,
+): Record<string, unknown> | null {
   try {
     return JSON.parse(data) as Record<string, unknown>;
   } catch {

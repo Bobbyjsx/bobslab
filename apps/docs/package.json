@@ -27,7 +27,6 @@
     "tailwindcss": "^4.0.9"
   },
   "devDependencies": {
-    "@bobslab/typescript-config": "workspace:*",
     "@types/node": "^22.13.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

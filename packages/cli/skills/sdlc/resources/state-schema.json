@@ -2,7 +2,16 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "SDLCWorkflowRun",
   "type": "object",
-  "required": ["runId", "objective", "state", "mode", "createdAt", "updatedAt", "story", "approvals"],
+  "required": [
+    "runId",
+    "objective",
+    "state",
+    "mode",
+    "createdAt",
+    "updatedAt",
+    "story",
+    "approvals"
+  ],
   "properties": {
     "runId": { "type": "string" },
     "objective": { "type": "string" },
@@ -34,7 +43,15 @@
     "updatedAt": { "type": "string" },
     "story": {
       "type": "object",
-      "required": ["id", "title", "problemStatement", "desiredOutcome", "requirements", "acceptanceCriteria", "tasks"],
+      "required": [
+        "id",
+        "title",
+        "problemStatement",
+        "desiredOutcome",
+        "requirements",
+        "acceptanceCriteria",
+        "tasks"
+      ],
       "properties": {
         "id": { "type": "string" },
         "linearId": { "type": "string" },
@@ -42,12 +59,22 @@
         "problemStatement": { "type": "string" },
         "desiredOutcome": { "type": "string" },
         "requirements": { "type": "array", "items": { "type": "string" } },
-        "acceptanceCriteria": { "type": "array", "items": { "type": "string" } },
+        "acceptanceCriteria": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "tasks": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["id", "title", "assignedRole", "status", "retryCount", "maxRetries"],
+            "required": [
+              "id",
+              "title",
+              "assignedRole",
+              "status",
+              "retryCount",
+              "maxRetries"
+            ],
             "properties": {
               "id": { "type": "string" },
               "title": { "type": "string" },

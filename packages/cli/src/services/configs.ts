@@ -4,7 +4,10 @@ import path from "node:path";
 import { AiSkillsError } from "../core/errors.js";
 import type { ConfigManifest, ConfigTarget } from "./types.js";
 
-export const CONFIG_MANIFESTS: Record<Exclude<ConfigTarget, "all">, ConfigManifest> = {
+export const CONFIG_MANIFESTS: Record<
+  Exclude<ConfigTarget, "all">,
+  ConfigManifest
+> = {
   zed: {
     name: "zed",
     description: "Zed editor settings (.zed/settings.json)",
@@ -18,7 +21,8 @@ export const CONFIG_MANIFESTS: Record<Exclude<ConfigTarget, "all">, ConfigManife
   },
   vscode: {
     name: "vscode",
-    description: "VS Code workspace settings and recommended extensions (.vscode/)",
+    description:
+      "VS Code workspace settings and recommended extensions (.vscode/)",
     modularImportSupported: false,
     destinations: [
       {

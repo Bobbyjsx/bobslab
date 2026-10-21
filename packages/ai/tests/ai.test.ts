@@ -15,7 +15,7 @@ import {
 describe("@bobslab/ai", () => {
   describe("streaming & SSE", () => {
     it("parses valid SSE blocks", () => {
-      const raw = "event: message\ndata: {\"text\":\"hello world\"}";
+      const raw = 'event: message\ndata: {"text":"hello world"}';
       const parsed = parseSseBlock(raw);
       expect(parsed).not.toBeNull();
       expect(parsed?.event).toBe("message");
@@ -27,11 +27,15 @@ describe("@bobslab/ai", () => {
     it("sanitizes sensitive tokens and internal traces from errors", () => {
       expect(
         sanitizeStreamErrorText("Error with api_key=sk-12345 secret key"),
-      ).toBe("The AI service is temporarily unavailable. Please try again or select another model.");
+      ).toBe(
+        "The AI service is temporarily unavailable. Please try again or select another model.",
+      );
 
       expect(
         sanitizeStreamErrorText("Model was deprecated", "MODEL_NOT_FOUND"),
-      ).toBe("This model is no longer available. Please pick a different model and try again.");
+      ).toBe(
+        "This model is no longer available. Please pick a different model and try again.",
+      );
     });
   });
 
@@ -79,7 +83,9 @@ describe("@bobslab/ai", () => {
   describe("quota & countdown", () => {
     it("formats relative reset countdowns", () => {
       const now = Date.now();
-      const future = new Date(now + 2 * 3600 * 1000 + 15 * 60 * 1000).toISOString();
+      const future = new Date(
+        now + 2 * 3600 * 1000 + 15 * 60 * 1000,
+      ).toISOString();
       const text = formatCountdown(future, now);
       expect(text).toContain("2h 15m");
     });

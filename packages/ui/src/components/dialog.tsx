@@ -109,7 +109,10 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("text-lg font-semibold tracking-tight text-foreground", className)}
+      className={cn(
+        "text-lg font-semibold tracking-tight text-foreground",
+        className,
+      )}
       {...props}
     />
   );
@@ -128,7 +131,10 @@ function DialogDescription({
   );
 }
 
-export interface DialogProps extends Omit<DialogPrimitive.Root.Props, "children"> {
+export interface DialogProps extends Omit<
+  DialogPrimitive.Root.Props,
+  "children"
+> {
   /** Content to display inside the dialog */
   children?: React.ReactNode;
   /** Optional trigger element for zero-boilerplate usage */
@@ -170,10 +176,15 @@ function Dialog({
     return (
       <DialogPrimitive.Root data-slot="dialog" {...props}>
         {trigger && <DialogTrigger render={trigger} />}
-        <DialogContent className={contentClassName} showCloseButton={showCloseButton}>
+        <DialogContent
+          className={contentClassName}
+          showCloseButton={showCloseButton}
+        >
           {(title || description) && (
             <DialogHeader className={headerClassName}>
-              {title && <DialogTitle className={titleClassName}>{title}</DialogTitle>}
+              {title && (
+                <DialogTitle className={titleClassName}>{title}</DialogTitle>
+              )}
               {description && (
                 <DialogDescription className={descriptionClassName}>
                   {description}
@@ -182,14 +193,20 @@ function Dialog({
             </DialogHeader>
           )}
           {children}
-          {footer && <DialogFooter className={footerClassName}>{footer}</DialogFooter>}
+          {footer && (
+            <DialogFooter className={footerClassName}>{footer}</DialogFooter>
+          )}
         </DialogContent>
       </DialogPrimitive.Root>
     );
   }
 
   // Otherwise, render headless root for fine-grained primitive composition
-  return <DialogPrimitive.Root data-slot="dialog" {...props}>{children}</DialogPrimitive.Root>;
+  return (
+    <DialogPrimitive.Root data-slot="dialog" {...props}>
+      {children}
+    </DialogPrimitive.Root>
+  );
 }
 
 Dialog.displayName = "Dialog";

@@ -3,8 +3,7 @@ import { cn } from "@bobslab/utils";
 import { useClipboard } from "@bobslab/hooks";
 import { CheckIcon, CopyIcon } from "@bobslab/icons";
 
-export interface CopyButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CopyButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   value: string;
   timeout?: number;
 }
