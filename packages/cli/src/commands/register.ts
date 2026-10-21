@@ -53,14 +53,14 @@ const resolvePreferences = async (
 
   console.log(BOBSLAB_LOGO);
 
-  const latestVersion = await getLatestPackageVersion("@bobslab/ai-skills");
+  const latestVersion = await getLatestPackageVersion("@bobslab/cli");
   if (latestVersion && isNewerVersion(latestVersion, options.packageVersion)) {
     console.log(
       `\n\x1b[33mUpdate Available! \x1b[0m(v${options.packageVersion} -> v${latestVersion})`,
     );
     const proceed = await confirm({
       message:
-        "A newer version of @bobslab/ai-skills is available. Do you want to proceed anyway?",
+        "A newer version of @bobslab/cli is available. Do you want to proceed anyway?",
       default: true,
     });
     if (!proceed) {
@@ -122,80 +122,98 @@ export const registerCommands = (
   output: Output,
   serviceOverride?: SkillService,
 ): void => {
-  program
-    .command("init")
-    .description("Initialize ai-skills in the current project")
-    .option("-y, --yes", "Skip prompts and use default project-level settings")
-    .option("--scope <scope>", "Installation scope: project or global")
-    .action(async (cmdOptions: CommandOptions) => {
-      const prefs = await resolvePreferences(baseOptions, cmdOptions, false);
-      const service = createSkillService({
-        ...baseOptions,
-        projectRoot: prefs.root,
-        integrations: prefs.integrations,
-      });
-      output.info(await service.init());
-    });
+  const getService = () => serviceOverride ?? createSkillService(baseOptions);
 
-  program
-    .command("list")
-    .description("List skills bundled with this ai-skills version")
-    .action(async () => {
-      const service = serviceOverride ?? createSkillService(baseOptions);
-      output.info(formatSkillsList(await service.list()));
+  const initHandler = async (cmdOptions: CommandOptions) => {
+    const prefs = await resolvePreferences(baseOptions, cmdOptions, false);
+    const service = createSkillService({
+      ...baseOptions,
+      projectRoot: prefs.root,
+      integrations: prefs.integrations,
     });
+    output.info(await service.init());
+  };
 
-  program
+  const listHandler = async () => {
+    const service = getService();
+    output.info(formatSkillsList(await service.list()));
+  };
+
+  const pullHandler = async (skillNames: string[], cmdOptions: CommandOptions) => {
+    const invalidRequest = skillNames.find((name) => {
+      const value = name.startsWith("@") ? name.slice(1) : name;
+      return name.startsWith("@") ? !isSkillTag(value) : !isSkillName(value);
+    });
+    if (invalidRequest)
+      throw new AiSkillsError(
+        invalidRequest.startsWith("@")
+          ? `Invalid Skill tag "${invalidRequest}". Use @ followed by lowercase letters, numbers, and hyphens.`
+          : `Invalid skill name "${invalidRequest}". Use lowercase letters, numbers, and hyphens.`,
+      );
+    const prefs = await resolvePreferences(baseOptions, cmdOptions, true);
+    const service = createSkillService({
+      ...baseOptions,
+      projectRoot: prefs.root,
+      integrations: prefs.integrations,
+    });
+    output.info(await service.pull(skillNames));
+  };
+
+  const statusHandler = async () => {
+    const service = getService();
+    output.info(await service.status());
+  };
+
+  const updateHandler = async (cmdOptions: CommandOptions) => {
+    const prefs = await resolvePreferences(baseOptions, cmdOptions, true);
+    const service = createSkillService({
+      ...baseOptions,
+      projectRoot: prefs.root,
+      integrations: prefs.integrations,
+    });
+    output.info(await service.update());
+  };
+
+  // 1. SKILLS SUBCOMMAND GROUP (bobs-lab skills pull, bobs-lab skills list)
+  const skillsCommand = program
+    .command("skills")
+    .description("Manage and materialize Bobslab AI coding-agent skills");
+
+  skillsCommand
     .command("pull [skills...]")
-    .description("Materialize bundled Skills by name or @tag")
+    .description("Materialize bundled Skills by name or @tag (e.g. @frontend, @sdlc)")
     .option("-y, --yes", "Skip prompts and pull skills using project-level settings")
     .option("--scope <scope>", "Installation scope: project or global")
     .addHelpText(
       "after",
-      "\nExamples:\n  ai-skills pull @frontend\n  ai-skills pull component-implementation @frontend\n",
+      "\nExamples:\n  bobs-lab skills pull @frontend\n  bobs-lab skills pull @sdlc\n  bobs-lab skills pull antislop-code\n",
     )
-    .action(async (skillNames: string[], cmdOptions: CommandOptions) => {
-      const invalidRequest = skillNames.find((name) => {
-        const value = name.startsWith("@") ? name.slice(1) : name;
-        return name.startsWith("@") ? !isSkillTag(value) : !isSkillName(value);
-      });
-      if (invalidRequest)
-        throw new AiSkillsError(
-          invalidRequest.startsWith("@")
-            ? `Invalid Skill tag "${invalidRequest}". Use @ followed by lowercase letters, numbers, and hyphens.`
-            : `Invalid skill name "${invalidRequest}". Use lowercase letters, numbers, and hyphens.`,
-        );
-      const prefs = await resolvePreferences(baseOptions, cmdOptions, true);
-      const service = createSkillService({
-        ...baseOptions,
-        projectRoot: prefs.root,
-        integrations: prefs.integrations,
-      });
-      output.info(await service.pull(skillNames));
-    });
+    .action(pullHandler);
 
-  program
+  skillsCommand
+    .command("list")
+    .description("List skills bundled with this Bobslab distribution")
+    .action(listHandler);
+
+  skillsCommand
+    .command("init")
+    .description("Initialize skills configuration in the current project")
+    .option("-y, --yes", "Skip prompts and use default project-level settings")
+    .option("--scope <scope>", "Installation scope: project or global")
+    .action(initHandler);
+
+  skillsCommand
     .command("status")
     .description("Show the local skills installation status")
-    .action(async () => {
-      const service = createSkillService(baseOptions);
-      output.info(await service.status());
-    });
+    .action(statusHandler);
 
-  program
+  skillsCommand
     .command("update")
     .description("Update locally materialized skills")
     .option("-y, --yes", "Skip prompts and update skills")
-    .action(async (cmdOptions: CommandOptions) => {
-      const prefs = await resolvePreferences(baseOptions, cmdOptions, true);
-      const service = createSkillService({
-        ...baseOptions,
-        projectRoot: prefs.root,
-        integrations: prefs.integrations,
-      });
-      output.info(await service.update());
-    });
+    .action(updateHandler);
 
+  // 2. CONFIG SUBCOMMAND GROUP (bobs-lab config pull, bobs-lab config list)
   const configCommand = program
     .command("config")
     .description("Manage and pull Bobslab toolchain configurations (Zed, VSCode, Biome, Prettier, ESLint, TypeScript)");
@@ -204,17 +222,47 @@ export const registerCommands = (
     .command("list")
     .description("List available toolchain configs and their distribution types")
     .action(async () => {
-      const service = createSkillService(baseOptions);
+      const service = getService();
       output.info(await service.listConfigs());
     });
 
   configCommand
     .command("pull [targets...]")
     .description("Pull toolchain config files directly into the workspace (e.g. zed, vscode, biome, prettier, eslint, typescript, all)")
+    .addHelpText(
+      "after",
+      "\nExamples:\n  bobs-lab config pull zed\n  bobs-lab config pull vscode\n  bobs-lab config pull all\n",
+    )
     .action(async (targets: string[]) => {
-      const service = createSkillService(baseOptions);
+      const service = getService();
       output.info(await service.pullConfig(targets));
     });
+
+  // Top-level aliases for backwards compatibility
+  program
+    .command("pull [skills...]", { hidden: true })
+    .option("-y, --yes", "Skip prompts and pull skills using project-level settings")
+    .option("--scope <scope>", "Installation scope: project or global")
+    .action(pullHandler);
+
+  program
+    .command("list", { hidden: true })
+    .action(listHandler);
+
+  program
+    .command("init", { hidden: true })
+    .option("-y, --yes")
+    .option("--scope <scope>")
+    .action(initHandler);
+
+  program
+    .command("status", { hidden: true })
+    .action(statusHandler);
+
+  program
+    .command("update", { hidden: true })
+    .option("-y, --yes")
+    .action(updateHandler);
 };
 
 /** Formats Skill metadata for concise terminal output. */

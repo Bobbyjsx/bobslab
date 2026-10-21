@@ -201,7 +201,7 @@ function formatConfigManifests(): string {
     return `${item.name.toUpperCase()}\n  ${item.description}\n  ${importText}`;
   });
 
-  return `Available Toolchain Configurations in Bobslab:\n\n${entries.join("\n\n")}\n\nTip: Run \`ai-skills config pull <target>\` (or \`ai-skills config pull all\`) to materialize them locally into your project.`;
+  return `Available Toolchain Configurations in Bobslab:\n\n${entries.join("\n\n")}\n\nTip: Run \`bobs-lab config pull <target>\` (or \`bobs-lab config pull all\`) to materialize them locally into your project.`;
 }
 
 function formatInstall(

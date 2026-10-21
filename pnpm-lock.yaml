@@ -112,7 +112,29 @@ importers:
         specifier: ^3.0.7
         version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.4)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.23.15)(yaml@2.9.1)
 
-  packages/ai-skills:
+  packages/auth:
+    dependencies:
+      '@bobslab/utils':
+        specifier: workspace:*
+        version: link:../utils
+    devDependencies:
+      '@bobslab/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^22.13.0
+        version: 22.20.4
+      tsup:
+        specifier: ^8.4.0
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.15)(typescript@5.9.3)(yaml@2.9.1)
+      typescript:
+        specifier: ^5.8.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.7
+        version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.4)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.23.15)(yaml@2.9.1)
+
+  packages/cli:
     dependencies:
       '@inquirer/prompts':
         specifier: ^8.7.2
@@ -139,28 +161,6 @@ importers:
       typescript:
         specifier: ^5.8.0
         version: 5.9.3
-
-  packages/auth:
-    dependencies:
-      '@bobslab/utils':
-        specifier: workspace:*
-        version: link:../utils
-    devDependencies:
-      '@bobslab/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
-      '@types/node':
-        specifier: ^22.13.0
-        version: 22.20.4
-      tsup:
-        specifier: ^8.4.0
-        version: 8.5.1(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.15)(typescript@5.9.3)(yaml@2.9.1)
-      typescript:
-        specifier: ^5.8.0
-        version: 5.9.3
-      vitest:
-        specifier: ^3.0.7
-        version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.4)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.23.15)(yaml@2.9.1)
 
   packages/config:
     devDependencies:

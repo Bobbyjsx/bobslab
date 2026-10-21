@@ -25,7 +25,7 @@ async function readSkillDirectories(
     );
   } catch {
     throw new AiSkillsError(
-      `Could not read bundled skills at ${directory}. Reinstall @bobslab/ai-skills and try again.`,
+      `Could not read bundled skills at ${directory}. Reinstall @bobslab/cli and try again.`,
     );
   }
 }
