@@ -1,6 +1,6 @@
-import { mkdir, readFile, stat, writeFile, symlink } from "node:fs/promises";
-import path from "node:path";
+import { mkdir, readFile, stat, symlink, writeFile } from "node:fs/promises";
 import os from "node:os";
+import path from "node:path";
 
 import type { ProjectPaths } from "./types.js";
 
@@ -89,7 +89,7 @@ async function updateGitignore(
     toIgnore.push(".agents/skills.json");
   if (integrations.includes("claude")) toIgnore.push(".claude/");
   if (integrations.includes("codex")) toIgnore.push(".codex/");
-  if (integrations.includes("cursor")) toIgnore.push(".cursor/rules/");
+  if (integrations.includes("cursor")) toIgnore.push(".cursor/");
 
   const missing = toIgnore.filter(
     (entry) => !current.includes(entry.replace(/\/$/, "")),
