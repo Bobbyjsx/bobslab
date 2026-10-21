@@ -1,0 +1,43 @@
+{
+  "name": "@bobslab/ai-skills",
+  "version": "0.0.1",
+  "description": "CLI for distributing Bobslab AI coding-agent skills and workspace configs",
+  "type": "module",
+  "bin": {
+    "ai-skills": "dist/cli.js",
+    "bobslab-skills": "dist/cli.js"
+  },
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "skills",
+    "configs",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "pnpm exec tsup",
+    "check-types": "pnpm exec tsc --noEmit",
+    "link": "pnpm link --global",
+    "link:test": "ai-skills --help",
+    "dev": "pnpm exec tsx src/cli.ts"
+  },
+  "author": "Bobslab",
+  "license": "MIT",
+  "dependencies": {
+    "@inquirer/prompts": "^8.7.2",
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "@bobslab/config": "workspace:*",
+    "@bobslab/typescript-config": "workspace:*",
+    "@types/node": "^22.13.0",
+    "tsup": "^8.4.0",
+    "tsx": "^4.23.13",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

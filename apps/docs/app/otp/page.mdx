@@ -1,0 +1,27 @@
+# OTP Input
+
+Accessible numeric one-time-password input with automatic focus progression and paste distribution.
+
+import { OtpDemo } from '@/components/OtpDemo';
+
+## Live Interactive Demo
+
+<OtpDemo />
+
+## Usage
+
+```tsx
+import { OtpInput } from "@bobslab/ui";
+
+export function OtpExample() {
+  const [otp, setOtp] = React.useState("");
+
+  return (
+    <OtpInput
+      length={6}
+      value={otp}
+      onChange={setOtp}
+    />
+  );
+}
+```

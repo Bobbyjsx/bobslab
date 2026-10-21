@@ -1,0 +1,38 @@
+# Utilities (`@bobslab/utils`)
+
+General utilities for formatting, casing, DOM classnames, and calculations.
+
+## `cn`
+
+Merges Tailwind classes reliably using `clsx` and `tailwind-merge`:
+
+```ts
+import { cn } from "@bobslab/utils";
+
+const className = cn("px-2 py-1", isError && "border-red-500", customClass);
+```
+
+## `case-transform`
+
+Deeply transforms object keys between `camelCase` and `snake_case`:
+
+```ts
+import { keysToCamel, keysToSnake } from "@bobslab/utils";
+
+const clientData = keysToCamel({ user_first_name: "Jane" });
+// { userFirstName: "Jane" }
+
+const backendPayload = keysToSnake(clientData);
+// { user_first_name: "Jane" }
+```
+
+## Formatters
+
+```ts
+import { formatCurrency, formatSize, timeAgo, compactNumber } from "@bobslab/utils";
+
+formatCurrency(2500, "USD"); // "$2,500.00"
+formatSize(1048576); // "1 MB"
+timeAgo(new Date(Date.now() - 3600000)); // "1h ago"
+compactNumber(15400); // "15.4K"
+```

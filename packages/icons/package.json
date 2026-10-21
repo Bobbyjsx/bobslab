@@ -1,0 +1,39 @@
+{
+  "name": "@bobslab/icons",
+  "version": "0.0.1",
+  "private": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.tsx --format=esm,cjs --dts --clean",
+    "dev": "tsup src/index.tsx --format=esm,cjs --dts --watch",
+    "check-types": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0 || ^18.0.0"
+  },
+  "dependencies": {
+    "@bobslab/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@bobslab/typescript-config": "workspace:*",
+    "@types/node": "^22.13.0",
+    "@types/react": "^19.0.0",
+    "react": "^19.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.0.7"
+  }
+}

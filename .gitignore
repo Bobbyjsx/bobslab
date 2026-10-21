@@ -1,0 +1,17 @@
+node_modules
+.pnpm-store
+dist
+.turbo
+.next
+out
+*.tsbuildinfo
+.DS_Store
+*.log
+coverage
+.agents/skills/
+.agents/ai-skills-state.json
+.agents/skills.json
+.claude/
+.codex/
+.cursor/rules/
+.factory/worktrees/

@@ -1,0 +1,44 @@
+# Bobslab Monorepo
+
+Welcome to **Bobslab**, a production-ready component library and utility monorepo built with Turborepo, Base UI, and Tailwind CSS v4.
+
+## Monorepo Packages
+
+| Package | Purpose |
+| :--- | :--- |
+| **`@bobslab/ui`** | Main UI component system with Base UI primitives, composable Table, dual-layer API, and Tailwind v4 |
+| **`@bobslab/ai-skills`** | CLI (`ai-skills`) for distributing Bobslab AI coding-agent skills and workspace toolchain configs |
+| **`@bobslab/config`** | Shared tokens, Tailwind v4 theme presets, and consolidated configs (ESLint, Prettier, TypeScript, Biome, Zed, VSCode) |
+| **`@bobslab/icons`** | Standardized SVG icon primitives with `IconProps` |
+| **`@bobslab/hooks`** | SSR-safe React hooks (`useDebounce`, `useLocalStorage`, `useCountdown`, `useClipboard`) |
+| **`@bobslab/utils`** | Core utilities (`cn`, case transformations, formatters, financial math) |
+| **`@bobslab/ai`** | AI/LLM streaming parsers, prompt library codecs, and usage quota helpers |
+| **`@bobslab/auth`** | Token refresh coordinator (`AuthManager`), JWT decoder, and Server Action error normalizer |
+| **`@bobslab/eslint-config`** | Shared ESLint configurations (delegates to `@bobslab/config/eslint`) |
+| **`@bobslab/typescript-config`** | Shared TypeScript tsconfig bases (delegates to `@bobslab/config/typescript`) |
+
+## Installation & Setup
+
+Install packages using your package manager:
+
+```bash
+pnpm add @bobslab/ui @bobslab/icons @bobslab/hooks @bobslab/utils
+```
+
+### Theming with Tailwind CSS v4
+
+`@bobslab/ui` components automatically inherit the consuming application's theme colors (`--primary`, `--secondary`, `--accent`). In your main stylesheet:
+
+```css
+@import "tailwindcss";
+@import "@bobslab/ui/dist/output.css";
+
+:root {
+  --primary: oklch(20% 0.03 264);
+  --primary-foreground: oklch(98% 0.01 264);
+  --secondary: oklch(96% 0.01 264);
+  --secondary-foreground: oklch(20% 0.03 264);
+  --accent: oklch(94% 0.02 264);
+  --accent-foreground: oklch(20% 0.03 264);
+}
+```

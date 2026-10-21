@@ -1,0 +1,62 @@
+{
+  "name": "@bobslab/config",
+  "version": "0.0.1",
+  "private": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./theme.css": "./src/theme.css",
+    "./eslint": "./src/eslint/index.js",
+    "./eslint/base": "./src/eslint/base.js",
+    "./eslint/react-internal": "./src/eslint/react-internal.js",
+    "./eslint/next-js": "./src/eslint/next.js",
+    "./prettier": "./src/prettier/index.js",
+    "./typescript/base.json": "./src/typescript/base.json",
+    "./typescript/react-library.json": "./src/typescript/react-library.json",
+    "./typescript/nextjs.json": "./src/typescript/nextjs.json",
+    "./biome": "./src/biome/biome.json",
+    "./biome.json": "./src/biome/biome.json",
+    "./zed": "./src/zed/settings.json",
+    "./vscode": "./src/vscode/settings.json",
+    "./vscode/extensions": "./src/vscode/extensions.json"
+  },
+  "files": [
+    "dist",
+    "src/theme.css",
+    "src/eslint",
+    "src/prettier",
+    "src/typescript",
+    "src/biome",
+    "src/zed",
+    "src/vscode"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format=esm,cjs --dts --clean",
+    "dev": "tsup src/index.ts --format=esm,cjs --dts --watch",
+    "check-types": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@bobslab/typescript-config": "workspace:*",
+    "@eslint/js": "^9.21.0",
+    "@next/eslint-plugin-next": "^15.2.0",
+    "@types/node": "^22.13.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-turbo": "^2.4.4",
+    "globals": "^16.0.0",
+    "prettier": "^3.6.2",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0",
+    "typescript-eslint": "^8.25.0",
+    "vitest": "^3.0.7"
+  }
+}
