@@ -30,7 +30,7 @@ Production-ready component library, toolchain, and utility monorepo built with T
    - Every UI component or visual feature documented in `apps/docs` renders live interactive component previews alongside or above code snippets.
 
 3. **Consolidated Toolchain Configs (`@bobslab/config` & `@bobslab/cli`)**:
-   - Modular configs can be imported directly (`@bobslab/config/eslint`, `@bobslab/config/prettier`, `@bobslab/config/typescript/base.json`, `@bobslab/config/biome`).
+   - Modular configs can be imported directly (`@bobslab/config/eslint`, `@bobslab/config/prettier`, `@bobslab/config/typescript/base.json`).
    - Editor configs without modular import support (Zed, VSCode) can be materialized locally using `bobs-lab config pull <target>`.
 
 4. **Agentic SDLC Software Factory**:

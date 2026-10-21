@@ -35,18 +35,6 @@ export const CONFIG_MANIFESTS: Record<
       },
     ],
   },
-  biome: {
-    name: "biome",
-    description: "Biome linter & formatter configuration (biome.json)",
-    modularImportSupported: true,
-    packageImportPath: "@bobslab/config/biome",
-    destinations: [
-      {
-        sourceFile: "biome/biome.json",
-        destinationRelativePath: "biome.json",
-      },
-    ],
-  },
   prettier: {
     name: "prettier",
     description: "Prettier code formatting configuration (.prettierrc)",

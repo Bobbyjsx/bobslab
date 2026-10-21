@@ -42,7 +42,7 @@ pnpm exec bobs-lab --help
 
 ### 2. Workspace Config Management (`bobs-lab config`)
 
-- `bobs-lab config list`: Lists all available toolchain configurations (`zed`, `vscode`, `biome`, `prettier`, `eslint`, `typescript`).
+- `bobs-lab config list`: Lists all available toolchain configurations (`zed`, `vscode`, `prettier`, `eslint`, `typescript`).
 - `bobs-lab config pull [targets...]`: Pulls configuration files directly into the workspace:
   ```sh
   bobs-lab config pull zed
@@ -60,5 +60,5 @@ pnpm exec bobs-lab --help
 2. **Live Output in Documentation**:
    - Documentation must always render the live output of whatever is being demoed in the docs alongside the code.
 3. **Consolidated Toolchain Configs**:
-   - Toolchain configs (`eslint`, `prettier`, `typescript`, `biome`, `zed`, `vscode`) live canonically in `@bobslab/config`.
+   - Toolchain configs (`eslint`, `prettier`, `typescript`, `zed`, `vscode`) live canonically in `@bobslab/config`.
    - Modular configs can be imported via package references, while editor/workspace configs (Zed, VSCode) can be pulled via `bobs-lab config pull`.

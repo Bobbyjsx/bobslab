@@ -21,8 +21,6 @@
     "./typescript/base.json": "./src/typescript/base.json",
     "./typescript/react-library.json": "./src/typescript/react-library.json",
     "./typescript/nextjs.json": "./src/typescript/nextjs.json",
-    "./biome": "./src/biome/biome.json",
-    "./biome.json": "./src/biome/biome.json",
     "./zed": "./src/zed/settings.json",
     "./vscode": "./src/vscode/settings.json",
     "./vscode/extensions": "./src/vscode/extensions.json"
@@ -33,7 +31,6 @@
     "src/eslint",
     "src/prettier",
     "src/typescript",
-    "src/biome",
     "src/zed",
     "src/vscode"
   ],

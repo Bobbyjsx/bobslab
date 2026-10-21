@@ -40,7 +40,7 @@ Whenever writing or updating documentation in `apps/docs`:
 
 Toolchain configs live canonically in `@bobslab/config`:
 
-- **Modular Imports**: ESLint (`@bobslab/config/eslint`), Prettier (`@bobslab/config/prettier`), TypeScript (`@bobslab/config/typescript/base.json`), and Biome (`@bobslab/config/biome`) can be imported or extended directly in project files.
+- **Modular Imports**: ESLint (`@bobslab/config/eslint`), Prettier (`@bobslab/config/prettier`), and TypeScript (`@bobslab/config/typescript/base.json`) can be imported or extended directly in project files.
 - **CLI Pull**: Editor configs (Zed, VSCode) and project configs that do not support modular imports can be pulled into local workspace files via `bobs-lab config pull <target>` (or `bobs-lab config pull all`).
 
 ---

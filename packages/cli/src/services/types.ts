@@ -26,7 +26,7 @@ export interface ProjectPaths {
 }
 
 export type ConfigTarget =
-  "zed" | "vscode" | "biome" | "prettier" | "eslint" | "typescript" | "all";
+  "zed" | "vscode" | "prettier" | "eslint" | "typescript" | "all";
 
 export interface ConfigManifest {
   name: string;

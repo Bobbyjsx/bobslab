@@ -12,7 +12,6 @@ import {
   next as eslintNext,
 } from "../src/eslint/index";
 import { prettierConfig } from "../src/prettier/index";
-import biomeConfig from "../src/biome/biome.json";
 import zedConfig from "../src/zed/settings.json";
 import vscodeConfig from "../src/vscode/settings.json";
 import tsBase from "../src/typescript/base.json";
@@ -66,7 +65,6 @@ describe("@bobslab/config", () => {
     expect(Array.isArray(reactInternal)).toBe(true);
     expect(Array.isArray(eslintNext)).toBe(true);
     expect(prettierConfig.semi).toBe(true);
-    expect(biomeConfig.formatter.enabled).toBe(true);
     expect(zedConfig.format_on_save).toBe("on");
     expect(vscodeConfig["editor.formatOnSave"]).toBe(true);
     expect(tsBase.compilerOptions.strict).toBe(true);
