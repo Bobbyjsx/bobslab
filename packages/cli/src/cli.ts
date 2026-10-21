@@ -21,8 +21,8 @@ export const createProgram = (dependencies: CliDependencies = {}): Command => {
   const version = dependencies.version ?? readPackageVersion();
 
   program
-    .name("ai-skills")
-    .description("Distribute Bobslab AI coding-agent skills and workspace configs")
+    .name("bobs-lab")
+    .description("The official Bobslab CLI for distributing AI agent skills and workspace toolchain configs")
     .version(version)
     .showHelpAfterError()
     .showSuggestionAfterError();
@@ -37,7 +37,7 @@ export const createProgram = (dependencies: CliDependencies = {}): Command => {
   registerCommands(program, baseOptions, output, dependencies.service);
   program.addHelpText(
     "after",
-    "\nUse `ai-skills pull @frontend` to materialize every Skill with a tag.\nUse `ai-skills config list` to inspect available tooling configurations.\n",
+    "\nExamples:\n  bobs-lab skills pull @frontend\n  bobs-lab skills pull @sdlc\n  bobs-lab skills list\n  bobs-lab config pull zed\n  bobs-lab config list\n",
   );
 
   return program;

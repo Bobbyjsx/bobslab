@@ -7,7 +7,7 @@
 Turborepo monorepo managed with `pnpm`:
 - `packages/ui`: Core UI component library (`@bobslab/ui`).
 - `packages/config`: Consolidated tooling configurations (ESLint, Prettier, TypeScript, Biome, Zed, VSCode) and design tokens (`@bobslab/config`).
-- `packages/ai-skills`: Canonical AI coding-agent skills and config distribution CLI (`@bobslab/ai-skills` / `ai-skills`).
+- `packages/cli`: Official developer CLI (`bobslab` / `bobs-lab`) for distributing AI agent skills (`bobs-lab skills pull`) and toolchain configs (`bobs-lab config pull`).
 - `packages/icons`: Standardized SVG icon primitives.
 - `packages/hooks`: SSR-safe React hooks.
 - `packages/utils`: Utility functions (`cn`, formatting, financial math).
@@ -32,7 +32,7 @@ Whenever writing or updating documentation in `apps/docs`:
 ### 3. Consolidated Toolchain Configs
 Toolchain configs live canonically in `@bobslab/config`:
 - **Modular Imports**: ESLint (`@bobslab/config/eslint`), Prettier (`@bobslab/config/prettier`), TypeScript (`@bobslab/config/typescript/base.json`), and Biome (`@bobslab/config/biome`) can be imported or extended directly in project files.
-- **CLI Pull**: Editor configs (Zed, VSCode) and project configs that do not support modular imports can be pulled into local workspace files via `ai-skills config pull <target>` (or `ai-skills config pull all`).
+- **CLI Pull**: Editor configs (Zed, VSCode) and project configs that do not support modular imports can be pulled into local workspace files via `bobs-lab config pull <target>` (or `bobs-lab config pull all`).
 
 ---
 

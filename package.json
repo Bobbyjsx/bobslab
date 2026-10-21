@@ -13,8 +13,10 @@
     "lint:fix": "turbo lint:fix --",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "check-types": "turbo check-types",
-    "skills": "pnpm --filter @bobslab/ai-skills run dev",
-    "ai-skills": "pnpm --filter @bobslab/ai-skills run dev"
+    "bobslab": "pnpm --filter @bobslab/cli run dev",
+    "bobs-lab": "pnpm --filter @bobslab/cli run dev",
+    "skills": "pnpm --filter @bobslab/cli run dev skills",
+    "cli": "pnpm --filter @bobslab/cli run dev"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

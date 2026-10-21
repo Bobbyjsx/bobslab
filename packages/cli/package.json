@@ -1,11 +1,12 @@
 {
-  "name": "@bobslab/ai-skills",
+  "name": "@bobslab/cli",
   "version": "0.0.1",
-  "description": "CLI for distributing Bobslab AI coding-agent skills and workspace configs",
+  "description": "The official Bobslab CLI for distributing AI agent skills and workspace toolchain configs",
   "type": "module",
   "bin": {
-    "ai-skills": "dist/cli.js",
-    "bobslab-skills": "dist/cli.js"
+    "bobslab": "dist/cli.js",
+    "bobs-lab": "dist/cli.js",
+    "ai-skills": "dist/cli.js"
   },
   "exports": {
     "./package.json": "./package.json"
@@ -20,7 +21,7 @@
     "build": "pnpm exec tsup",
     "check-types": "pnpm exec tsc --noEmit",
     "link": "pnpm link --global",
-    "link:test": "ai-skills --help",
+    "link:test": "bobslab --help",
     "dev": "pnpm exec tsx src/cli.ts"
   },
   "author": "Bobslab",
