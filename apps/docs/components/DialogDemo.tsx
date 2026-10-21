@@ -10,7 +10,6 @@ import {
   DialogHeader,
   DialogRoot,
   DialogTitle,
-  DialogTrigger,
 } from "@bobslab/ui";
 
 export function DialogDemo() {
@@ -23,20 +22,26 @@ export function DialogDemo() {
           1. High-Level Entry Component (Zero Boilerplate)
         </div>
         <p className="text-sm text-muted-foreground mb-4">
-          Uses <code>&lt;Dialog&gt;</code> directly with <code>trigger</code>, <code>title</code>, <code>description</code>, and <code>footer</code> props without assembling sub-primitives.
+          Uses <code>&lt;Dialog&gt;</code> directly with <code>trigger</code>,{" "}
+          <code>title</code>, <code>description</code>, and <code>footer</code>{" "}
+          props without assembling sub-primitives.
         </p>
         <Dialog
           trigger={<Button variant="default">Open Quick Dialog</Button>}
           title="Instant Modal"
           description="Rendered using Bobslab's unified single entry component API."
           footer={
-            <Button variant="outline" onClick={() => alert("Action triggered!")}>
+            <Button
+              variant="outline"
+              onClick={() => alert("Action triggered!")}
+            >
               Done
             </Button>
           }
         >
           <div className="py-2 text-sm text-foreground">
-            This entire dialog requires zero subcomponent assembly. Clean, declarative, and fast.
+            This entire dialog requires zero subcomponent assembly. Clean,
+            declarative, and fast.
           </div>
         </Dialog>
       </div>
@@ -46,7 +51,8 @@ export function DialogDemo() {
           2. Fine-Grained Primitive Composition
         </div>
         <p className="text-sm text-muted-foreground mb-4">
-          For custom headless workflows requiring granular slots and custom layout control.
+          For custom headless workflows requiring granular slots and custom
+          layout control.
         </p>
         <div className="flex items-center gap-3">
           <Button variant="outline" onClick={() => setOpenControlled(true)}>
@@ -58,14 +64,19 @@ export function DialogDemo() {
               <DialogHeader>
                 <DialogTitle>Fine-Grained Composition</DialogTitle>
                 <DialogDescription>
-                  Built with individual primitives: DialogHeader, DialogTitle, DialogContent, and DialogFooter.
+                  Built with individual primitives: DialogHeader, DialogTitle,
+                  DialogContent, and DialogFooter.
                 </DialogDescription>
               </DialogHeader>
               <div className="py-2 text-sm text-muted-foreground">
-                You have total control over every slot, animation, and overlay attribute.
+                You have total control over every slot, animation, and overlay
+                attribute.
               </div>
               <DialogFooter>
-                <Button variant="secondary" onClick={() => setOpenControlled(false)}>
+                <Button
+                  variant="secondary"
+                  onClick={() => setOpenControlled(false)}
+                >
                   Cancel
                 </Button>
                 <Button onClick={() => setOpenControlled(false)}>

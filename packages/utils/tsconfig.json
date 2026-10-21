@@ -1,5 +1,5 @@
 {
-  "extends": "@bobslab/typescript-config/base.json",
+  "extends": "@bobslab/config/typescript/base.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src"

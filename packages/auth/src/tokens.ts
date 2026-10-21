@@ -12,7 +12,9 @@ export interface JwtClaims {
 /**
  * Decodes standard JWT payload without requiring full crypto verify on client.
  */
-export function decodeJwtClaims<T extends JwtClaims = JwtClaims>(token: string): T | null {
+export function decodeJwtClaims<T extends JwtClaims = JwtClaims>(
+  token: string,
+): T | null {
   try {
     const parts = token.split(".");
     if (parts.length < 2 || !parts[1]) return null;
@@ -35,7 +37,10 @@ export function decodeJwtClaims<T extends JwtClaims = JwtClaims>(token: string):
 /**
  * Checks if a JWT token is expired, factoring in an optional safety buffer in seconds.
  */
-export function isTokenExpired(token: string, bufferSeconds: number = 30): boolean {
+export function isTokenExpired(
+  token: string,
+  bufferSeconds: number = 30,
+): boolean {
   const claims = decodeJwtClaims(token);
   if (!claims || !claims.exp) return true;
 

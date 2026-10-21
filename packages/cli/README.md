@@ -9,6 +9,7 @@ Executables: `bobslab` (primary), `bobs-lab` (alias), `ai-skills` (compatibility
 ## Installation & Execution
 
 ### Run without installing (Recommended)
+
 ```sh
 pnpm dlx @bobslab/cli --help
 # or
@@ -16,6 +17,7 @@ npx @bobslab/cli --help
 ```
 
 ### In a monorepo workspace
+
 ```sh
 pnpm add -D @bobslab/cli
 pnpm exec bobs-lab --help

@@ -23,7 +23,22 @@ export const base = [
     },
   },
   {
-    ignores: ["dist/**", ".turbo/**", "node_modules/**", "coverage/**", ".next/**", "out/**"],
+    ignores: [
+      "**/dist/**",
+      "**/.turbo/**",
+      "**/node_modules/**",
+      "**/coverage/**",
+      "**/.next/**",
+      "**/out/**",
+      "**/.agents/**",
+      "**/.codex/**",
+      "**/.claude/**",
+      "**/.cursor/**",
+      "**/.factory/**",
+      "**/patches/**",
+      "**/next-env.d.ts",
+      "packages/cli/skills/**",
+    ],
   },
 ];
 

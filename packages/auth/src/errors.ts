@@ -32,7 +32,10 @@ export function transformServerErrorToString(error: unknown): string {
   if (error && typeof error === "object" && "response" in error) {
     const axiosLike = error as {
       message?: string;
-      response?: { status?: number; data?: { detail?: unknown; message?: unknown } };
+      response?: {
+        status?: number;
+        data?: { detail?: unknown; message?: unknown };
+      };
     };
     const detail =
       axiosLike.response?.data?.detail ?? axiosLike.response?.data?.message;
@@ -79,7 +82,8 @@ export function getErrorMessage(
   if (error && typeof error === "object") {
     // Axios response check
     const anyErr = error as any;
-    const detail = anyErr.response?.data?.detail ?? anyErr.response?.data?.message;
+    const detail =
+      anyErr.response?.data?.detail ?? anyErr.response?.data?.message;
     if (typeof detail === "string") return detail;
 
     // Check parsed server error

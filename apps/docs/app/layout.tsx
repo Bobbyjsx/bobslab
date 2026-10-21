@@ -1,16 +1,17 @@
-import '@bobslab/ui/dist/output.css';
-import 'nextra-theme-docs/style.css';
-import './globals.css';
+import "@bobslab/ui/dist/output.css";
+import "nextra-theme-docs/style.css";
+import "./globals.css";
 
-import * as React from 'react';
-import { Head } from 'nextra/components';
-import { getPageMap } from 'nextra/page-map';
-import { Footer, Layout, Navbar } from 'nextra-theme-docs';
-import { Logo } from '@bobslab/icons';
+import * as React from "react";
+import { Head } from "nextra/components";
+import { getPageMap } from "nextra/page-map";
+import { Footer, Layout, Navbar } from "nextra-theme-docs";
+import { Logo } from "@bobslab/icons";
 
 export const metadata = {
-  title: 'Bobslab UI & Monorepo Docs',
-  description: 'Design system, Base UI primitives, composable Table, utilities, and React hooks',
+  title: "Bobslab UI & Monorepo Docs",
+  description:
+    "Design system, Base UI primitives, composable Table, utilities, and React hooks",
 };
 
 const navbar = (
@@ -26,9 +27,7 @@ const navbar = (
 );
 
 const footer = (
-  <Footer>
-    MIT {new Date().getFullYear()} © Bobslab UI Engineering.
-  </Footer>
+  <Footer>MIT {new Date().getFullYear()} © Bobslab UI Engineering.</Footer>
 );
 
 export default async function RootLayout({

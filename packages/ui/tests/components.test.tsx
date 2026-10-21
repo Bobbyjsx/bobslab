@@ -99,8 +99,16 @@ describe("@bobslab/ui components", () => {
       render(
         <Tabs
           items={[
-            { value: "tab1", label: "Profile", content: <div data-testid="p1">Profile Panel</div> },
-            { value: "tab2", label: "Billing", content: <div data-testid="p2">Billing Panel</div> },
+            {
+              value: "tab1",
+              label: "Profile",
+              content: <div data-testid="p1">Profile Panel</div>,
+            },
+            {
+              value: "tab2",
+              label: "Billing",
+              content: <div data-testid="p2">Billing Panel</div>,
+            },
           ]}
         />,
       );
@@ -141,13 +149,19 @@ describe("@bobslab/ui components", () => {
         <Badge status="completed">Done</Badge>,
       );
       expect(container.firstChild).toBeDefined();
-      expect((container.firstChild as HTMLElement).className).toContain("bg-emerald-50");
+      expect((container.firstChild as HTMLElement).className).toContain(
+        "bg-emerald-50",
+      );
 
       rerender(<Badge status="processing">In Progress</Badge>);
-      expect((container.firstChild as HTMLElement).className).toContain("bg-amber-50");
+      expect((container.firstChild as HTMLElement).className).toContain(
+        "bg-amber-50",
+      );
 
       rerender(<Badge status="failed">Failed</Badge>);
-      expect((container.firstChild as HTMLElement).className).toContain("bg-rose-50");
+      expect((container.firstChild as HTMLElement).className).toContain(
+        "bg-rose-50",
+      );
     });
   });
 

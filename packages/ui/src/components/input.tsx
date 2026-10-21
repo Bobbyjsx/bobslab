@@ -1,8 +1,7 @@
 import * as React from "react";
 import { cn } from "@bobslab/utils";
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   helpText?: string;
@@ -26,7 +25,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
-    const inputId = id ?? (label ? label.toLowerCase().replace(/\s+/g, "-") : undefined);
+    const inputId =
+      id ?? (label ? label.toLowerCase().replace(/\s+/g, "-") : undefined);
 
     return (
       <div className="w-full space-y-1.5 font-sans text-left">
@@ -54,7 +54,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               "block w-full h-9 rounded-xl border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors shadow-2xs focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50",
               leftNode && "pl-9",
               rightNode && "pr-9",
-              error && "border-destructive focus:border-destructive focus:ring-destructive/20",
+              error &&
+                "border-destructive focus:border-destructive focus:ring-destructive/20",
               className,
             )}
             {...props}

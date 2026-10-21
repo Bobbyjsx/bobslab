@@ -90,7 +90,11 @@ export function compactNumber(num: number): string {
 /**
  * Simple word pluralizer helper.
  */
-export function pluralize(count: number, singular: string, plural?: string): string {
+export function pluralize(
+  count: number,
+  singular: string,
+  plural?: string,
+): string {
   return count === 1 ? singular : (plural ?? `${singular}s`);
 }
 

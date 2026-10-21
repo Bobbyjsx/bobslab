@@ -6,7 +6,8 @@ export interface PromptItem {
   tags?: string[];
 }
 
-export const PROMPT_TAG_REGEX = /\[prompt:([^|\]]+)\|([^|\]]+)(?:\|([^\]]*))?\]/g;
+export const PROMPT_TAG_REGEX =
+  /\[prompt:([^|\]]+)\|([^|\]]+)(?:\|([^\]]*))?\]/g;
 
 export interface ParsedPromptTag {
   id: string;
@@ -16,8 +17,7 @@ export interface ParsedPromptTag {
 }
 
 export type PromptTextPart =
-  | { type: "text"; text: string }
-  | { type: "prompt"; tag: ParsedPromptTag };
+  { type: "text"; text: string } | { type: "prompt"; tag: ParsedPromptTag };
 
 export function encodePromptContent(text: string): string {
   try {

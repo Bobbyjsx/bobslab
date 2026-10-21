@@ -14,7 +14,7 @@ Documentation in Bobslab is experiential and visual. Developers should see the r
 > [!IMPORTANT]
 > **MANDATORY RULE:**
 > You MUST show the output of whatever is being demoed in the docs.
-> Simply writing a markdown code block ````tsx ... ```` without rendering its visual output is considered incomplete documentation. Every demoed component, variant, or state must have a corresponding live rendered preview.
+> Simply writing a markdown code block `tsx ... ` without rendering its visual output is considered incomplete documentation. Every demoed component, variant, or state must have a corresponding live rendered preview.
 
 ---
 
@@ -63,12 +63,12 @@ export function ComponentDemo() {
 
 In `apps/docs/app/<component>/page.mdx`:
 
-```mdx
+````mdx
 # Button
 
 Primary interactive element supporting 6 variants and loading state.
 
-import { ButtonDemo } from '@/components/ButtonDemo';
+import { ButtonDemo } from "@/components/ButtonDemo";
 
 ## Interactive Preview
 
@@ -83,6 +83,8 @@ export function Example() {
   return <Button variant="default">Click Me</Button>;
 }
 ```
+````
+
 ```
 
 ---
@@ -93,3 +95,4 @@ export function Example() {
 - [ ] Are all key states shown visually (default, variants, sizes, disabled, loading)?
 - [ ] Is interactive state functional (clicks, toggles, dialog opens, tabs switch)?
 - [ ] Does `apps/docs` build cleanly with `pnpm --filter docs run build` without hydration mismatches or missing imports?
+```

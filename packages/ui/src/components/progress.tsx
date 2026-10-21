@@ -10,7 +10,8 @@ function Progress({
   max = 100,
   ...props
 }: ProgressPrimitive.Root.Props & { value?: number; max?: number }) {
-  const percentage = value != null ? Math.min(Math.max((value / max) * 100, 0), 100) : 0;
+  const percentage =
+    value != null ? Math.min(Math.max((value / max) * 100, 0), 100) : 0;
 
   return (
     <ProgressPrimitive.Root

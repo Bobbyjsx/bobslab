@@ -64,15 +64,14 @@ export function formatPreciseCountdown(
   return { formatted: parts.join(" "), isExpired: false, totalSeconds };
 }
 
-export function getQuotaSnapshot(
-  profile: any,
-  nowMs: number,
-): QuotaSnapshot {
+export function getQuotaSnapshot(profile: any, nowMs: number): QuotaSnapshot {
   const reset6h = profile?.resetAt ?? profile?.reset_at;
   const resetWeekly = profile?.weeklyResetAt ?? profile?.weekly_reset_at;
 
   const is6hExpired = reset6h ? parseUtcMs(reset6h) <= nowMs : false;
-  const isWeeklyExpired = resetWeekly ? parseUtcMs(resetWeekly) <= nowMs : false;
+  const isWeeklyExpired = resetWeekly
+    ? parseUtcMs(resetWeekly) <= nowMs
+    : false;
 
   const pct6h = is6hExpired ? 0 : (profile?.pct6h ?? profile?.pct_6h ?? 0);
   const pctWeekly = isWeeklyExpired

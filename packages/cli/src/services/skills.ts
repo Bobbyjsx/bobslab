@@ -152,7 +152,10 @@ async function getStatus(
     ? "No Skills are available in this distribution."
     : `Installed Skills (${scopeName} scope)\n\n${rows
         .sort((a, b) => a.name.localeCompare(b.name))
-        .map((row) => `${row.name.padEnd(28)}  ${row.version.padEnd(8)}  ${row.status}`)
+        .map(
+          (row) =>
+            `${row.name.padEnd(28)}  ${row.version.padEnd(8)}  ${row.status}`,
+        )
         .join("\n")}`;
 }
 

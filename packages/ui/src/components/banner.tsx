@@ -25,7 +25,8 @@ const bannerVariants = cva(
 );
 
 export interface BannerProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof bannerVariants> {
   title?: string;
   description?: React.ReactNode;
@@ -57,7 +58,11 @@ export function Banner({
   };
 
   return (
-    <div className={cn(bannerVariants({ intent }), className)} role="alert" {...props}>
+    <div
+      className={cn(bannerVariants({ intent }), className)}
+      role="alert"
+      {...props}
+    >
       {showIcon && (
         <span className="shrink-0 mt-0.5">
           {intent === "danger" || intent === "warning" ? (
@@ -69,7 +74,9 @@ export function Banner({
       )}
 
       <div className="flex-1 space-y-1">
-        {title && <h5 className="font-semibold leading-none tracking-tight">{title}</h5>}
+        {title && (
+          <h5 className="font-semibold leading-none tracking-tight">{title}</h5>
+        )}
         {description && <div className="text-xs opacity-90">{description}</div>}
         {children}
         {action && <div className="pt-2">{action}</div>}

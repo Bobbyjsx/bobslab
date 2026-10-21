@@ -90,23 +90,25 @@ const resolvePreferences = async (
       });
     }
 
-    const integrations = cmdOptions.integrations ?? (await checkbox({
-      message: "Which agent integrations would you like to configure?",
-      choices: [
-        {
-          name: "Antigravity CLI (.agents/skills.json)",
-          value: "antigravity",
-          checked: true,
-        },
-        { name: "Cursor (.cursor/rules)", value: "cursor", checked: true },
-        {
-          name: "Claude Code (.claude/skills)",
-          value: "claude",
-          checked: true,
-        },
-        { name: "Codex CLI (.codex/skills)", value: "codex", checked: true },
-      ],
-    }));
+    const integrations =
+      cmdOptions.integrations ??
+      (await checkbox({
+        message: "Which agent integrations would you like to configure?",
+        choices: [
+          {
+            name: "Antigravity CLI (.agents/skills.json)",
+            value: "antigravity",
+            checked: true,
+          },
+          { name: "Cursor (.cursor/rules)", value: "cursor", checked: true },
+          {
+            name: "Claude Code (.claude/skills)",
+            value: "claude",
+            checked: true,
+          },
+          { name: "Codex CLI (.codex/skills)", value: "codex", checked: true },
+        ],
+      }));
 
     const root = scope === "global" ? os.homedir() : options.projectRoot;
     return { root, scope, integrations };
@@ -139,7 +141,10 @@ export const registerCommands = (
     output.info(formatSkillsList(await service.list()));
   };
 
-  const pullHandler = async (skillNames: string[], cmdOptions: CommandOptions) => {
+  const pullHandler = async (
+    skillNames: string[],
+    cmdOptions: CommandOptions,
+  ) => {
     const invalidRequest = skillNames.find((name) => {
       const value = name.startsWith("@") ? name.slice(1) : name;
       return name.startsWith("@") ? !isSkillTag(value) : !isSkillName(value);
@@ -181,8 +186,13 @@ export const registerCommands = (
 
   skillsCommand
     .command("pull [skills...]")
-    .description("Materialize bundled Skills by name or @tag (e.g. @frontend, @sdlc)")
-    .option("-y, --yes", "Skip prompts and pull skills using project-level settings")
+    .description(
+      "Materialize bundled Skills by name or @tag (e.g. @frontend, @sdlc)",
+    )
+    .option(
+      "-y, --yes",
+      "Skip prompts and pull skills using project-level settings",
+    )
     .option("--scope <scope>", "Installation scope: project or global")
     .addHelpText(
       "after",
@@ -216,11 +226,15 @@ export const registerCommands = (
   // 2. CONFIG SUBCOMMAND GROUP (bobs-lab config pull, bobs-lab config list)
   const configCommand = program
     .command("config")
-    .description("Manage and pull Bobslab toolchain configurations (Zed, VSCode, Biome, Prettier, ESLint, TypeScript)");
+    .description(
+      "Manage and pull Bobslab toolchain configurations (Zed, VSCode, Biome, Prettier, ESLint, TypeScript)",
+    );
 
   configCommand
     .command("list")
-    .description("List available toolchain configs and their distribution types")
+    .description(
+      "List available toolchain configs and their distribution types",
+    )
     .action(async () => {
       const service = getService();
       output.info(await service.listConfigs());
@@ -228,7 +242,9 @@ export const registerCommands = (
 
   configCommand
     .command("pull [targets...]")
-    .description("Pull toolchain config files directly into the workspace (e.g. zed, vscode, biome, prettier, eslint, typescript, all)")
+    .description(
+      "Pull toolchain config files directly into the workspace (e.g. zed, vscode, biome, prettier, eslint, typescript, all)",
+    )
     .addHelpText(
       "after",
       "\nExamples:\n  bobs-lab config pull zed\n  bobs-lab config pull vscode\n  bobs-lab config pull all\n",
@@ -241,13 +257,14 @@ export const registerCommands = (
   // Top-level aliases for backwards compatibility
   program
     .command("pull [skills...]", { hidden: true })
-    .option("-y, --yes", "Skip prompts and pull skills using project-level settings")
+    .option(
+      "-y, --yes",
+      "Skip prompts and pull skills using project-level settings",
+    )
     .option("--scope <scope>", "Installation scope: project or global")
     .action(pullHandler);
 
-  program
-    .command("list", { hidden: true })
-    .action(listHandler);
+  program.command("list", { hidden: true }).action(listHandler);
 
   program
     .command("init", { hidden: true })
@@ -255,9 +272,7 @@ export const registerCommands = (
     .option("--scope <scope>")
     .action(initHandler);
 
-  program
-    .command("status", { hidden: true })
-    .action(statusHandler);
+  program.command("status", { hidden: true }).action(statusHandler);
 
   program
     .command("update", { hidden: true })
