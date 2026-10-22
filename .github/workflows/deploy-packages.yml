@@ -67,10 +67,19 @@ jobs:
             console.log(`\n========================================`);
             console.log(`Publishing production release: ${p.name}@${p.newVersion}`);
             console.log(`========================================\n`);
-            execSync(`pnpm --filter "${p.name}" publish --access public --no-git-checks`, {
-              stdio: "inherit",
-              env: { ...process.env, NODE_AUTH_TOKEN: process.env.NPM_TOKEN }
-            });
+            try {
+              execSync(`pnpm --filter "${p.name}" publish --access public --no-git-checks`, {
+                stdio: "inherit",
+                env: { ...process.env, NODE_AUTH_TOKEN: process.env.NPM_TOKEN }
+              });
+            } catch (err) {
+              const msg = err.message || "";
+              if (msg.includes("previously published") || msg.includes("Cannot publish over") || msg.includes("E403") || msg.includes("E409")) {
+                console.warn(`Package ${p.name}@${p.newVersion} is already published or staged on npm. Continuing.`);
+              } else {
+                throw err;
+              }
+            }
           }
           '
 
