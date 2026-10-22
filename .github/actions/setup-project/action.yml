@@ -1,11 +1,5 @@
 name: "Setup Bobslab Monorepo"
-description: "Sets up pnpm, Node.js with npm registry configuration, and installs dependencies"
-
-inputs:
-  npm_token:
-    description: "NPM authentication token for publishing or installing private packages"
-    required: false
-    default: ""
+description: "Sets up pnpm, Node.js, and installs dependencies"
 
 runs:
   using: "composite"
@@ -18,12 +12,13 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: 22
         cache: "pnpm"
-        registry-url: "https://registry.npmjs.org"
+
+    - name: Ensure npm CLI supports OIDC Trusted Publishing
+      shell: bash
+      run: npm install -g npm@latest
 
     - name: Install Dependencies
       shell: bash
       run: pnpm install --frozen-lockfile
-      env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm_token }}

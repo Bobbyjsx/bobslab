@@ -4,17 +4,22 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
 
 concurrency:
-  group: deploy-packages-${{ github.ref }}
-  cancel-in-progress: false
+  group: deploy-packages-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   deploy:
-    name: Deploy Changed Packages
+    name: Deploy Packages
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
       id-token: write
 
     steps:
@@ -23,22 +28,125 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Fetch Base Branch (PR only)
+        if: github.event_name == 'pull_request'
+        run: git fetch origin ${{ github.base_ref }}
+
       - name: Detect Version Changes
         id: version_check
-        run: node .github/scripts/detect-version-changes.mjs "${{ github.event.before }}"
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            node .github/scripts/detect-version-changes.mjs "origin/${{ github.base_ref }}"
+          else
+            node .github/scripts/detect-version-changes.mjs "${{ github.event.before }}"
+          fi
 
       - name: Report Skip
         if: steps.version_check.outputs.has_changes != 'true'
-        run: echo "No package versions changed in this push. Skipping npm deployment."
+        run: echo "No package versions changed. Skipping npm deployment."
 
       - name: Setup Project
         if: steps.version_check.outputs.has_changes == 'true'
         uses: ./.github/actions/setup-project
-        with:
-          npm_token: ${{ secrets.NPM_TOKEN }}
 
-      - name: Build & Test Changed Packages
-        if: steps.version_check.outputs.has_changes == 'true'
+      # ----------------------------------------------------
+      # PR Test Release Workflow
+      # ----------------------------------------------------
+      - name: Apply PR Test Versions
+        id: apply_versions
+        if: github.event_name == 'pull_request' && steps.version_check.outputs.has_changes == 'true'
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+          RUN_NUMBER: ${{ github.run_number }}
+          PACKAGES_JSON: ${{ steps.version_check.outputs.packages_json }}
+        run: node .github/scripts/apply-pr-version.mjs
+
+      - name: Build & Test (PR)
+        if: github.event_name == 'pull_request' && steps.version_check.outputs.has_changes == 'true'
+        env:
+          PACKAGES_JSON: ${{ steps.version_check.outputs.packages_json }}
+        run: |
+          node -e '
+          const { execSync } = require("node:child_process");
+          const pkgs = JSON.parse(process.env.PACKAGES_JSON);
+          const filters = pkgs.map(p => `--filter="${p.name}..."`).join(" ");
+          console.log(`\n========================================`);
+          console.log(`Building & Testing test packages: ${pkgs.map(p => p.name).join(", ")}`);
+          console.log(`========================================\n`);
+          execSync(`pnpm exec turbo build ${filters}`, { stdio: "inherit" });
+          execSync(`pnpm exec turbo test ${filters}`, { stdio: "inherit" });
+          '
+
+      - name: Publish Test Packages to npm (OIDC)
+        if: github.event_name == 'pull_request' && steps.version_check.outputs.has_changes == 'true'
+        env:
+          UPDATED_PACKAGES_JSON: ${{ steps.apply_versions.outputs.updated_packages_json }}
+        run: |
+          node -e '
+          const { execSync } = require("node:child_process");
+          const pkgs = JSON.parse(process.env.UPDATED_PACKAGES_JSON);
+          for (const p of pkgs) {
+            console.log(`\n========================================`);
+            console.log(`Publishing OIDC test release: ${p.name}@${p.testVersion}`);
+            console.log(`========================================\n`);
+            try {
+              execSync(`pnpm --filter "${p.name}" publish --tag test --access public --no-git-checks`, {
+                stdio: "inherit"
+              });
+            } catch (err) {
+              const msg = err.message || "";
+              if (msg.includes("previously published") || msg.includes("Cannot publish over") || msg.includes("E403") || msg.includes("E409")) {
+                console.warn(`Test package ${p.name}@${p.testVersion} is already published or staged on npm. Continuing.`);
+              } else {
+                throw err;
+              }
+            }
+          }
+          '
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.version_check.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const commentBody = process.env.COMMENT_MARKDOWN;
+            const issue_number = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const comments = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number,
+            });
+
+            const botComment = comments.data.find(c =>
+              c.body && c.body.includes("Bobslab Prerelease Test Build")
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: botComment.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body: commentBody,
+              });
+            }
+        env:
+          COMMENT_MARKDOWN: ${{ steps.apply_versions.outputs.comment_markdown }}
+
+      # ----------------------------------------------------
+      # Main Production Release Workflow
+      # ----------------------------------------------------
+      - name: Build & Test (Main)
+        if: github.event_name == 'push' && steps.version_check.outputs.has_changes == 'true'
         env:
           PACKAGES_JSON: ${{ steps.version_check.outputs.packages_json }}
         run: |
@@ -53,11 +161,9 @@ jobs:
           execSync(`pnpm exec turbo test ${filters}`, { stdio: "inherit" });
           '
 
-      - name: Publish to npm
-        if: steps.version_check.outputs.has_changes == 'true'
+      - name: Publish Production Release to npm (OIDC)
+        if: github.event_name == 'push' && steps.version_check.outputs.has_changes == 'true'
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           PACKAGES_JSON: ${{ steps.version_check.outputs.packages_json }}
         run: |
           node -e '
@@ -65,12 +171,11 @@ jobs:
           const pkgs = JSON.parse(process.env.PACKAGES_JSON);
           for (const p of pkgs) {
             console.log(`\n========================================`);
-            console.log(`Publishing production release: ${p.name}@${p.newVersion}`);
+            console.log(`Publishing OIDC production release: ${p.name}@${p.newVersion}`);
             console.log(`========================================\n`);
             try {
-              execSync(`pnpm --filter "${p.name}" publish --access public --no-git-checks`, {
-                stdio: "inherit",
-                env: { ...process.env, NODE_AUTH_TOKEN: process.env.NPM_TOKEN }
+              execSync(`pnpm --filter "${p.name}" publish --access public --provenance --no-git-checks`, {
+                stdio: "inherit"
               });
             } catch (err) {
               const msg = err.message || "";
@@ -84,7 +189,7 @@ jobs:
           '
 
       - name: Create Git Tags
-        if: steps.version_check.outputs.has_changes == 'true'
+        if: github.event_name == 'push' && steps.version_check.outputs.has_changes == 'true'
         env:
           PACKAGES_JSON: ${{ steps.version_check.outputs.packages_json }}
         run: |
