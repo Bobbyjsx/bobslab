@@ -43,6 +43,13 @@ Toolchain configs live canonically in `@bobslab/config`:
 - **Modular Imports**: ESLint (`@bobslab/config/eslint`), Prettier (`@bobslab/config/prettier`), and TypeScript (`@bobslab/config/typescript/base.json`) can be imported or extended directly in project files.
 - **CLI Pull**: Editor configs (Zed, VSCode) and project configs that do not support modular imports can be pulled into local workspace files via `bobs-lab config pull <target>` (or `bobs-lab config pull all`).
 
+### 4. Mandatory Version Bumping for Redeployments
+
+Whenever adding, updating, or fixing components or capabilities in any library package (`packages/ui`, `packages/cli`, `packages/icons`, `packages/config`, `packages/utils`, `packages/hooks`, `packages/ai`, `packages/auth`) that require a redeployment or release:
+
+- You MUST increment the package's `version` field in `package.json` according to semver (patch bump while `< 1.0.0`).
+- Automated release workflows (OIDC npm publishing) only publish packages with new versions. Never leave versions unchanged for changes intended for distribution.
+
 ---
 
 ## Component Discovery Workflow (MANDATORY)

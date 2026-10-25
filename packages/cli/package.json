@@ -1,6 +1,6 @@
 {
   "name": "@bobslab/cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The official Bobslab CLI for distributing AI agent skills and workspace toolchain configs",
   "type": "module",
   "bin": {
