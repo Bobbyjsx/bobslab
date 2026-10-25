@@ -1,8 +1,8 @@
 ---
 name: create-component
-description: Use when adding a new component to the Bobslab component library, or extending/documenting an existing one — covers library source, dual-layer API (primitives + single entry component), package export, docs interactive demo with live rendered output, MDX page, sidebar registration, and build verification. Triggers on "add a component", "create a new component", "scaffold a component for Bobslab", or requests to document/export an existing undocumented component.
+description: Use when adding a new component to the Bobslab component library, or extending/documenting an existing one — covers library source, dual-layer API (primitives + single entry component), package export, package version bumping for redeployment, docs interactive demo with live rendered output, MDX page, sidebar registration, and build verification. Triggers on "add a component", "create a new component", "scaffold a component for Bobslab", or requests to document/export an existing undocumented component.
 tags: [frontend, component, ui]
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Create a Bobslab Component
@@ -12,6 +12,7 @@ Scaffolds a component following Bobslab's strict architectural standards:
 1. **Dual-Layer Component Design**: Always export headless/fine-grained primitives, BUT also build and export one high-level entry component that can be used out-of-the-box without primitives if fine-grained UI is not needed.
 2. **Mandatory Live Output in Docs**: In documentation writing, you MUST show the rendered output of whatever is being demoed, alongside the code block.
 3. **Canonical Reference**: Check `Dialog`, `Tabs`, and `Table` in `@bobslab/ui` and `apps/docs`.
+4. **Mandatory Version Bumping for Redeployments**: Whenever working in a UI library, component library, or toolchain package, versions in `package.json` MUST be bumped for changes that require a redeployment (e.g., adding a component to `@bobslab/ui`, or updating distributed skills in `@bobslab/cli` moving it from `0.0.1` ➔ `0.0.2`).
 
 ---
 
@@ -85,7 +86,23 @@ export type {
 
 ---
 
-## 3. Docs Interactive Demo Component (Live Output Required)
+## 3. Package Version Bump (Mandatory for Redeployments)
+
+In a published component library and toolchain monorepo, code changes alone do not update downstream consumers until a new release is published. Automated CI/CD release pipelines (such as GitHub Actions with OIDC / npm publishing) require a version bump to trigger packaging and redeployment.
+
+Whenever changes in a library or package require a redeployment:
+
+- Identify the affected package (e.g. `packages/ui`, `packages/cli`, `packages/icons`, `packages/config`).
+- Bump the `version` field in `package.json`:
+  - Patch bump for backwards-compatible additions, fixes, and asset updates (e.g., `0.0.1` ➔ `0.0.2`, `0.0.2` ➔ `0.0.3`).
+  - Monorepo invariant: keep packages `< 1.0.0` during pre-1.0 development.
+- **Example**: updating AI skills or toolchain configs distributed by `@bobslab/cli` requires moving `@bobslab/cli` from `0.0.1` ➔ `0.0.2`.
+- **Example**: adding or updating a component in `@bobslab/ui` requires moving `@bobslab/ui` to the next patch version (e.g., `0.0.3` ➔ `0.0.4`).
+- Never skip version bumping when delivering changes that need to be published or redeployed.
+
+---
+
+## 4. Docs Interactive Demo Component (Live Output Required)
 
 `apps/docs/components/<ComponentName>Demo.tsx`
 
@@ -108,7 +125,7 @@ export type {
 
 ---
 
-## 4. MDX Documentation Page
+## 5. MDX Documentation Page
 
 `apps/docs/app/<component-name>/page.mdx`
 
@@ -167,7 +184,7 @@ export function CustomExample() {
 
 ---
 
-## 5. Sidebar Registration
+## 6. Sidebar Registration
 
 Register the page in `apps/docs/app/_meta.js`:
 
@@ -177,11 +194,12 @@ Register the page in `apps/docs/app/_meta.js`:
 
 ---
 
-## 6. Verification
+## 7. Verification
 
 Run from workspace root before completing:
 
-1. `pnpm run check-types`
-2. `pnpm run lint`
-3. `pnpm run test`
-4. `pnpm run build` — builds all packages and statically generates every Nextra docs page.
+1. Verify package version is bumped in `package.json` for any package requiring redeployment.
+2. `pnpm run check-types`
+3. `pnpm run lint`
+4. `pnpm run test`
+5. `pnpm run build` — builds all packages and statically generates every Nextra docs page.
