@@ -1,38 +1,60 @@
 # Utilities (`@bobslab/utils`)
 
-General utilities for formatting, casing, DOM classnames, and calculations.
+Core utility functions for class concatenation (`cn`), case transformation, financial math, and currency formatting.
 
-## `cn`
+import { UtilsDemo } from '@/components/UtilsDemo';
 
-Merges Tailwind classes reliably using `clsx` and `tailwind-merge`:
+## Interactive Playground
+
+<UtilsDemo />
+
+## Installation
+
+```bash
+pnpm add @bobslab/utils
+```
+
+## Functions
+
+### `cn`
+
+Merges Tailwind CSS classes reliably using `clsx` and `tailwind-merge`:
 
 ```ts
 import { cn } from "@bobslab/utils";
 
-const className = cn("px-2 py-1", isError && "border-red-500", customClass);
+const className = cn("p-4", isPrimary && "bg-primary text-primary-foreground");
 ```
 
-## `case-transform`
+### `formatCurrency`
 
-Deeply transforms object keys between `camelCase` and `snake_case`:
+Formats numerical values into localized currency strings with symbol placement:
+
+```ts
+import { formatCurrency } from "@bobslab/utils";
+
+formatCurrency(2500, "USD"); // "$2,500.00"
+formatCurrency(250000, "NGN"); // "₦250,000.00"
+```
+
+### `formatSize`
+
+Converts raw byte integers into human-readable data quantities:
+
+```ts
+import { formatSize } from "@bobslab/utils";
+
+formatSize(1048576); // "1 MB"
+formatSize(52428800); // "50 MB"
+```
+
+### `keysToCamel` & `keysToSnake`
+
+Deeply transforms JSON payload keys between `camelCase` and `snake_case`:
 
 ```ts
 import { keysToCamel, keysToSnake } from "@bobslab/utils";
 
-const clientData = keysToCamel({ user_first_name: "Jane" });
-// { userFirstName: "Jane" }
-
-const backendPayload = keysToSnake(clientData);
-// { user_first_name: "Jane" }
-```
-
-## Formatters
-
-```ts
-import { formatCurrency, formatSize, timeAgo, compactNumber } from "@bobslab/utils";
-
-formatCurrency(2500, "USD"); // "$2,500.00"
-formatSize(1048576); // "1 MB"
-timeAgo(new Date(Date.now() - 3600000)); // "1h ago"
-compactNumber(15400); // "15.4K"
+const client = keysToCamel({ user_id: 123, created_at: "2026-10-22" });
+// { userId: 123, createdAt: "2026-10-22" }
 ```

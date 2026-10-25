@@ -1,0 +1,55 @@
+# Select
+
+Accessible dropdown menu for choosing an item from a list of options, built on Base UI primitives.
+
+import { SelectDemo } from '@/components/SelectDemo';
+
+## Interactive Preview
+
+<SelectDemo />
+
+## Usage
+
+```tsx
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@bobslab/ui";
+
+export function Example() {
+  const [val, setVal] = React.useState("ui");
+
+  return (
+    <Select value={val} onValueChange={setVal}>
+      <SelectTrigger>
+        <SelectValue placeholder="Choose a package" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="ui">@bobslab/ui</SelectItem>
+        <SelectItem value="icons">@bobslab/icons</SelectItem>
+        <SelectItem value="hooks">@bobslab/hooks</SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+## Props Reference
+
+### `<Select>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string \| null` | — | Controlled active selected value. |
+| `defaultValue` | `string` | — | Uncontrolled default selected value. |
+| `onValueChange` | `(value: string) => void` | — | Callback invoked when selected option changes. |
+
+### Subcomponents
+
+- `<SelectTrigger>`: Interactive toggle button displaying active selection and chevron.
+- `<SelectValue>`: Displays the text label of the selected item.
+- `<SelectContent>`: Floating menu container positioned with proper viewport collision avoidance.
+- `<SelectItem>`: Individual selectable item supporting focus, hover, and checkmark indicator.

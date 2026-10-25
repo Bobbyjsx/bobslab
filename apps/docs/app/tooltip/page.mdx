@@ -1,0 +1,44 @@
+# Tooltip
+
+A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it, built on Base UI primitives.
+
+import { TooltipDemo } from '@/components/TooltipDemo';
+
+## Interactive Preview
+
+<TooltipDemo />
+
+## Usage
+
+```tsx
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+  Button,
+} from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger render={<Button variant="outline">Hover</Button>} />
+        <TooltipContent>
+          <span>Helpful contextual note</span>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+```
+
+## Props Reference
+
+### `<TooltipContent>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `sideOffset` | `number` | `4` | Offset in pixels between the trigger element and tooltip. |
+| `className` | `string` | `""` | Additional styling classes. |
+| `children` | `React.ReactNode` | — | Text or graphic content. |

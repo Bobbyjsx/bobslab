@@ -1,0 +1,65 @@
+# Tooling & Tokens (`@bobslab/config`)
+
+Consolidated toolchain configurations (ESLint, Prettier, TypeScript, Biome, Zed, VSCode) and design tokens.
+
+import { ConfigDemo } from '@/components/ConfigDemo';
+
+## Interactive Tokens Preview
+
+<ConfigDemo />
+
+## Installation
+
+```bash
+pnpm add -D @bobslab/config
+```
+
+## Shared Configurations
+
+### ESLint Flat Config (`eslint.config.mjs`)
+
+```js
+import { baseConfig } from "@bobslab/config/eslint";
+
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      "no-console": "warn",
+    },
+  },
+];
+```
+
+### Prettier (`prettier.config.mjs`)
+
+```js
+import prettierConfig from "@bobslab/config/prettier";
+
+export default {
+  ...prettierConfig,
+  semi: true,
+};
+```
+
+### TypeScript (`tsconfig.json`)
+
+```json
+{
+  "extends": "@bobslab/config/typescript/base.json",
+  "compilerOptions": {
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"]
+}
+```
+
+## Exported Constants
+
+| Constant | Description |
+| :--- | :--- |
+| `THEME_COLORS` | Maps theme keys to standard CSS variables (`var(--primary)`, etc.). |
+| `RADII` | Consistent border-radius scale tokens (`sm`, `md`, `lg`, `xl`, `2xl`, `full`). |
+| `BREAKPOINTS` | Standard responsive viewport thresholds (`sm: 640px`, `md: 768px`, etc.). |
+| `createConfig` | Freezes and validates structured configuration objects. |
+| `getRequiredEnv` | Strict environment variable accessor with fallback support. |

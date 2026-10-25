@@ -1,0 +1,42 @@
+# Input
+
+Text input component with integrated labels, error validation messages, helper text, and icon adornments.
+
+import { InputDemo } from '@/components/InputDemo';
+
+## Interactive Preview
+
+<InputDemo />
+
+## Usage
+
+```tsx
+import { Input } from "@bobslab/ui";
+import { SearchIcon } from "@bobslab/icons";
+
+export function Example() {
+  return (
+    <Input
+      label="Organization Name"
+      placeholder="e.g. Acme Corp"
+      required
+      helpText="Your legal entity name."
+      leftNode={<SearchIcon size={16} />}
+    />
+  );
+}
+```
+
+## Props Reference
+
+### `<Input>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `string` | — | Label rendered above the input element. |
+| `error` | `string` | — | Validation error message triggering destructive styling. |
+| `helpText` | `string` | — | Supportive caption rendered below the input. |
+| `leftNode` | `React.ReactNode` | — | Element rendered inside the left border (e.g. icons). |
+| `rightNode` | `React.ReactNode` | — | Element rendered inside the right border (e.g. badges, buttons). |
+| `required` | `boolean` | `false` | Displays a required asterisk indicator. |
+| `disabled` | `boolean` | `false` | Disables interaction and dims opacity. |

@@ -1,24 +1,38 @@
-# Auth Primitives (`@bobslab/auth`)
+# Auth & JWT Tokens (`@bobslab/auth`)
 
-Authentication lifecycle coordinator, JWT decoder, and normalized error handling.
+Token lifecycle manager (`AuthManager`), client-side JWT claim decoder, and normalized Server Action errors.
+
+import { AuthDemo } from '@/components/AuthDemo';
+
+## Interactive Token Decoder Playground
+
+<AuthDemo />
+
+## Installation
+
+```bash
+pnpm add @bobslab/auth
+```
 
 ## `AuthManager`
 
-Deduplicates in-flight refresh requests and emits lifecycle events across your app:
+Coordinates in-flight token refresh operations to prevent concurrent duplicate refresh requests across multiple tabs or API calls:
 
 ```ts
 import { authManager } from "@bobslab/auth";
 
 authManager.setRefreshHandler(async () => {
-  const response = await fetch("/api/auth/refresh", { method: "POST" });
-  return await response.json();
+  const res = await fetch("/api/auth/refresh", { method: "POST" });
+  return await res.json();
 });
 
-// Any component or Axios interceptor can request a fresh token:
+// Components or interceptors call:
 const tokens = await authManager.refreshToken();
 ```
 
 ## JWT Claim Decoder
+
+Extract user payload claims and inspect expiration status with safety buffer:
 
 ```ts
 import { decodeJwtClaims, isTokenExpired } from "@bobslab/auth";

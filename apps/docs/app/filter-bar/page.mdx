@@ -1,0 +1,46 @@
+# Filter Bar
+
+Composable toolbar for query filtering, search inputs, batch actions, and list controls.
+
+import { FilterBarDemo } from '@/components/FilterBarDemo';
+
+## Interactive Preview
+
+<FilterBarDemo />
+
+## Usage
+
+```tsx
+import { TableFilterBar, TableSearchInput, Button } from "@bobslab/ui";
+
+export function Example() {
+  const [search, setSearch] = React.useState("");
+
+  return (
+    <TableFilterBar>
+      <TableSearchInput
+        value={search}
+        onChange={setSearch}
+        onClear={() => setSearch("")}
+        placeholder="Filter by name or slug..."
+      />
+      <div className="flex items-center gap-2">
+        <Button size="sm" variant="outline">Reset</Button>
+        <Button size="sm">Export</Button>
+      </div>
+    </TableFilterBar>
+  );
+}
+```
+
+## Props Reference
+
+### `<TableSearchInput>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | *(required)* | Active text value of the filter input. |
+| `onChange` | `(val: string) => void` | *(required)* | Callback triggered as user types. |
+| `onClear` | `() => void` | — | Callback triggered when the clear button is clicked. |
+| `placeholder` | `string` | `"Search..."` | Placeholder text. |
+| `className` | `string` | `""` | Container styling overrides. |

@@ -1,0 +1,33 @@
+# Spinner
+
+Circular loading indicator for communicating pending asynchronous actions and fetching states.
+
+import { SpinnerDemo } from '@/components/SpinnerDemo';
+
+## Interactive Preview
+
+<SpinnerDemo />
+
+## Usage
+
+```tsx
+import { Spinner } from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <div className="flex items-center gap-2">
+      <Spinner size="md" />
+      <span>Loading dataset...</span>
+    </div>
+  );
+}
+```
+
+## Props Reference
+
+### `<Spinner>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Spinner dimensions (`sm: 14px`, `md: 18px`, `lg: 24px`). |
+| `className` | `string` | `""` | Additional styling classes. |

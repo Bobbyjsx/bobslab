@@ -1,0 +1,62 @@
+# Tabs
+
+Layered sections of content displayed one at a time, built on Base UI primitives.
+
+import { TabsDemo } from '@/components/TabsDemo';
+
+## Interactive Preview
+
+<TabsDemo />
+
+## Usage
+
+### High-Level Entry Component
+
+```tsx
+import { Tabs } from "@bobslab/ui";
+
+const items = [
+  { value: "account", label: "Account", content: <div>Account Settings</div> },
+  { value: "password", label: "Password", content: <div>Change Password</div> },
+];
+
+export function Example() {
+  return <Tabs items={items} defaultValue="account" />;
+}
+```
+
+### Granular Primitives Composition
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@bobslab/ui";
+
+export function ExampleWithPrimitives() {
+  return (
+    <Tabs defaultValue="overview">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="analytics">Analytics</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">Overview content</TabsContent>
+      <TabsContent value="analytics">Analytics charts</TabsContent>
+    </Tabs>
+  );
+}
+```
+
+## Props Reference
+
+### `<Tabs>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | — | Controlled active tab value. |
+| `defaultValue` | `string` | — | Uncontrolled default active tab value. |
+| `onValueChange` | `(value: string) => void` | — | Callback invoked when active tab changes. |
+| `items` | `TabItem[]` | — | Array of tab items for zero-boilerplate high-level rendering. |
+
+### Subcomponents
+
+- `<TabsList>`: Container for the interactive tab trigger buttons.
+- `<TabsTrigger>`: Individual tab button supporting keyboard arrow navigation.
+- `<TabsContent>`: Content container rendered when matching tab is active.

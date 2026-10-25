@@ -1,0 +1,39 @@
+# Empty State
+
+Placeholder component for blank states, empty search results, and zero-data screens.
+
+import { EmptyStateDemo } from '@/components/EmptyStateDemo';
+
+## Interactive Preview
+
+<EmptyStateDemo />
+
+## Usage
+
+```tsx
+import { EmptyState, Button } from "@bobslab/ui";
+import { SearchIcon } from "@bobslab/icons";
+
+export function Example() {
+  return (
+    <EmptyState
+      icon={<SearchIcon size={24} />}
+      title="No transactions found"
+      description="You have not initiated any payments in this billing cycle."
+      action={<Button size="sm">Create Payment</Button>}
+    />
+  );
+}
+```
+
+## Props Reference
+
+### `<EmptyState>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | `string` | *(required)* | Primary heading explaining the empty state. |
+| `description` | `string` | — | Explanatory message or guidance on next steps. |
+| `icon` | `React.ReactNode` | — | Decorative SVG icon or graphic. |
+| `action` | `React.ReactNode` | — | Primary action trigger (e.g. `<Button />`). |
+| `className` | `string` | `""` | Additional styling classes. |

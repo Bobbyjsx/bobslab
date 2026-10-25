@@ -1,0 +1,39 @@
+# Popover
+
+Floating overlay component for presenting contextual details and controls, built on Base UI primitives.
+
+import { PopoverDemo } from '@/components/PopoverDemo';
+
+## Interactive Preview
+
+<PopoverDemo />
+
+## Usage
+
+```tsx
+import { Popover, PopoverTrigger, PopoverContent, Button } from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <Popover>
+      <PopoverTrigger render={<Button variant="outline">Settings</Button>} />
+      <PopoverContent>
+        <div className="space-y-2 text-xs">
+          <h4 className="font-semibold text-sm">Notifications</h4>
+          <p className="text-muted-foreground">Configure webhook endpoints.</p>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+```
+
+## Props Reference
+
+### `<PopoverContent>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `sideOffset` | `number` | `4` | Distance in pixels between the popover trigger and the popover panel. |
+| `className` | `string` | `""` | Additional styling classes. |
+| `children` | `React.ReactNode` | — | Popover content container. |

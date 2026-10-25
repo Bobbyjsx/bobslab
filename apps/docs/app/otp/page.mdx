@@ -1,10 +1,10 @@
 # OTP Input
 
-Accessible numeric one-time-password input with automatic focus progression and paste distribution.
+Accessible numeric one-time-password input with automatic focus progression, backspace recovery, and clipboard paste distribution.
 
 import { OtpDemo } from '@/components/OtpDemo';
 
-## Live Interactive Demo
+## Interactive Preview
 
 <OtpDemo />
 
@@ -21,7 +21,21 @@ export function OtpExample() {
       length={6}
       value={otp}
       onChange={setOtp}
+      onComplete={(code) => console.log("OTP Complete:", code)}
     />
   );
 }
 ```
+
+## Props Reference
+
+### `<OtpInput>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `length` | `number` | `6` | Total count of digit boxes to render. |
+| `value` | `string` | *(required)* | Active string representation of the entered digits. |
+| `onChange` | `(val: string) => void` | *(required)* | Callback triggered whenever any digit changes. |
+| `onComplete` | `(code: string) => void` | — | Callback triggered when the final digit box is filled. |
+| `disabled` | `boolean` | `false` | Whether input interaction is disabled. |
+| `error` | `boolean` | `false` | Triggers error border highlight across all boxes. |

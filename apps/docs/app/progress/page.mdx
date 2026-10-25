@@ -1,0 +1,29 @@
+# Progress
+
+Visual status indicator representing task completion percentages, built on Base UI primitives.
+
+import { ProgressDemo } from '@/components/ProgressDemo';
+
+## Interactive Preview
+
+<ProgressDemo />
+
+## Usage
+
+```tsx
+import { Progress } from "@bobslab/ui";
+
+export function Example() {
+  return <Progress value={65} max={100} />;
+}
+```
+
+## Props Reference
+
+### `<Progress>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `number` | `0` | Current numerical progress value. |
+| `max` | `number` | `100` | Maximum numerical progress bound. |
+| `className` | `string` | `""` | Additional styling classes. |
