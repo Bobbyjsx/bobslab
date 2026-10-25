@@ -50,7 +50,7 @@
         "desiredOutcome",
         "requirements",
         "acceptanceCriteria",
-        "tasks"
+        "subIssues"
       ],
       "properties": {
         "id": { "type": "string" },
@@ -63,7 +63,7 @@
           "type": "array",
           "items": { "type": "string" }
         },
-        "tasks": {
+        "subIssues": {
           "type": "array",
           "items": {
             "type": "object",
@@ -77,13 +77,23 @@
             ],
             "properties": {
               "id": { "type": "string" },
+              "linearId": { "type": "string" },
               "title": { "type": "string" },
+              "description": { "type": "string" },
               "assignedRole": { "type": "string" },
               "status": { "type": "string" },
               "retryCount": { "type": "number" },
               "maxRetries": { "type": "number" },
+              "branch": { "type": "string" },
               "candidateSha": { "type": "string" },
-              "prUrl": { "type": "string" }
+              "prUrl": { "type": "string" },
+              "coDependentWith": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "qaStatus": { "type": "string" },
+              "prApproved": { "type": "boolean" },
+              "mergedToStaging": { "type": "boolean" }
             }
           }
         }
@@ -102,14 +112,17 @@
             "notes": { "type": "string" }
           }
         },
-        "story": {
+        "gateB": {
           "type": "object",
           "required": ["approved", "timestamp", "approver"],
           "properties": {
             "approved": { "type": "boolean" },
             "timestamp": { "type": "string" },
             "approver": { "type": "string" },
-            "candidateSha": { "type": "string" },
+            "authorizedPrUrls": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
             "notes": { "type": "string" }
           }
         }

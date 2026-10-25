@@ -10,12 +10,12 @@
 
 ## 1. Governance & Approval Gates
 
-- **Gate A (Plan Approval):** {{GATE_A_STATUS}}
-- **Gate B (Story Approval):** {{GATE_B_STATUS}}
+- **Gate A (Plan & Sub-Issue Approval):** {{GATE_A_STATUS}}
+- **Gate B (Authorize PR Merges to Staging):** {{GATE_B_STATUS}}
 
 ---
 
-## 2. Story Scope & Acceptance Criteria
+## 2. Parent Story Scope & Acceptance Criteria
 
 **Title:** {{STORY_TITLE}}  
 **Linear Story ID:** {{LINEAR_STORY_ID}}
@@ -28,11 +28,14 @@
 
 ---
 
-## 3. Task Graph & Work Items
+## 3. Modular Sub-Issues & Pull Request Graph
 
-| Task ID | Role | Status | Retries | Candidate SHA | PR Link |
-| :------ | :--- | :----- | :------ | :------------ | :------ |
-{{TASK_ROWS}}
+> [!NOTE]
+> All work items are tracked as first-class modular sub-issues (never markdown `- [ ]` checkboxes in the parent story). Each sub-issue has its own dedicated PR for independent review unless explicitly approved as co-dependent.
+
+| Sub-Issue ID | Linear ID | Title | Branch | PR URL | Co-Dependent With | QA Verdict | PR Review / Approval |
+| :----------- | :-------- | :---- | :----- | :----- | :---------------- | :--------- | :------------------- |
+{{SUB_ISSUE_ROWS}}
 
 ---
 
@@ -46,5 +49,8 @@
 ---
 
 ## 5. Staging Release Manifest
+
+> [!IMPORTANT]
+> Merged to staging strictly via approved Pull Requests upon Gate B human authorization. Direct git push to staging is prohibited.
 
 {{RELEASE_MANIFEST_SUMMARY}}

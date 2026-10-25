@@ -97,18 +97,19 @@ Every agent writing or reviewing code in Bobslab must strictly adhere to comment
 
 Bobslab uses a fully skill-driven, zero-hosting, zero-deployment Software Development Life Cycle factory:
 
-- **Master Orchestrator (`sdlc`)**: Acts as Product Manager and workflow coordinator. Never writes code or authors tests.
+- **Master Orchestrator (`sdlc`)**: Acts as Product Manager and workflow coordinator. Never writes code or authors tests. Enforces modular sub-issues with independent PRs and strict human gates.
+- **Modular Sub-Issue & PR Invariant**: Never use markdown checkboxes (`- [ ]`) in the parent ticket. Work items must be discrete child sub-issues. Each sub-issue must have its own branch and independent PR targeting staging (unless explicitly approved as co-dependent) for isolated code review.
 - **Fan-Out Sub-Skills**:
-  - `sdlc-architect`: Codebase discovery, dependency mapping, and verifiable plan drafting.
-  - `sdlc-implementer`: Atomic feature implementation in isolated worktrees (`.factory/worktrees/sdlc-<task>`).
+  - `sdlc-architect`: Codebase discovery, dependency mapping, modular sub-issue decomposition, and verifiable plan drafting.
+  - `sdlc-implementer`: Atomic feature implementation in isolated worktrees (`.factory/worktrees/sdlc-<sub-issue>`) delivering one focused PR per sub-issue.
   - `sdlc-test-engineer`: Requirements-driven test authoring without assertion weakening.
-  - `sdlc-qa`: Independent verification of exact candidate commit SHAs and anti-tamper test baseline comparison.
+  - `sdlc-qa`: Independent verification of exact candidate commit SHAs on each sub-issue PR and anti-tamper test baseline comparison.
   - `sdlc-triage`: Defect diagnosis, bounded retries (max 3), and escalation.
-  - `sdlc-release`: Staging PR merge and smoke test execution strictly after Gate B approval.
+  - `sdlc-release`: Executes PR merges into staging (never direct push) and smoke test verification strictly upon Gate B approval.
 - **Governance Gates**:
-  - **Gate A**: Explicit human approval of the plan required before writing any code.
-  - **Gate B**: Explicit human approval of verified QA evidence required before merging to staging.
-- **Artifacts**: Authoritative state is projected to `.factory/brain/SDLC-<run-id>.md` and recorded in `.factory/logs/<run-id>.jsonl`.
+  - **Gate A**: Explicit human approval of the plan, sub-issues, and PR strategy required before creating branches or writing code.
+  - **Gate B**: Explicit human approval of verified QA evidence authorizing the merge of the story's approved PRs into staging (direct git push to staging is prohibited).
+- **Artifacts & State Invariant**: Authoritative state is projected to `.factory/brain/SDLC-<run-id>.md` and recorded in `.factory/logs/<run-id>.jsonl`. The `.factory/` runtime directory MUST always be ignored in `.gitignore`.
 
 ---
 
