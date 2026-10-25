@@ -1,0 +1,38 @@
+# Textarea
+
+Multiline text input component with integrated label, validation error feedback, and character guidance.
+
+import { TextareaDemo } from '@/components/TextareaDemo';
+
+## Interactive Preview
+
+<TextareaDemo />
+
+## Usage
+
+```tsx
+import { Textarea } from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <Textarea
+      label="Feedback"
+      placeholder="Let us know how we can improve..."
+      helpText="Max 500 characters."
+    />
+  );
+}
+```
+
+## Props Reference
+
+### `<Textarea>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `string` | — | Label rendered above the textarea. |
+| `error` | `string` | — | Validation error message triggering destructive styling. |
+| `helpText` | `string` | — | Caption rendered below the textarea. |
+| `required` | `boolean` | `false` | Displays a required asterisk indicator. |
+| `disabled` | `boolean` | `false` | Disables interaction and dims opacity. |
+| `className` | `string` | `""` | Additional styling classes. |

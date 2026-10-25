@@ -1,0 +1,63 @@
+# Developer CLI (`@bobslab/cli`)
+
+The official developer CLI (`bobslab` / `bobs-lab`) for distributing AI agent skills (`bobs-lab skills pull`) and workspace toolchain configs (`bobs-lab config pull`).
+
+import { CliDemo } from '@/components/CliDemo';
+
+## Interactive Terminal Preview
+
+<CliDemo />
+
+## Installation
+
+Run directly using `npx` or install globally:
+
+```bash
+# Run ad-hoc without installation
+npx bobs-lab --help
+
+# Or install globally
+pnpm add -g @bobslab/cli
+```
+
+## AI Agent Skills Distribution
+
+Bobslab packages specialized engineering workflows into discoverable skills:
+
+```bash
+# Pull frontend engineering skills bundle
+bobs-lab skills pull @frontend
+
+# Pull full agentic SDLC software factory skills
+bobs-lab skills pull @sdlc
+
+# Pull specific single skill
+bobs-lab skills pull create-component
+
+# List all available skills
+bobs-lab skills list
+```
+
+## Workspace Toolchain Configs
+
+Synchronize canonical editor configurations and tooling presets:
+
+```bash
+# Pull Zed editor settings (Tailwind v4, Biome, Vitest)
+bobs-lab config pull zed
+
+# Pull VSCode workspace settings & extensions
+bobs-lab config pull vscode
+
+# Pull all configurations
+bobs-lab config pull all
+```
+
+## Options Reference
+
+| Flag | Description |
+| :--- | :--- |
+| `--dry-run` | Previews changes without writing files to disk. |
+| `--force` | Overwrites local modifications without prompting. |
+| `--version` | Displays current CLI release version. |
+| `--help` | Prints detailed syntax and available subcommands. |

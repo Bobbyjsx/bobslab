@@ -1,0 +1,38 @@
+# Switch
+
+A control that allows the user to toggle between checked and unchecked states, built on Base UI primitives.
+
+import { SwitchDemo } from '@/components/SwitchDemo';
+
+## Interactive Preview
+
+<SwitchDemo />
+
+## Usage
+
+```tsx
+import { Switch } from "@bobslab/ui";
+
+export function Example() {
+  const [checked, setChecked] = React.useState(false);
+
+  return (
+    <div className="flex items-center gap-2">
+      <Switch checked={checked} onCheckedChange={setChecked} id="airplane-mode" />
+      <label htmlFor="airplane-mode">Airplane Mode</label>
+    </div>
+  );
+}
+```
+
+## Props Reference
+
+### `<Switch>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `checked` | `boolean` | — | Controlled state of the toggle switch. |
+| `defaultChecked` | `boolean` | `false` | Uncontrolled default state. |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Callback invoked when toggle state changes. |
+| `disabled` | `boolean` | `false` | Whether switch interaction is disabled. |
+| `className` | `string` | `""` | Additional styling classes. |

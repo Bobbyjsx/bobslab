@@ -1,6 +1,20 @@
-# Icons Gallery (`@bobslab/icons`)
+# Icon Primitives (`@bobslab/icons`)
 
-Accessible, scalable SVG icons designed for modern user interfaces.
+Accessible, scalable SVG icon primitives designed for high-density developer tools and modern user interfaces.
+
+import { IconsDemo } from '@/components/IconsDemo';
+
+## Interactive Gallery
+
+Click any icon to copy its JSX component markup to your clipboard:
+
+<IconsDemo />
+
+## Installation
+
+```bash
+pnpm add @bobslab/icons
+```
 
 ## Usage
 
@@ -13,23 +27,26 @@ import {
   CloseIcon,
   SearchIcon,
   ChevronDownIcon,
-  ChevronUpIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronsUpDownIcon,
 } from "@bobslab/icons";
 
-export function IconsDemo() {
+export function Example() {
   return (
-    <div className="flex flex-wrap gap-4 items-center">
-      <Logo size={28} />
-      <SpinnerIcon size={20} />
-      <CheckIcon size={20} />
-      <CopyIcon size={20} />
-      <CloseIcon size={20} />
-      <SearchIcon size={20} />
-      <ChevronDownIcon size={20} />
+    <div className="flex items-center gap-3">
+      <Logo size={24} />
+      <SearchIcon size={18} className="text-muted-foreground" />
+      <CheckIcon size={18} className="text-emerald-500" />
     </div>
   );
 }
 ```
+
+## Props Reference
+
+Every icon accepts `IconProps`:
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `size` | `number \| string` | `18` | Rendered width and height in pixels. |
+| `className` | `string` | `""` | Additional CSS class names. |
+| `color` | `string` | `"currentColor"` | Fill or stroke color value. |
+| `title` | `string` | — | Accessible title attribute for screen readers. |

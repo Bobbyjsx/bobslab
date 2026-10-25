@@ -1,0 +1,43 @@
+# Banner
+
+Prominent notification component for system alerts, warnings, and announcements.
+
+import { BannerDemo } from '@/components/BannerDemo';
+
+## Interactive Preview
+
+<BannerDemo />
+
+## Usage
+
+### High-Level Entry Component
+
+```tsx
+import { Banner } from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <Banner
+      intent="info"
+      title="Scheduled Downtime"
+      description="API upgrades scheduled for tonight at 02:00 UTC."
+      showCloseButton
+      onClose={() => console.log("Banner dismissed")}
+    />
+  );
+}
+```
+
+## Props Reference
+
+### `<Banner>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `intent` | `"info" \| "warning" \| "success" \| "danger" \| "gray"` | `"info"` | Visual emphasis and color tokens. |
+| `title` | `string` | — | Primary bold heading of the announcement. |
+| `description` | `React.ReactNode` | — | Supplementary description or details. |
+| `showIcon` | `boolean` | `true` | Whether to render the contextual status icon. |
+| `showCloseButton` | `boolean` | `false` | Renders an interactive dismissal trigger on the right. |
+| `onClose` | `() => void` | — | Callback triggered when the close button is clicked. |
+| `action` | `React.ReactNode` | — | Optional custom action button or link slot. |

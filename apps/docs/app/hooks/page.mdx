@@ -1,35 +1,36 @@
 # React Hooks (`@bobslab/hooks`)
 
-SSR-safe, production-tested hooks for React 19 and 18.
+SSR-safe, production-tested React hooks optimized for React 19 and Next.js App Router.
 
-## `useDebounce`
+import { HooksDemo } from '@/components/HooksDemo';
+
+## Interactive Playground
+
+Test debouncing, countdown timers, clipboard interaction, and local storage state live:
+
+<HooksDemo />
+
+## Installation
+
+```bash
+pnpm add @bobslab/hooks
+```
+
+## Available Hooks
+
+### `useDebounce`
+
+Delays updating a state value until a specified timeout has elapsed since the last change:
 
 ```tsx
 import { useDebounce } from "@bobslab/hooks";
 
-const debouncedSearch = useDebounce(searchTerm, 300);
+const debouncedQuery = useDebounce(searchQuery, 300);
 ```
 
-## `useLocalStorage`
+### `useCountdown`
 
-```tsx
-import { useLocalStorage } from "@bobslab/hooks";
-
-const [theme, setTheme] = useLocalStorage("app-theme", "system");
-```
-
-## `useClipboard`
-
-```tsx
-import { useClipboard } from "@bobslab/hooks";
-
-const { copied, copy } = useClipboard({ timeout: 2000 });
-<button onClick={() => copy("Text to copy")}>
-  {copied ? "Copied!" : "Copy"}
-</button>
-```
-
-## `useCountdown`
+High-precision countdown timer with start, stop, and completion callback:
 
 ```tsx
 import { useCountdown } from "@bobslab/hooks";
@@ -37,11 +38,33 @@ import { useCountdown } from "@bobslab/hooks";
 const { countdown, isRunning, start, reset } = useCountdown({
   seconds: 60,
   autoStart: true,
-  onComplete: () => console.log("Timer complete!"),
+  onComplete: () => console.log("Time up!"),
 });
 ```
 
-## `useIsMobile`
+### `useClipboard`
+
+Safely writes text to the user's clipboard with configurable reset duration:
+
+```tsx
+import { useClipboard } from "@bobslab/hooks";
+
+const { copied, copy } = useClipboard({ timeout: 2000 });
+```
+
+### `useLocalStorage`
+
+SSR-safe synchronized state stored in browser `localStorage`:
+
+```tsx
+import { useLocalStorage } from "@bobslab/hooks";
+
+const [theme, setTheme] = useLocalStorage("app-theme", "system");
+```
+
+### `useIsMobile`
+
+Real-time responsive breakpoint listener:
 
 ```tsx
 import { useIsMobile } from "@bobslab/hooks";

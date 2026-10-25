@@ -1,10 +1,10 @@
 # Skeleton
 
-Loading placeholders with shimmering wave animations for perceived performance.
+Placeholder shapes with subtle pulsing animations for rendering loading states and improving perceived performance.
 
 import { SkeletonDemo } from '@/components/SkeletonDemo';
 
-## Live Interactive Demo
+## Interactive Preview
 
 <SkeletonDemo />
 
@@ -16,7 +16,7 @@ import { Skeleton } from "@bobslab/ui";
 export function ProfileSkeleton() {
   return (
     <div className="flex items-center gap-4">
-      <Skeleton className="h-12 w-12 rounded-full" />
+      <Skeleton className="size-12 rounded-full" />
       <div className="space-y-2">
         <Skeleton className="h-4 w-48" />
         <Skeleton className="h-4 w-32" />
@@ -25,3 +25,12 @@ export function ProfileSkeleton() {
   );
 }
 ```
+
+## Props Reference
+
+### `<Skeleton>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `className` | `string` | `""` | Width, height, and border-radius utility classes (e.g. `size-12 rounded-full`). |
+| `children` | `React.ReactNode` | — | Optional internal placeholder elements. |

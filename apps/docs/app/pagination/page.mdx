@@ -1,0 +1,47 @@
+# Pagination
+
+Navigation component for splitting large datasets into accessible, numbered pages with configurable sizes.
+
+import { PaginationDemo } from '@/components/PaginationDemo';
+
+## Interactive Preview
+
+<PaginationDemo />
+
+## Usage
+
+```tsx
+import { Pagination } from "@bobslab/ui";
+
+export function Example() {
+  const [page, setPage] = React.useState(0);
+  const [size, setSize] = React.useState(20);
+
+  return (
+    <Pagination
+      pageIndex={page}
+      pageCount={15}
+      totalItems={300}
+      pageSize={size}
+      pageSizeOptions={[10, 20, 50, 100]}
+      onPageChange={setPage}
+      onPageSizeChange={setSize}
+    />
+  );
+}
+```
+
+## Props Reference
+
+### `<Pagination>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `pageIndex` | `number` | *(required)* | Zero-indexed active page number. |
+| `pageCount` | `number` | *(required)* | Total number of pages available. |
+| `totalItems` | `number` | — | Total count of records across all pages. |
+| `pageSize` | `number` | — | Active items per page. |
+| `pageSizeOptions` | `number[]` | `[10, 25, 50]` | Dropdown options for items per page. |
+| `onPageChange` | `(newPage: number) => void` | *(required)* | Callback triggered when a page button is clicked. |
+| `onPageSizeChange` | `(newSize: number) => void` | — | Callback triggered when page size is changed. |
+| `maxPageButtons` | `number` | `5` | Maximum number of visible page button numbers. |

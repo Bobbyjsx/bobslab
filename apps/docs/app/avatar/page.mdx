@@ -1,0 +1,50 @@
+# Avatar
+
+An image element with fallback representation for representing users or organizations, built on Base UI primitives.
+
+import { AvatarDemo } from '@/components/AvatarDemo';
+
+## Interactive Preview
+
+<AvatarDemo />
+
+## Usage
+
+### High-Level Assembly
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback } from "@bobslab/ui";
+
+export function UserAvatar() {
+  return (
+    <Avatar className="size-10">
+      <AvatarImage src="https://example.com/user.jpg" alt="Jane Doe" />
+      <AvatarFallback>JD</AvatarFallback>
+    </Avatar>
+  );
+}
+```
+
+## Props Reference
+
+### `<Avatar>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `className` | `string` | `""` | Additional CSS class names merged via `cn`. |
+| `children` | `React.ReactNode` | — | Contains `AvatarImage` and `AvatarFallback`. |
+
+### `<AvatarImage>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `src` | `string` | — | Image URL source. |
+| `alt` | `string` | — | Accessible text alternative. |
+| `onLoadingStatusChange` | `(status: "idle" \| "loading" \| "loaded" \| "error") => void` | — | Callback invoked when image load status changes. |
+
+### `<AvatarFallback>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `delayMs` | `number` | `0` | Delay in ms before rendering the fallback text to prevent flashing. |
+| `children` | `React.ReactNode` | — | Monogram, initials, or fallback icon. |

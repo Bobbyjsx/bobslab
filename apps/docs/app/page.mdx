@@ -1,23 +1,23 @@
 # Bobslab Monorepo
 
-Welcome to **Bobslab**, a production-ready component library and utility monorepo built with Turborepo, Base UI, and Tailwind CSS v4.
+Welcome to **Bobslab**, a production-ready component library, toolchain, and utility monorepo built with Turborepo, React 19, Base UI primitives, and Tailwind CSS v4.
 
 ## Monorepo Packages
 
-| Package | Purpose |
-| :--- | :--- |
-| **`@bobslab/ui`** | Main UI component system with Base UI primitives, composable Table, dual-layer API, and Tailwind v4 |
-| **`@bobslab/cli`** | Developer CLI (`bobslab` / `bobs-lab`) for distributing AI agent skills (`skills pull`) and toolchain configs (`config pull`) |
-| **`@bobslab/config`** | Shared tokens, Tailwind v4 theme presets, and consolidated configs (ESLint, Prettier, TypeScript, Zed, VSCode) |
-| **`@bobslab/icons`** | Standardized SVG icon primitives with `IconProps` |
-| **`@bobslab/hooks`** | SSR-safe React hooks (`useDebounce`, `useLocalStorage`, `useCountdown`, `useClipboard`) |
-| **`@bobslab/utils`** | Core utilities (`cn`, case transformations, formatters, financial math) |
-| **`@bobslab/ai`** | AI/LLM streaming parsers, prompt library codecs, and usage quota helpers |
-| **`@bobslab/auth`** | Token refresh coordinator (`AuthManager`), JWT decoder, and Server Action error normalizer |
+| Package | Purpose | Docs |
+| :--- | :--- | :--- |
+| **`@bobslab/ui`** | Main UI component system with Base UI primitives, composable Table, dual-layer API, and Tailwind v4 | [UI Components](/button) |
+| **`@bobslab/cli`** | Developer CLI (`bobslab` / `bobs-lab`) for distributing AI agent skills (`skills pull`) and toolchain configs (`config pull`) | [CLI Docs](/cli) |
+| **`@bobslab/config`** | Shared tokens, Tailwind v4 theme presets, and consolidated configs (ESLint, Prettier, TypeScript, Zed, VSCode) | [Config Docs](/config) |
+| **`@bobslab/icons`** | Standardized SVG icon primitives with `IconProps` | [Icons Gallery](/icons) |
+| **`@bobslab/hooks`** | SSR-safe React hooks (`useDebounce`, `useLocalStorage`, `useCountdown`, `useClipboard`, `useIsMobile`) | [Hooks Docs](/hooks) |
+| **`@bobslab/utils`** | Core utilities (`cn`, case transformations, formatters, financial math) | [Utils Docs](/utils) |
+| **`@bobslab/ai`** | AI/LLM streaming parsers, prompt library codecs, and usage quota helpers | [AI Codecs](/ai) |
+| **`@bobslab/auth`** | Token refresh coordinator (`AuthManager`), JWT decoder, and Server Action error normalizer | [Auth Docs](/auth) |
 
 ## Installation & Setup
 
-Install packages using your package manager:
+Install packages using your favorite package manager:
 
 ```bash
 pnpm add @bobslab/ui @bobslab/icons @bobslab/hooks @bobslab/utils
@@ -25,7 +25,7 @@ pnpm add @bobslab/ui @bobslab/icons @bobslab/hooks @bobslab/utils
 
 ### Theming with Tailwind CSS v4
 
-`@bobslab/ui` components automatically inherit the consuming application's theme colors (`--primary`, `--secondary`, `--accent`). In your main stylesheet:
+`@bobslab/ui` components inherit the consuming application's theme tokens (`--primary`, `--secondary`, `--accent`, `--background`, `--foreground`). In your main stylesheet:
 
 ```css
 @import "tailwindcss";
@@ -40,3 +40,9 @@ pnpm add @bobslab/ui @bobslab/icons @bobslab/hooks @bobslab/utils
   --accent-foreground: oklch(20% 0.03 264);
 }
 ```
+
+## Architectural Invariants
+
+1. **Dual-Layer Component Architecture**: Low-level building blocks (`*Root`, `*Trigger`, `*Content`) for granular control, plus a single ergonomic high-level entry component (`Dialog`, `Tabs`, `Select`) with zero boilerplate.
+2. **Mandatory Live Output in Documentation**: Every documented component, variant, and utility features a live, client-rendered preview in MDX rather than static code snippets alone.
+3. **Keyless Trusted Publishing**: Continuous deployment uses 100% tokenless OpenID Connect (OIDC) with cryptographic provenance attestations.

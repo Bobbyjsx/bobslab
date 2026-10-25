@@ -1,5 +1,4 @@
 import "@bobslab/ui/dist/output.css";
-import "nextra-theme-docs/style.css";
 import "./globals.css";
 
 import * as React from "react";
@@ -7,6 +6,7 @@ import { Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import { Logo } from "@bobslab/icons";
+import { ProgressBar } from "@/components/ProgressBar";
 
 export const metadata = {
   title: "Bobslab UI & Monorepo Docs",
@@ -39,6 +39,9 @@ export default async function RootLayout({
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <Head />
       <body>
+        <React.Suspense fallback={null}>
+          <ProgressBar />
+        </React.Suspense>
         <Layout
           navbar={navbar}
           footer={footer}

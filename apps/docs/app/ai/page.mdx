@@ -1,10 +1,38 @@
-# AI Utilities (`@bobslab/ai`)
+# AI & Stream Codecs (`@bobslab/ai`)
 
-Utilities for handling streaming LLM responses, prompt tag codecs, and token usage quotas.
+Utilities for parsing streaming LLM Server-Sent Events (SSE), embedding prompt tag codecs, and monitoring token quotas.
 
-## Streaming & SSE
+import { AiDemo } from '@/components/AiDemo';
 
-Parse Server-Sent Events from LLM backend streams:
+## Interactive Prompt Tag Playground
+
+<AiDemo />
+
+## Installation
+
+```bash
+pnpm add @bobslab/ai
+```
+
+## Prompt Tag Codecs
+
+Encode and decode tags in prompt templates (e.g. `[prompt:id|title|b64]`):
+
+```ts
+import { formatPromptTag, parsePromptTags, tokenizePromptText } from "@bobslab/ai";
+
+const tag = formatPromptTag({
+  id: "security-audit",
+  title: "Security Audit",
+  prompt: "Verify input validation and JWT verification invariants.",
+});
+
+const { cleanText, tags } = parsePromptTags(`Run ${tag} on commit.`);
+```
+
+## Streaming & SSE Parsers
+
+Parse incoming streams from OpenAI, Anthropic, or custom FastAPI endpoints:
 
 ```ts
 import { parseSseBlock, parseEventPayload, sanitizeStreamErrorText } from "@bobslab/ai";
@@ -13,20 +41,4 @@ const block = parseSseBlock(rawSseChunk);
 if (block) {
   const payload = parseEventPayload(block.data);
 }
-```
-
-## Prompt Tag Codec
-
-Encode, decode, and tokenize embedded prompt tags (e.g. `[prompt:id|title|b64]`):
-
-```ts
-import { formatPromptTag, parsePromptTags, tokenizePromptText } from "@bobslab/ai";
-
-const tag = formatPromptTag({
-  id: "code-review",
-  title: "Code Review",
-  prompt: "Review this diff for safety and performance",
-});
-
-const { cleanText, tags } = parsePromptTags(`Please run ${tag} on my PR`);
 ```

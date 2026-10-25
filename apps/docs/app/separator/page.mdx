@@ -1,0 +1,35 @@
+# Separator
+
+Accessible visual or structural divider between sections of content, built on Base UI primitives.
+
+import { SeparatorDemo } from '@/components/SeparatorDemo';
+
+## Interactive Preview
+
+<SeparatorDemo />
+
+## Usage
+
+```tsx
+import { Separator } from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <div>
+      <p>Header Section</p>
+      <Separator orientation="horizontal" className="my-4" />
+      <p>Content Section</p>
+    </div>
+  );
+}
+```
+
+## Props Reference
+
+### `<Separator>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Visual direction of the line divider. |
+| `decorative` | `boolean` | `true` | When true, removed from the accessibility tree. |
+| `className` | `string` | `""` | Additional styling classes. |

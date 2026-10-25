@@ -1,0 +1,35 @@
+# Copy Button
+
+One-click clipboard copy button with transient confirmation feedback and icon transitions.
+
+import { CopyButtonDemo } from '@/components/CopyButtonDemo';
+
+## Interactive Preview
+
+<CopyButtonDemo />
+
+## Usage
+
+```tsx
+import { CopyButton } from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <div className="flex items-center gap-2">
+      <span>API Key: <code>sk_live_994102...</code></span>
+      <CopyButton value="sk_live_994102..." timeout={2000} />
+    </div>
+  );
+}
+```
+
+## Props Reference
+
+### `<CopyButton>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | *(required)* | Text string written to the system clipboard upon click. |
+| `timeout` | `number` | `2000` | Duration in milliseconds to display the success confirmation icon. |
+| `className` | `string` | `""` | Additional styling classes. |
+| `disabled` | `boolean` | `false` | Whether clipboard copying is disabled. |

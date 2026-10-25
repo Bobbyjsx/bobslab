@@ -1,0 +1,60 @@
+# Card
+
+Structured content container organizing related headings, descriptions, media, and contextual actions.
+
+import { CardDemo } from '@/components/CardDemo';
+
+## Interactive Preview
+
+<CardDemo />
+
+## Usage
+
+### Primitives Composition
+
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+  Button,
+} from "@bobslab/ui";
+
+export function Example() {
+  return (
+    <Card variant="default">
+      <CardHeader>
+        <CardTitle>API Access Keys</CardTitle>
+        <CardDescription>Manage credentials for workspace services.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm">Never commit raw private tokens to version control.</p>
+      </CardContent>
+      <CardFooter>
+        <Button size="sm">Generate New Key</Button>
+      </CardFooter>
+    </Card>
+  );
+}
+```
+
+## Props Reference
+
+### `<Card>`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `"default" \| "elevated" \| "accent"` | `"default"` | Controls border, shadow, and background presentation. |
+| `className` | `string` | `""` | Additional styling classes. |
+| `children` | `React.ReactNode` | — | Card subcomponents and contents. |
+
+### Subcomponents
+
+- `<CardHeader>`: Top flex container aligning title, description, and status badges.
+- `<CardTitle>`: Level 3 semantically styled title element.
+- `<CardDescription>`: Subdued secondary caption text.
+- `<CardContent>`: Standard body container with consistent padding.
+- `<CardFooter>`: Bottom bar for action triggers, buttons, and status labels.

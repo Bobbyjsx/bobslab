@@ -1,0 +1,70 @@
+diff --git a/dist/components/breadcrumb.js b/dist/components/breadcrumb.js
+index 3f090ecc2beb4e4f3175cf43b21fd342a004b0e0..f37eec53d776d6452b608e892f4eec9b8a248178 100644
+--- a/dist/components/breadcrumb.js
++++ b/dist/components/breadcrumb.js
+@@ -36,7 +36,7 @@ function _temp(item, index, arr) {
+     index > 0 && /* @__PURE__ */ jsx(ArrowRightIcon, { height: "14", className: "x:shrink-0 x:rtl:rotate-180" }),
+     /* @__PURE__ */ jsx(ComponentToUse, { className: cn("x:whitespace-nowrap x:transition-colors", nextItem ? "x:min-w-6 x:overflow-hidden x:text-ellipsis" : "x:font-medium x:text-black x:dark:text-gray-100", href && "x:focus-visible:nextra-focus x:ring-inset x:hover:text-gray-900 x:dark:hover:text-gray-100"), title: extractStringsFromReactNode(item.title), ...href && {
+       href,
+-      prefetch: false
++      prefetch: true
+     }, children: item.title })
+   ] }, item.route + item.name);
+ }
+diff --git a/dist/components/pagination.js b/dist/components/pagination.js
+index cfd2b608f34fb08c40451686de32cc3b63e02eb0..353bbcfd8515082c95507d335904aa9783f4b832 100644
+--- a/dist/components/pagination.js
++++ b/dist/components/pagination.js
+@@ -38,7 +38,7 @@ const Pagination = () => {
+   }
+   let t1;
+   if ($[1] !== prev) {
+-    t1 = prev && /* @__PURE__ */ jsxs(NextLink, { href: prev.route, title: extractStringsFromReactNode(prev.title), className: cn(classes.link, "x:pe-4"), prefetch: false, children: [
++    t1 = prev && /* @__PURE__ */ jsxs(NextLink, { href: prev.route, title: extractStringsFromReactNode(prev.title), className: cn(classes.link, "x:pe-4"), prefetch: true, children: [
+       /* @__PURE__ */ jsx(ArrowRightIcon, { height: "20", className: cn(classes.icon, "x:ltr:rotate-180") }),
+       prev.title
+     ] });
+@@ -49,7 +49,7 @@ const Pagination = () => {
+   }
+   let t2;
+   if ($[3] !== next) {
+-    t2 = next && /* @__PURE__ */ jsxs(NextLink, { href: next.route, title: extractStringsFromReactNode(next.title), className: cn(classes.link, "x:ps-4 x:ms-auto x:text-end"), prefetch: false, children: [
++    t2 = next && /* @__PURE__ */ jsxs(NextLink, { href: next.route, title: extractStringsFromReactNode(next.title), className: cn(classes.link, "x:ps-4 x:ms-auto x:text-end"), prefetch: true, children: [
+       next.title,
+       /* @__PURE__ */ jsx(ArrowRightIcon, { height: "20", className: cn(classes.icon, "x:rtl:rotate-180") })
+     ] });
+diff --git a/dist/components/sidebar.js b/dist/components/sidebar.js
+index b6e7d777ee4b1c0b50e5c1dab305f64f01370b29..80fee3dafe3e5cff25cdf2503a41ab475bc6daba 100644
+--- a/dist/components/sidebar.js
++++ b/dist/components/sidebar.js
+@@ -127,7 +127,7 @@ const Folder = (t0) => {
+   return /* @__PURE__ */ jsxs("li", { className: t3, children: [
+     /* @__PURE__ */ jsxs(ComponentToUse, { ...isLink ? {
+       href: item.route,
+-      prefetch: false
++      prefetch: true
+     } : {
+       "data-href": item.route
+     }, className: t6, onClick: handleClick2, onFocus, children: [
+@@ -235,7 +235,7 @@ const File = (t0) => {
+   }
+   let t5;
+   if ($[9] !== href || $[10] !== item.title || $[11] !== onFocus || $[12] !== t4) {
+-    t5 = /* @__PURE__ */ jsx(Anchor, { href, className: t4, onFocus, prefetch: false, children: item.title });
++    t5 = /* @__PURE__ */ jsx(Anchor, { href, className: t4, onFocus, prefetch: true, children: item.title });
+     $[9] = href;
+     $[10] = item.title;
+     $[11] = onFocus;
+diff --git a/dist/schemas.js b/dist/schemas.js
+index 060d0b98b76515e4f0a1cd9edb3c3f5d31597540..f17054ec71086d81f8242282a5e0bb42adbcb657 100644
+--- a/dist/schemas.js
++++ b/dist/schemas.js
+@@ -65,7 +65,7 @@ const LayoutPropsSchema = z.strictObject({
+   banner: reactNode.optional().meta({
+     description: "Rendered [`<Banner>` component](/docs/built-ins/banner). E.g. `<Banner {...bannerProps} />`"
+   }),
+-  children: reactNode,
++  children: reactNode.optional(),
+   copyPageButton: z.boolean().default(true).meta({
+     description: "Hide/show copy page content button."
+   }),
