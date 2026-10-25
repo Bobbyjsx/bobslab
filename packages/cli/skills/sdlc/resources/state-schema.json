@@ -119,9 +119,16 @@
             "approved": { "type": "boolean" },
             "timestamp": { "type": "string" },
             "approver": { "type": "string" },
-            "authorizedPrUrls": {
+            "authorizedPrs": {
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "object",
+                "required": ["prUrl", "approvedSha"],
+                "properties": {
+                  "prUrl": { "type": "string" },
+                  "approvedSha": { "type": "string" }
+                }
+              }
             },
             "notes": { "type": "string" }
           }

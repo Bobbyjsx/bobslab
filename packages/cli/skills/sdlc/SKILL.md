@@ -142,7 +142,7 @@ Upon receiving Gate A approval:
 
 1. If mode is `planning`: finalize brain projection, save artifacts, and transition to `COMPLETED`.
 2. If mode is `implementation`:
-   - **Create First-Class Sub-Issues**: When Linear (or issue tracking) is available, use `save_issue` with `parentId: <parent-story-id>` to create each sub-issue as a distinct ticket. Do NOT write checkboxes in the parent story body.
+   - **Create First-Class Sub-Issues**: When Linear (or issue tracking) is available, use `save_issue` with `parentId: <parent-story-id>` to create each sub-issue as a distinct ticket. When no external issue tracker is available, record each sub-issue in the run brain's `SUB_ISSUE_ROWS` with a unique local ID and parent story/run context before dispatching workers. Do NOT write checkboxes in the parent story body.
    - For each sub-issue (or co-dependent group):
      - Initialize isolated worktree (`.factory/worktrees/sdlc-<sub-issue-key>`) on branch `feat/<sub-issue-key>-<slug>`.
      - Dispatch `sdlc-implementer`: implement requirements following `antislop-code` guidelines and commit changes to the task branch.
@@ -180,15 +180,18 @@ When QA verdict is `PASS` across all sub-issue PRs:
 
 > [!IMPORTANT]
 > **GATE B HUMAN APPROVAL IS MANDATORY**:
-> Gate B authorizes merging the story's approved Pull Requests into the `staging` branch. No PR may be merged into staging without explicit Gate B human approval. Pushing raw commits directly to staging is prohibited.
+> Gate B authorizes merging the story's approved Pull Requests into the `staging` branch. Approval binds each authorized PR URL to its specific `approvedSha` in `approvals.gateB.authorizedPrs`. No PR may be merged into staging without explicit Gate B human approval. Pushing raw commits directly to staging is prohibited.
 
 ### Step 8: Staging Release & Verification (Fan-Out to `sdlc-release`)
 
 Upon receiving Gate B approval:
 
 - Fan out to `sdlc-release`:
-  - Merge the approved sub-issue PRs into `staging` in topological dependency order.
+  - Verify that each authorized PR's remote head matches its Gate B `approvedSha` and QA-verified candidate SHA.
+  - Reconcile merge state (skipping already-merged PRs) and merge unmerged approved PRs into `staging` in topological dependency order.
   - Run automated staging smoke tests.
-  - Emit `ReleaseManifest` artifact recording merged PR URLs and staging deployment status.
-- Update sub-issues and parent story status to `Done` in Linear / tracker.
-- Transition state to `COMPLETED` and update `.factory/brain/SDLC-<run-id>.md`.
+  - Emit `ReleaseManifest` artifact recording merged PR URLs, merge commit SHAs, and staging deployment status.
+- **Story Closeout**: Only after `ReleaseManifest` confirms staging smoke tests passed:
+  - Update sub-issues and parent story status to `Done` in Linear / tracker.
+  - Transition state to `COMPLETED` and update `.factory/brain/SDLC-<run-id>.md`.
+- If release or staging smoke tests fail, halt closeout, transition state to `FAILED`, and alert the developer immediately.

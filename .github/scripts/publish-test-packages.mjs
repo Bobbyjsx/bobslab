@@ -18,7 +18,7 @@ for (const p of pkgs) {
 
   try {
     const res = execSync(
-      `pnpm --filter "${p.name}" publish --tag test --access public --no-git-checks`,
+      `pnpm --filter "${p.name}" publish --tag test --access public --provenance --no-git-checks`,
       {
         encoding: "utf8",
         stdio: ["ignore", "pipe", "pipe"],

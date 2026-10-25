@@ -47,5 +47,5 @@ When adding or updating UI components:
 - Verify your changes compile locally (`pnpm run check-types`).
 - Commit changes under the sub-issue scope with conventional commits (`feat(ui): ...`, `fix(auth): ...`).
 - Open an independent Pull Request targeting `staging` with a focused description linking to the sub-issue.
-- Record the exact candidate commit SHA and PR URL in `.factory/artifacts/<run-id>/task-graph.json`.
+- Record the exact candidate commit SHA and PR URL in the workspace root's `.factory/artifacts/<run-id>/task-graph.json`, not within the isolated worktree.
 - Notify the Orchestrator that implementation of the sub-issue PR is ready for QA.
