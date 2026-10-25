@@ -78,31 +78,13 @@ jobs:
           '
 
       - name: Publish Test Packages to npm (OIDC)
+        id: publish_test_packages
         if: github.event_name == 'pull_request' && steps.version_check.outputs.has_changes == 'true'
         env:
+          PR_NUMBER: ${{ github.event.number }}
+          RUN_NUMBER: ${{ github.run_number }}
           UPDATED_PACKAGES_JSON: ${{ steps.apply_versions.outputs.updated_packages_json }}
-        run: |
-          node -e '
-          const { execSync } = require("node:child_process");
-          const pkgs = JSON.parse(process.env.UPDATED_PACKAGES_JSON);
-          for (const p of pkgs) {
-            console.log(`\n========================================`);
-            console.log(`Publishing OIDC test release: ${p.name}@${p.testVersion}`);
-            console.log(`========================================\n`);
-            try {
-              execSync(`pnpm --filter "${p.name}" publish --tag test --access public --no-git-checks`, {
-                stdio: "inherit"
-              });
-            } catch (err) {
-              const msg = err.message || "";
-              if (msg.includes("previously published") || msg.includes("Cannot publish over") || msg.includes("E403") || msg.includes("E409")) {
-                console.warn(`Test package ${p.name}@${p.testVersion} is already published or staged on npm. Continuing.`);
-              } else {
-                throw err;
-              }
-            }
-          }
-          '
+        run: node .github/scripts/publish-test-packages.mjs
 
       - name: Comment on PR
         if: github.event_name == 'pull_request' && steps.version_check.outputs.has_changes == 'true'
@@ -140,7 +122,7 @@ jobs:
               });
             }
         env:
-          COMMENT_MARKDOWN: ${{ steps.apply_versions.outputs.comment_markdown }}
+          COMMENT_MARKDOWN: ${{ steps.publish_test_packages.outputs.comment_markdown || steps.apply_versions.outputs.comment_markdown }}
 
       # ----------------------------------------------------
       # Main Production Release Workflow
@@ -165,28 +147,7 @@ jobs:
         if: github.event_name == 'push' && steps.version_check.outputs.has_changes == 'true'
         env:
           PACKAGES_JSON: ${{ steps.version_check.outputs.packages_json }}
-        run: |
-          node -e '
-          const { execSync } = require("node:child_process");
-          const pkgs = JSON.parse(process.env.PACKAGES_JSON);
-          for (const p of pkgs) {
-            console.log(`\n========================================`);
-            console.log(`Publishing OIDC production release: ${p.name}@${p.newVersion}`);
-            console.log(`========================================\n`);
-            try {
-              execSync(`pnpm --filter "${p.name}" publish --access public --provenance --no-git-checks`, {
-                stdio: "inherit"
-              });
-            } catch (err) {
-              const msg = err.message || "";
-              if (msg.includes("previously published") || msg.includes("Cannot publish over") || msg.includes("E403") || msg.includes("E409")) {
-                console.warn(`Package ${p.name}@${p.newVersion} is already published or staged on npm. Continuing.`);
-              } else {
-                throw err;
-              }
-            }
-          }
-          '
+        run: node .github/scripts/publish-prod-packages.mjs
 
       - name: Create Git Tags
         if: github.event_name == 'push' && steps.version_check.outputs.has_changes == 'true'
