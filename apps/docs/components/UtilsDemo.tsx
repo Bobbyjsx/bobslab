@@ -9,6 +9,7 @@ import {
   keysToCamel,
   keysToSnake,
   calculateGrossFromNet,
+  AmountAction,
 } from "@bobslab/utils";
 
 export function UtilsDemo() {
@@ -16,11 +17,140 @@ export function UtilsDemo() {
   const [currency, setCurrency] = React.useState("USD");
   const [bytes, setBytes] = React.useState(5242880);
 
+  // AmountAction State
+  const [dealText, setDealText] = React.useState(
+    "2k Off When You Shop Up to 20k and Above. Extra discount for orders over 20,000 NGN.",
+  );
+  const [rawCurrency, setRawCurrency] = React.useState("USD");
+  const [dealRegion, setDealRegion] = React.useState("Nigeria");
+  const [dealDomain, setDealDomain] = React.useState("jumia.com.ng");
+  const [discountVal, setDiscountVal] = React.useState(2000);
+  const [minOrderVal, setMinOrderVal] = React.useState(20000);
+
   const rawSnake = { user_account_id: "usr_9912", billing_country_code: "US" };
   const camelResult = keysToCamel(rawSnake);
 
+  const inferred = AmountAction.inferCurrency({
+    currency: rawCurrency,
+    text: dealText,
+    countryOrRegion: dealRegion,
+    domain: dealDomain,
+  });
+
+  const formattedDiscount = AmountAction.formatDiscount({
+    discountType: "amount",
+    discountValue: discountVal,
+    currency: inferred,
+    region: dealRegion,
+    domain: dealDomain,
+  });
+
+  const formattedMinOrder = AmountAction.formatMinimumOrder(
+    minOrderVal,
+    inferred,
+  );
+
   return (
     <div className="w-full my-6 flex flex-col gap-6 rounded-2xl border border-border bg-background p-6 shadow-xs">
+      {/* AmountAction Multi-Currency Resolution */}
+      <div className="flex flex-col gap-4 rounded-xl border border-border p-5 bg-muted/20">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">
+            AmountAction • Multi-Currency Discrepancy Resolver
+          </span>
+          <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-mono font-medium">
+            Resolved: {inferred}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="space-y-1">
+            <label className="text-[11px] font-medium text-muted-foreground">
+              Raw Currency:
+            </label>
+            <input
+              type="text"
+              value={rawCurrency}
+              onChange={(e) => setRawCurrency(e.target.value)}
+              className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-xs text-foreground outline-none focus:border-primary font-mono"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[11px] font-medium text-muted-foreground">
+              Region / Country:
+            </label>
+            <input
+              type="text"
+              value={dealRegion}
+              onChange={(e) => setDealRegion(e.target.value)}
+              className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-xs text-foreground outline-none focus:border-primary"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[11px] font-medium text-muted-foreground">
+              Domain TLD:
+            </label>
+            <input
+              type="text"
+              value={dealDomain}
+              onChange={(e) => setDealDomain(e.target.value)}
+              className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-xs text-foreground outline-none focus:border-primary font-mono"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[11px] font-medium text-muted-foreground">
+              Discount / Min. Order:
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                value={discountVal}
+                onChange={(e) => setDiscountVal(Number(e.target.value))}
+                className="w-1/2 rounded-lg border border-border bg-background px-2 py-1.5 text-xs text-foreground outline-none focus:border-primary"
+                placeholder="Discount"
+              />
+              <input
+                type="number"
+                value={minOrderVal}
+                onChange={(e) => setMinOrderVal(Number(e.target.value))}
+                className="w-1/2 rounded-lg border border-border bg-background px-2 py-1.5 text-xs text-foreground outline-none focus:border-primary"
+                placeholder="Min Order"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-[11px] font-medium text-muted-foreground">
+            Deal Text / Description:
+          </label>
+          <input
+            type="text"
+            value={dealText}
+            onChange={(e) => setDealText(e.target.value)}
+            className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-xs text-foreground outline-none focus:border-primary"
+          />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-border/60">
+          <div className="text-xs">
+            <span className="text-muted-foreground">Formatted Discount: </span>
+            <span className="font-mono font-bold text-foreground bg-primary/10 px-2 py-1 rounded">
+              {formattedDiscount}
+            </span>
+          </div>
+          <div className="text-xs">
+            <span className="text-muted-foreground">Formatted Condition: </span>
+            <span className="font-mono font-semibold text-foreground">
+              {formattedMinOrder}
+            </span>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Currency & Financial Math */}
         <div className="flex flex-col gap-3 rounded-xl border border-border p-4 bg-muted/20">

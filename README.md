@@ -6,17 +6,17 @@ Production-ready component library, toolchain, and utility monorepo built with T
 
 ## Packages & Applications
 
-| Package / App                          | Description                                                                                                    |
-| :------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
-| [`@bobslab/ui`](./packages/ui)         | Dual-layer component library combining headless Base UI primitives with ergonomic high-level entry components. |
-| [`@bobslab/config`](./packages/config) | Shared toolchain configurations (ESLint, Prettier, TypeScript, Biome, Zed, VSCode) and design tokens.          |
-| [`@bobslab/cli`](./packages/cli)       | Official developer CLI (`bobslab` / `bobs-lab`) for pulling AI agent skills and workspace toolchain configs.   |
-| [`@bobslab/icons`](./packages/icons)   | Standardized SVG icon primitives.                                                                              |
-| [`@bobslab/hooks`](./packages/hooks)   | SSR-safe React hooks (`useControllableState`, `useMediaQuery`, `useDebounce`, `useClipboard`, etc.).           |
-| [`@bobslab/utils`](./packages/utils)   | Core utility functions (`cn`, case transforms, formatters, and financial math).                                |
-| [`@bobslab/ai`](./packages/ai)         | SSE streaming chunk parsers, prompt codecs, and rate-limit countdown calculators.                              |
-| [`@bobslab/auth`](./packages/auth)     | In-memory token manager, JWT decoder, and token expiration calculators.                                        |
-| [`apps/docs`](./apps/docs)             | Next.js 15 App Router & Nextra 4 documentation site with live interactive component previews.                  |
+| Package / App                          | Description                                                                                                               |
+| :------------------------------------- | :------------------------------------------------------------------------------------------------------------------------ |
+| [`@bobslab/ui`](./packages/ui)         | Dual-layer component library combining headless Base UI primitives with ergonomic high-level entry components.            |
+| [`@bobslab/config`](./packages/config) | Shared toolchain configurations (ESLint, Prettier, TypeScript, Biome, Zed, VSCode) and design tokens.                     |
+| [`@bobslab/cli`](./packages/cli)       | Official developer CLI (`bobslab` / `bobs-lab`) for pulling AI agent skills and workspace toolchain configs.              |
+| [`@bobslab/icons`](./packages/icons)   | Standardized SVG icon primitives.                                                                                         |
+| [`@bobslab/hooks`](./packages/hooks)   | SSR-safe React hooks (`useControllableState`, `useMediaQuery`, `useDebounce`, `useClipboard`, etc.).                      |
+| [`@bobslab/utils`](./packages/utils)   | Core utility functions (`cn`, case transforms, formatters, financial math, and `AmountAction` multi-currency resolution). |
+| [`@bobslab/ai`](./packages/ai)         | SSE streaming chunk parsers, prompt codecs, and rate-limit countdown calculators.                                         |
+| [`@bobslab/auth`](./packages/auth)     | In-memory token manager, cross-tab session coordinator, JWT decoder, and token expiration calculators.                    |
+| [`apps/docs`](./apps/docs)             | Next.js 15 App Router & Nextra 4 documentation site with live interactive component previews.                             |
 
 ---
 

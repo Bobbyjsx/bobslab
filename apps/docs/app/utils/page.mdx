@@ -1,6 +1,6 @@
 # Utilities (`@bobslab/utils`)
 
-Core utility functions for class concatenation (`cn`), case transformation, financial math, and currency formatting.
+Core utility functions for class concatenation (`cn`), case transformation, financial math, currency formatting, and multi-currency resolution (`AmountAction`).
 
 import { UtilsDemo } from '@/components/UtilsDemo';
 
@@ -14,7 +14,77 @@ import { UtilsDemo } from '@/components/UtilsDemo';
 pnpm add @bobslab/utils
 ```
 
-## Functions
+## `AmountAction` Currency Utilities
+
+`AmountAction` resolves real-world currency discrepancies across international and regional storefronts by cross-referencing ISO codes, contextual coupon text, regional hints, and merchant domain TLDs.
+
+### 1. Infer Currency from Mixed Context
+
+```ts
+import { AmountAction } from "@bobslab/utils";
+
+// Resolves discrepancies when raw currency is "$" but coupon mentions Nigeria or .ng
+const currency = AmountAction.inferCurrency({
+  currency: "USD",
+  text: "2k Off When You Shop Up to 20k and Above. Extra discount for orders over 20,000 NGN.",
+  countryOrRegion: "Nigeria",
+  domain: "jumia.com.ng"
+});
+// => "NGN"
+```
+
+### 2. Format Discount Header
+
+Formats discount callout text for deal cards and badges:
+
+```ts
+AmountAction.formatDiscount({
+  discountType: "amount",
+  discountValue: 2000,
+  currency: "NGN",
+  region: "Nigeria"
+});
+// => "₦2,000 OFF"
+
+AmountAction.formatDiscount({
+  discountType: "percent",
+  discountValue: 20
+});
+// => "20% OFF"
+
+AmountAction.formatDiscount({
+  discountType: "shipping"
+});
+// => "FREE SHIPPING"
+```
+
+### 3. Format Minimum Order
+
+```ts
+AmountAction.formatMinimumOrder(20000, "NGN");
+// => "Min. order ₦20,000"
+```
+
+### 4. Format Amount & Currency
+
+```ts
+AmountAction.formatAmountAndCurrency("NGN", 250000);
+// => "₦250,000"
+
+AmountAction.formatAmountAndCurrency("USD", 49.99);
+// => "$49.99"
+```
+
+### 5. Kobo & Naira Conversions
+
+```ts
+AmountAction.koboToNaira(250000); // 2500
+AmountAction.nairaToKobo(2500);   // 250000
+```
+
+---
+
+## Core Functions
 
 ### `cn`
 

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { decodeJwtClaims, isTokenExpired } from "@bobslab/auth";
+import { authManager, decodeJwtClaims, isTokenExpired } from "@bobslab/auth";
 import { Badge, Button } from "@bobslab/ui";
 
 export function AuthDemo() {
@@ -22,6 +22,22 @@ export function AuthDemo() {
 
   const claims = decodeJwtClaims(token);
   const expired = isTokenExpired(token, 0);
+  const [appliedHeaders, setAppliedHeaders] = React.useState<
+    Record<string, string>
+  >({});
+
+  React.useEffect(() => {
+    authManager.setTokens({
+      accessToken: token,
+      refreshToken: "sample_refresh_token_xyz",
+    });
+    const req: { headers: Record<string, string> } = {
+      headers: { "Content-Type": "application/json" },
+    };
+    authManager.applyAuthTokenToReq(req).then(() => {
+      setAppliedHeaders(req.headers);
+    });
+  }, [token]);
 
   const handleExpireToken = () => {
     const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
@@ -91,6 +107,16 @@ export function AuthDemo() {
         </span>
         <pre className="text-xs font-mono bg-background p-3 rounded-lg border border-border/80 overflow-x-auto text-foreground">
           {claims ? JSON.stringify(claims, null, 2) : "null"}
+        </pre>
+      </div>
+
+      <div className="rounded-xl border border-border p-4 bg-muted/30 space-y-2">
+        <span className="text-xs font-semibold text-foreground">
+          AuthManager Applied Request Headers (via{" "}
+          <code>applyAuthTokenToReq</code>):
+        </span>
+        <pre className="text-xs font-mono bg-background p-3 rounded-lg border border-border/80 overflow-x-auto text-foreground">
+          {JSON.stringify(appliedHeaders, null, 2)}
         </pre>
       </div>
     </div>
