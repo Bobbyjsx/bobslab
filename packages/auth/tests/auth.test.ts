@@ -47,6 +47,37 @@ describe("@bobslab/auth", () => {
       expect(res2?.accessToken).toBe("refreshed-token");
       expect(authManager.getAccessToken()).toBe("refreshed-token");
     });
+
+    it("seeds session and applies auth headers to requests", async () => {
+      authManager.seedSession({
+        accessToken: "sess-token-123",
+        refreshToken: "sess-refresh-456",
+        user: { id: "u1", email: "test@bobslab.xyz" },
+      });
+
+      expect(authManager.getAccessToken()).toBe("sess-token-123");
+
+      const reqConfig = { headers: {} as Record<string, string> };
+      await authManager.applyAuthTokenToReq(reqConfig);
+
+      expect(reqConfig.headers["Authorization"]).toBe("Bearer sess-token-123");
+      expect(reqConfig.headers["X-Refresh-Token"]).toBe("sess-refresh-456");
+
+      // Updates tokens and verifies sync handler
+      const syncFn = vi.fn();
+      authManager.setTokenSyncHandler(syncFn);
+      await authManager.updateTokens("new-token-789", "new-refresh-999");
+
+      expect(authManager.getAccessToken()).toBe("new-token-789");
+      expect(syncFn).toHaveBeenCalledWith({
+        accessToken: "new-token-789",
+        refreshToken: "new-refresh-999",
+      });
+
+      const updatedReq = { headers: {} as Record<string, string> };
+      await authManager.applyAuthTokenToReq(updatedReq);
+      expect(updatedReq.headers["Authorization"]).toBe("Bearer new-token-789");
+    });
   });
 
   describe("JWT tokens", () => {
