@@ -120,10 +120,11 @@ describe("AmountAction", () => {
       ).toBe("20% OFF");
     });
 
-    it("resolves and formats Jumia Nigeria 2000 NGN deal correctly as ₦2,000 OFF", () => {
+    it("resolves and formats Jumia Nigeria 2000 NGN deal correctly as ₦2,000 OFF even if currency is USD", () => {
       const formatted = AmountAction.formatDiscount({
         discountType: "fixed_amount",
         discountValue: 2000,
+        currency: "USD",
         text: "Extra discount for orders over 20,000 NGN.",
         region: ["Nigeria"],
         domain: "jumia.com.ng",
@@ -142,8 +143,8 @@ describe("AmountAction", () => {
   });
 
   describe("formatMinimumOrder", () => {
-    it("formats minimum order with inferred NGN currency symbol", () => {
-      const minOrderStr = AmountAction.formatMinimumOrder(20000, null, {
+    it("formats minimum order with inferred NGN currency symbol overriding USD discrepancy", () => {
+      const minOrderStr = AmountAction.formatMinimumOrder(20000, "USD", {
         text: "Extra discount for orders over 20,000 NGN",
         countryOrRegion: ["Nigeria"],
       });

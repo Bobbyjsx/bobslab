@@ -187,18 +187,13 @@ export class AmountAction {
 
   /**
    * Inactive/unspecified currency inference from merchant domain, region, or coupon text evidence.
+   * Prioritizes explicit text clues and regional/domain evidence over generic USD fallbacks.
    */
   static inferCurrency(options: InferCurrencyOptions): string {
     const { currency, text, countryOrRegion, domain } = options;
+    const normCurrency = currency ? currency.toUpperCase().trim() : "";
 
-    if (currency && currency.trim() !== "") {
-      const upper = currency.toUpperCase().trim();
-      if (CurrencySymbolMap[upper]) {
-        return upper;
-      }
-    }
-
-    // 1. Text Inspection (Title, description, notes, snippets)
+    // 1. Text Inspection (Title, description, notes, snippets) - Strongest explicit signal
     if (text) {
       const lowerText = text.toLowerCase();
       if (
@@ -244,8 +239,8 @@ export class AmountAction {
       ) {
         return "XOF";
       }
-      if (lowerText.includes("usd") || text.includes("$")) {
-        return "USD";
+      if (lowerText.includes("inr") || text.includes("₹")) {
+        return "INR";
       }
     }
 
@@ -297,25 +292,25 @@ export class AmountAction {
     // 3. Merchant domain TLD inspection
     if (domain) {
       const d = domain.toLowerCase().trim();
-      if (d.endsWith(".ng") || d.endsWith(".com.ng")) {
+      if (d.endsWith(".ng") || d.includes(".com.ng") || d.includes(".ng/")) {
         return "NGN";
       }
-      if (d.endsWith(".gh") || d.endsWith(".com.gh")) {
+      if (d.endsWith(".gh") || d.includes(".com.gh") || d.includes(".gh/")) {
         return "GHS";
       }
-      if (d.endsWith(".ke") || d.endsWith(".co.ke")) {
+      if (d.endsWith(".ke") || d.includes(".co.ke") || d.includes(".ke/")) {
         return "KES";
       }
-      if (d.endsWith(".za") || d.endsWith(".co.za")) {
+      if (d.endsWith(".za") || d.includes(".co.za") || d.includes(".za/")) {
         return "ZAR";
       }
-      if (d.endsWith(".uk") || d.endsWith(".co.uk")) {
+      if (d.endsWith(".uk") || d.includes(".co.uk") || d.includes(".uk/")) {
         return "GBP";
       }
-      if (d.endsWith(".ca")) {
+      if (d.endsWith(".ca") || d.includes(".ca/")) {
         return "CAD";
       }
-      if (d.endsWith(".au") || d.endsWith(".com.au")) {
+      if (d.endsWith(".au") || d.includes(".com.au") || d.includes(".au/")) {
         return "AUD";
       }
       if (
@@ -326,6 +321,11 @@ export class AmountAction {
       ) {
         return "EUR";
       }
+    }
+
+    // 4. Explicit provided currency fallback
+    if (normCurrency && CurrencySymbolMap[normCurrency]) {
+      return normCurrency;
     }
 
     return "USD";
@@ -379,7 +379,10 @@ export class AmountAction {
     currency?: string | null,
     options?: InferCurrencyOptions,
   ): string {
-    const effCurrency = currency || AmountAction.inferCurrency(options || {});
+    const effCurrency = AmountAction.inferCurrency({
+      currency,
+      ...(options || {}),
+    });
     const symbol = AmountAction.getCurrencySymbol(effCurrency);
     const num = Number(minOrderValue);
     const formattedNum = isNaN(num) ? minOrderValue : num.toLocaleString();
