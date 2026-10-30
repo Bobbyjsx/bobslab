@@ -113,6 +113,7 @@ export class AuthManager {
   }
 
   public clearBrowserSessionCache(): void {
+    this.tokens = null;
     this.browserSessionCache = null;
     this.browserSessionPromise = null;
   }
