@@ -7,15 +7,30 @@ import { cn } from "@bobslab/utils";
 const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
 
+export interface PopoverContentProps extends PopoverPrimitive.Popup.Props {
+  sideOffset?: number;
+  align?: "start" | "center" | "end";
+  side?: "top" | "bottom" | "left" | "right";
+  alignOffset?: number;
+}
+
 function PopoverContent({
   className,
   children,
   sideOffset = 4,
+  align = "center",
+  side = "bottom",
+  alignOffset = 0,
   ...props
-}: PopoverPrimitive.Popup.Props & { sideOffset?: number }) {
+}: PopoverContentProps) {
   return (
     <PopoverPrimitive.Portal>
-      <PopoverPrimitive.Positioner sideOffset={sideOffset}>
+      <PopoverPrimitive.Positioner
+        sideOffset={sideOffset}
+        align={align}
+        side={side}
+        alignOffset={alignOffset}
+      >
         <PopoverPrimitive.Popup
           data-slot="popover-content"
           className={cn(
