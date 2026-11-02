@@ -9,10 +9,15 @@ import {
   SearchIcon,
 } from "@bobslab/icons";
 import { cn } from "@bobslab/utils";
-import { type Country, COUNTRIES, findCountryByCode } from "./countries-data";
+import {
+  type Country,
+  COUNTRIES,
+  GLOBAL_COUNTRY,
+  findCountryByCode,
+} from "./countries-data";
 
 export type { Country };
-export { COUNTRIES, findCountryByCode };
+export { COUNTRIES, GLOBAL_COUNTRY, findCountryByCode };
 
 export interface CountryDropdownProps {
   /**
@@ -40,6 +45,16 @@ export interface CountryDropdownProps {
    * e.g. ['GB', 'US', 'CA', 'AU', 'DE', 'FR']
    */
   priorityCountries?: string[];
+  /**
+   * Whether to include a "Global (All Regions)" option.
+   * @default true
+   */
+  showGlobal?: boolean;
+  /**
+   * Custom Global option configuration.
+   * Defaults to GLOBAL_COUNTRY.
+   */
+  globalOption?: Country;
   /**
    * Placeholder text when no country is selected.
    * @default "Select country..."
@@ -146,6 +161,11 @@ const COMMON_ALIASES: Record<string, string> = {
   HOLLAND: "NL",
   RUSSIA: "RU",
   KOREA: "KR",
+  WORLD: "GLOBAL",
+  WORLDWIDE: "GLOBAL",
+  INTERNATIONAL: "GLOBAL",
+  ALL: "GLOBAL",
+  WW: "GLOBAL",
 };
 
 export const CountryDropdown = React.forwardRef<
@@ -159,6 +179,8 @@ export const CountryDropdown = React.forwardRef<
     onValueChange,
     countries = COUNTRIES,
     priorityCountries,
+    showGlobal = true,
+    globalOption = GLOBAL_COUNTRY,
     placeholder = "Select country...",
     searchPlaceholder = "Search country or code...",
     emptyText = "No countries found.",
@@ -195,6 +217,16 @@ export const CountryDropdown = React.forwardRef<
     [controlledOpen, controlledOnOpenChange],
   );
 
+  // Combine custom countries with Global option if enabled
+  const allCountries = React.useMemo(() => {
+    if (!showGlobal) return countries;
+    const g = globalOption || GLOBAL_COUNTRY;
+    if (countries.some((c) => c.code.toUpperCase() === g.code.toUpperCase())) {
+      return countries;
+    }
+    return [g, ...countries];
+  }, [countries, showGlobal, globalOption]);
+
   // Controlled vs uncontrolled selected country
   const [uncontrolledValue, setUncontrolledValue] =
     React.useState(defaultValue);
@@ -205,10 +237,10 @@ export const CountryDropdown = React.forwardRef<
     if (!currentValueCode) return undefined;
     const upper = currentValueCode.toUpperCase();
     return (
-      countries.find((c) => c.code.toUpperCase() === upper) ||
+      allCountries.find((c) => c.code.toUpperCase() === upper) ||
       findCountryByCode(upper)
     );
-  }, [countries, currentValueCode]);
+  }, [allCountries, currentValueCode]);
 
   // Search state
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -220,14 +252,18 @@ export const CountryDropdown = React.forwardRef<
   // Filtered country list
   const filteredCountries = React.useMemo(() => {
     const trimmed = searchQuery.trim().toLowerCase();
+    const gCode = (globalOption?.code || GLOBAL_COUNTRY.code).toUpperCase();
+
     if (!trimmed) {
       if (priorityCountries && priorityCountries.length > 0) {
         const priorityUpper = priorityCountries.map((c) => c.toUpperCase());
         const prioritized: Country[] = [];
         const rest: Country[] = [];
 
-        for (const c of countries) {
-          if (priorityUpper.includes(c.code.toUpperCase())) {
+        for (const c of allCountries) {
+          if (c.code.toUpperCase() === gCode) {
+            prioritized.unshift(c);
+          } else if (priorityUpper.includes(c.code.toUpperCase())) {
             prioritized.push(c);
           } else {
             rest.push(c);
@@ -235,19 +271,29 @@ export const CountryDropdown = React.forwardRef<
         }
         return [...prioritized, ...rest];
       }
-      return countries;
+      return allCountries;
     }
 
     const aliasTarget = COMMON_ALIASES[trimmed.toUpperCase()];
 
-    return countries.filter((c) => {
+    return allCountries.filter((c) => {
       const nameMatch = c.name.toLowerCase().includes(trimmed);
       const codeMatch = c.code.toLowerCase().includes(trimmed);
       const dialMatch = c.dialCode?.toLowerCase().includes(trimmed);
       const aliasMatch = aliasTarget && c.code.toUpperCase() === aliasTarget;
-      return nameMatch || codeMatch || dialMatch || aliasMatch;
+      const isGlobalMatch =
+        c.code.toUpperCase() === gCode &&
+        (trimmed === "all" ||
+          trimmed === "world" ||
+          trimmed === "worldwide" ||
+          trimmed === "global" ||
+          trimmed === "international" ||
+          trimmed === "any" ||
+          trimmed === "ww");
+
+      return nameMatch || codeMatch || dialMatch || aliasMatch || isGlobalMatch;
     });
-  }, [countries, searchQuery, priorityCountries]);
+  }, [allCountries, searchQuery, priorityCountries, globalOption]);
 
   // Virtualization state
   const [scrollTop, setScrollTop] = React.useState(0);
@@ -316,7 +362,7 @@ export const CountryDropdown = React.forwardRef<
         scrollContainerRef.current.scrollTop = 0;
       }
 
-      const activeIdx = countries.findIndex(
+      const activeIdx = allCountries.findIndex(
         (c) => c.code.toUpperCase() === selectedCountry?.code?.toUpperCase(),
       );
       if (activeIdx >= 0) {
@@ -340,7 +386,7 @@ export const CountryDropdown = React.forwardRef<
         searchInputRef.current?.focus();
       });
     }
-  }, [isOpen, countries, selectedCountry, itemHeight, listHeight]);
+  }, [isOpen, allCountries, selectedCountry, itemHeight, listHeight]);
 
   const handleSelect = React.useCallback(
     (country: Country) => {

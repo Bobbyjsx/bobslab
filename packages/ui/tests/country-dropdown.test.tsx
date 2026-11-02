@@ -197,4 +197,59 @@ describe("@bobslab/ui CountryDropdown", () => {
     const gbOption = await screen.findByText("United Kingdom");
     expect(gbOption).toBeDefined();
   });
+
+  it("supports Global search option by default", async () => {
+    const handleChange = vi.fn();
+    const handleValueChange = vi.fn();
+
+    render(
+      <CountryDropdown
+        defaultValue="GB"
+        onChange={handleChange}
+        onValueChange={handleValueChange}
+      />,
+    );
+
+    const trigger = screen.getByRole("button");
+    fireEvent.click(trigger);
+
+    // Global option should be present
+    const globalOption = await screen.findByText("Global (All Regions)");
+    expect(globalOption).toBeDefined();
+
+    // Click Global option
+    fireEvent.click(globalOption);
+    expect(handleChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        code: "GLOBAL",
+        name: "Global (All Regions)",
+        flag: "🌐",
+      }),
+    );
+    expect(handleValueChange).toHaveBeenCalledWith("GLOBAL");
+  });
+
+  it("matches Global option when typing 'worldwide' or 'all'", async () => {
+    render(<CountryDropdown defaultValue="GB" />);
+
+    const trigger = screen.getByRole("button");
+    fireEvent.click(trigger);
+
+    const searchInput = screen.getByPlaceholderText(
+      "Search country or code...",
+    );
+    fireEvent.change(searchInput, { target: { value: "worldwide" } });
+
+    const globalOption = await screen.findByText("Global (All Regions)");
+    expect(globalOption).toBeDefined();
+  });
+
+  it("omits Global option when showGlobal is false", async () => {
+    render(<CountryDropdown defaultValue="GB" showGlobal={false} />);
+
+    const trigger = screen.getByRole("button");
+    fireEvent.click(trigger);
+
+    expect(screen.queryByText("Global (All Regions)")).toBeNull();
+  });
 });

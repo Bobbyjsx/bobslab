@@ -6,6 +6,13 @@ export interface Country {
   currency?: string;
 }
 
+export const GLOBAL_COUNTRY: Country = {
+  code: "GLOBAL",
+  name: "Global (All Regions)",
+  flag: "🌐",
+  currency: "USD",
+};
+
 export function getFlagEmoji(countryCode: string): string {
   const codePoints = countryCode
     .toUpperCase()
@@ -1252,5 +1259,8 @@ export const COUNTRIES: Country[] = [
 export function findCountryByCode(code?: string | null): Country | undefined {
   if (!code) return undefined;
   const upper = code.trim().toUpperCase();
+  if (upper === "GLOBAL" || upper === "ALL" || upper === "WW") {
+    return GLOBAL_COUNTRY;
+  }
   return COUNTRIES.find((c) => c.code === upper);
 }
