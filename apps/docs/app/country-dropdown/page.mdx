@@ -1,0 +1,120 @@
+# Country Dropdown
+
+High-performance, virtualized country selector with full-text search, worldwide region alias resolution, priority pinning, and flexible triggers.
+
+import { CountryDropdownDemo } from "@/components/CountryDropdownDemo";
+
+## Interactive Demo
+
+<CountryDropdownDemo />
+
+## Features
+
+- **Virtualized Rendering**: 60fps smooth scrolling across 240+ ISO-3166 nations without DOM bloat.
+- **Global / Worldwide Search**: Built-in support for `GLOBAL_COUNTRY` (`🌐 Global (All Regions)`) matching keywords like `world`, `worldwide`, `international`, `all`, `ww`.
+- **Intelligent Aliases**: Instant resolution for common search variations (`UK` ➔ `GB`, `USA` ➔ `US`, `UAE` ➔ `AE`, `Holland` ➔ `NL`, etc.).
+- **Priority Countries**: Pin frequently accessed regions (e.g. `GB`, `US`, `EU`, `CA`, `AU`) to the top of the dropdown.
+- **Custom Triggers**: Use the default trigger or supply custom trigger buttons via `renderTrigger` or children render props.
+- **Dual Form Bindings**: Controlled or uncontrolled operation via `value`, `defaultValue`, `onChange` (returns `Country`), or `onValueChange` (returns ISO code).
+
+## Installation
+
+```bash
+pnpm add @bobslab/ui @bobslab/icons @bobslab/utils
+```
+
+## Usage
+
+### 1. Default Dropdown (Out of the Box)
+
+```tsx
+import * as React from "react";
+import { CountryDropdown } from "@bobslab/ui";
+
+export function Example() {
+  const [country, setCountry] = React.useState("GB");
+
+  return (
+    <CountryDropdown
+      value={country}
+      onValueChange={setCountry}
+      priorityCountries={["GB", "US", "EU", "CA", "AU", "DE", "FR"]}
+    />
+  );
+}
+```
+
+### 2. Custom Trigger Button
+
+Supply custom button styling or contextual indicators using `renderTrigger` or children render prop:
+
+```tsx
+import * as React from "react";
+import { CountryDropdown } from "@bobslab/ui";
+import { ChevronDownIcon } from "@bobslab/icons";
+
+export function CustomTriggerExample() {
+  const [country, setCountry] = React.useState("GB");
+
+  return (
+    <CountryDropdown value={country} onValueChange={setCountry} align="end">
+      {({ selectedCountry }) => (
+        <button
+          type="button"
+          className="inline-flex items-center gap-2 h-10 px-3 rounded-xl border border-border bg-background hover:bg-muted text-xs font-medium cursor-pointer"
+        >
+          <span>{selectedCountry?.flag || "🌍"}</span>
+          <span className="font-mono font-semibold">
+            {selectedCountry?.code || country}
+          </span>
+          <ChevronDownIcon
+            size={14}
+            className="text-muted-foreground opacity-70"
+          />
+        </button>
+      )}
+    </CountryDropdown>
+  );
+}
+```
+
+### 3. Global Region Option
+
+Include the `"GLOBAL"` region option (`🌐 Global (All Regions)`) for international storefronts, multi-region services, and digital products:
+
+```tsx
+import { CountryDropdown, GLOBAL_COUNTRY } from "@bobslab/ui";
+
+<CountryDropdown
+  showGlobal={true}
+  globalOption={GLOBAL_COUNTRY}
+  onValueChange={(code) => console.log("Selected region:", code)}
+/>;
+```
+
+## Props Reference
+
+### `<CountryDropdown>`
+
+| Prop                | Type                                  | Default                       | Description                                                                 |
+| :------------------ | :------------------------------------ | :---------------------------- | :-------------------------------------------------------------------------- |
+| `value`             | `string`                              | —                             | Controlled ISO-2 country code (e.g. `"GB"`, `"GLOBAL"`).                    |
+| `defaultValue`      | `string`                              | —                             | Initial uncontrolled ISO-2 country code.                                    |
+| `onValueChange`     | `(code: string) => void`              | —                             | Callback fired when selection changes, returning the ISO code.              |
+| `onChange`          | `(country: Country) => void`          | —                             | Callback fired when selection changes, returning the full `Country` object. |
+| `priorityCountries` | `string[]`                            | —                             | Array of ISO-2 codes to pin to the top of the unsearched list.              |
+| `showGlobal`        | `boolean`                             | `true`                        | Whether to display the Global / Worldwide region option.                    |
+| `globalOption`      | `Country`                             | `GLOBAL_COUNTRY`              | Custom configuration for the global region option.                          |
+| `placeholder`       | `string`                              | `"Select country..."`         | Label shown when no country is selected.                                    |
+| `searchPlaceholder` | `string`                              | `"Search country or code..."` | Placeholder for the popover search input.                                   |
+| `emptyText`         | `string`                              | `"No countries found."`       | Text shown when search query yields no matches.                             |
+| `showSearch`        | `boolean`                             | `true`                        | Whether to display the search input inside the popover.                     |
+| `showFlag`          | `boolean`                             | `true`                        | Whether to show country flag emojis in items and default trigger.           |
+| `showCode`          | `boolean`                             | `true`                        | Whether to show ISO-2 code badges next to country names.                    |
+| `listHeight`        | `number`                              | `260`                         | Height in pixels of the virtualized scroll list.                            |
+| `itemHeight`        | `number`                              | `38`                          | Height in pixels of each country row item.                                  |
+| `align`             | `"start" \| "center" \| "end"`        | `"start"`                     | Popover alignment relative to trigger.                                      |
+| `sideOffset`        | `number`                              | `6`                           | Offset between trigger and popover in pixels.                               |
+| `disabled`          | `boolean`                             | `false`                       | Disables the trigger button.                                                |
+| `renderTrigger`     | `(country, isOpen) => ReactNode`      | —                             | Custom render function for the trigger button.                              |
+| `children`          | `ReactNode \| ((props) => ReactNode)` | —                             | Custom trigger element or render prop function.                             |

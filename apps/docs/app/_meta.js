@@ -25,6 +25,7 @@ export default {
   input: "Input",
   textarea: "Textarea",
   select: "Select",
+  "country-dropdown": "Country Dropdown",
   switch: "Switch",
   tabs: "Tabs",
   popover: "Popover",
